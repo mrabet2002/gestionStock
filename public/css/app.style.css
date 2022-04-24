@@ -1,0 +1,56 @@
+.containerc{
+    padding: 0 5%;
+}
+.bold-font{
+    font-weight: bolder;
+}
+.edit-btn{
+    color: rgb(247, 181, 59);
+}
+.edit-btn:hover{
+    color: rgb(255, 210, 125);
+}
+.delete-btn:hover{
+    color: rgb(255, 129, 129);
+}
+.modal-content{
+    width: 30%;
+    z-index: 100;
+    margin: 0 auto;
+}
+.modal-container{
+    z-index: 99;
+    height: 100vh;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.589);
+    display: flex;
+    align-items: center;
+}
+option {
+    font-size: 18px;
+    display: block;
+    background-color: #ffffff;
+    border: none;
+    height: 100px;
+}
+.alert{
+    width: 75%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    text-align: left;
+    border: 0.01rem solid #fc8181;
+    color: #c53030;
+    margin-top: 25px;
+}
+.success{
+    width: 75%;
+    margin: 10px auto;
+    display: flex;
+    align-items: center;
+    text-align: left;
+    border: 0.01rem solid #68d391;
+    color: #2f855a;
+    background-color: #c6f6d5;
+}
+
