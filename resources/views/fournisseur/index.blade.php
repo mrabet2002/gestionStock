@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="flex justify-between font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('fournisseurs') }}
+            {{ __('Fournisseurs') }}
             <span class="rounded-md">
                 <a href="{{route('fournisseur.create')}}" type="button" class="cursor-pointer inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-indigo-500 hover:bg-gray-50 hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition">
                     <span class="mr-3">
