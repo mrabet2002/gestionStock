@@ -1,5 +1,5 @@
 <div class="containerc">
-    <form action="{{route('fournisseur.store')}}" method="POST" enctype="multipart/form-data" id="productData">
+    <form action="{{route('fournisseur.store')}}" method="POST" enctype="multipart/form-data" id="fournisseurData">
         @csrf
         <div class="py-12 sm:mt-0">
             <div class="md:grid md:grid-cols-3 md:gap-6 px-4 py-5 bg-white sm:p-6 shadow overflow-hidden sm:rounded-md">
@@ -11,8 +11,8 @@
                 <div class="mt-5 md:mt-0 md:col-span-2">
                     <div class="grid grid-cols-6 gap-6">
                         <div class="col-span-6">
-                            <label for="libele" class="block text-sm font-medium text-gray-700">Nom</label>
-                            <input type="text" name="libele" id="libele" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <label for="nom" class="block text-sm font-medium text-gray-700">Nom</label>
+                            <input type="text" name="nom" id="nom" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                         </div>
             
                         <div class="col-span-6 sm:col-span-3">
@@ -118,7 +118,7 @@
                                             <img class="Image-preview mx-auto" style="display: none;" src="" width="50%" alt="Image preview...">
                                             <p class="pdf-preview text-gray-500" style="display: none;"></p>
                                         </div>
-                                        <input id="fichier_attache" name="fichier_attache" type="file" class="file-input sr-only" onchange="previewFile()">
+                                        <input id="fichier_attache" name="fichier_attache" type="file" class="file-input sr-only" onchange="previewFile(true)">
                                     </label>
                                 </div>
                                 <p class="text-xs text-gray-500">PNG, JPG, PDF up to 10MB</p>

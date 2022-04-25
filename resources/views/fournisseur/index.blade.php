@@ -77,16 +77,16 @@
                                             @endif
                                         </td>
                                         <td onclick="window.location='{{route('welcome')}}'" scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                                            {{$fournisseur->libele}}
+                                            {{$fournisseur->name}}
                                         </td>
                                         <td onclick="window.location='{{route('welcome')}}'" class="px-6 py-4">
-                                            {{$fournisseur->id_fournisseur ? $fournisseur->fournisseur->name : ""}}
+                                            {{$fournisseur->num_fournisseur}}
                                         </td>
                                         <td onclick="window.location='{{route('welcome')}}'" class="px-6 py-4">
-                                            {{$fournisseur->categorie->libele}}
+                                            {{$fournisseur->email}}
                                         </td>
                                         <td onclick="window.location='{{route('welcome')}}'" class="px-6 py-4">
-                                            {{$fournisseur->id_marque ? $fournisseur->marque->libele : ""}}
+                                            {{$fournisseur->tel}}
                                         </td>
                                         <td class="py-4 flex justfy-between">
                                             <a href="{{route('fournisseur.edit',$fournisseur->id)}}" class="px-3 edit-btn transition">

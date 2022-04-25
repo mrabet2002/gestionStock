@@ -217,7 +217,7 @@
                                                     <img class="Image-preview mx-auto" style="display: none;" src="" width="50%" alt="Image preview...">
                                                     <p class="pdf-preview text-gray-500" style="display: none;"></p>
                                                 </div>
-                                                <input id="image" name="image" type="file" class="file-input sr-only" onchange="previewFile()">
+                                                <input id="image" name="image" type="file" class="file-input sr-only" onchange="previewFile(false)">
                                             </label>
                                         </div>
                                         <p class="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>

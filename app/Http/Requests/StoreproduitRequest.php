@@ -30,7 +30,7 @@ class StoreproduitRequest extends FormRequest
             "descripiton" => "max:2000",
             "unite" => "max:255",
             "zone" => "max:200",
-            "image"=> "image|mimes:png,jpg,jpe|max:2048",
+            "image"=> "image|mimes:png,jpg,jpeg,gif|max:2048",
         ];
     }
     /**

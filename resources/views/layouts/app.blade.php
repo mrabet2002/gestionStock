@@ -45,7 +45,7 @@
         @stack('modals')
         @yield('script')
         <script>
-            function previewFile() {
+            function previewFile(PDFSupported) {
                 var preview = document.querySelector('.Image-preview');
                 var previewPdf = document.querySelector('.pdf-preview');
                 var file    = document.querySelector('.file-input').files[0];
@@ -62,15 +62,12 @@
                         preview.src = "";
                     }
                     
-                }else if(file.type.match('application/pdf')){
+                }else if(file.type.match('application/pdf') && PDFSupported){
                     previewPdf.style.display = "block";
                     previewPdf.innerHTML = file.name;
                 }else{
-                    alert("Le type" + file.type + " et non accepté");
+                    alert("Le type de ce fichier et non supporter");
                 }
-                
-
-                
             }
         </script>
         @livewireScripts

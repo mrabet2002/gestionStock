@@ -73,7 +73,7 @@
                                         </td>
                                         <td onclick="window.location='{{route('welcome')}}'" scope="row" style="width: 7%" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
                                             @if ($produit->image)
-                                                <img src="/uploads/images/{{$produit->image}}" alt="{{$produit->libele}}" width="100%" class="inline-flex invisible sm:visible">
+                                                <img src="/uploads/{{$produit->image}}" alt="{{$produit->libele}}" width="100%" class="inline-flex invisible sm:visible">
                                             @endif
                                         </td>
                                         <td onclick="window.location='{{route('welcome')}}'" scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">

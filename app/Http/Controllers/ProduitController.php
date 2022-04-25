@@ -50,7 +50,7 @@ class ProduitController extends Controller
         if($request->has("image")){
             $file = $request->image;
             $imageName = time()."_".$file->getClientOriginalName();
-            $file->move(public_path("uploads/images/"),$imageName);
+            $file->move(public_path("uploads/"),$imageName);
         }
         try {
             Produit::create([
@@ -113,8 +113,9 @@ class ProduitController extends Controller
     {
         //
         $request->validated();
+        $imageName = null;
         if($request->has("image")){
-            $image_path = public_path("uploads/images/".$product->image);
+            $image_path = public_path("uploads/".$product->image);
             if(File::exists($image_path)){
                 unlink($image_path);
             }
