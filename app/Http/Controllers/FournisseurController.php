@@ -27,7 +27,7 @@ class FournisseurController extends Controller
      */
     public function create()
     {
-        //
+        return view('fournisseur.create');
     }
 
     /**

@@ -121,7 +121,7 @@
                         </div>
                         <div class="mt-5 md:mt-0 md:col-span-2">
                             <div class="grid grid-cols-6 gap-6">
-                                <div class="col-span-6">
+                                <div class="col-span-6 sm:col-span-4">
                                     <label for="fournisseur" class="block text-sm font-medium text-gray-700">Fournisseur</label>
                                     <select id="fournisseur" name="fournisseur" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                         <option selected disabled>Selectionner un fournisseur</option>
@@ -133,6 +133,17 @@
                                             @endforeach
                                         @endif
                                     </select>
+                                </div>
+                                <div class="col-span-2 text-left">
+                                    <span class="">
+                                        <a data-modal-toggle="ajouterFournisseurModal" type="button" {{-- style="margin-top: 25px" --}} class="mt-6 -mb-6 cursor-pointer inline-flex items-center px-3 py-2 border border-transparent text-sm  font-medium rounded-md text-white bg-indigo-500 hover:bg-gray-50 hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition">
+                                            
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                                <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                                                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                                            </svg>
+                                        </a>
+                                    </span>
                                 </div>
                                 <div class="col-span-6 sm:col-span-3">
                                     <label for="categorie" class="block text-sm font-medium text-gray-700">Catégorie</label>
@@ -218,6 +229,32 @@
                         <button data-modal-toggle="defaultModal" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none rounded-lg border border-gray-200 text-sm font-medium px-2 py-2 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
                             Non, rester sur ce formulaire
                         </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Extra Large Modal -->
+        <div id="ajouterFournisseurModal" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full">
+            <div class="relative p-4 w-full max-w-7xl h-full md:h-auto">
+                <!-- Modal content -->
+                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                    <!-- Modal header -->
+                    <div class="flex justify-between items-center p-5 rounded-t border-b dark:border-gray-600">
+                        <h3 class="text-xl font-medium text-gray-900 dark:text-white">
+                            Extra Large modal
+                        </h3>
+                        <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="ajouterFournisseurModal">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>  
+                        </button>
+                    </div>
+                    <!-- Modal body -->
+                    <div class="p-6 space-y-6">
+                        @include('fournisseur.create_form')
+                    </div>
+                    <!-- Modal footer -->
+                    <div class="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
+                        <button data-modal-toggle="ajouterFournisseurModal" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">I accept</button>
+                        <button data-modal-toggle="ajouterFournisseurModal" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Decline</button>
                     </div>
                 </div>
             </div>
