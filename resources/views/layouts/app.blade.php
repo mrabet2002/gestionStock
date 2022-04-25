@@ -12,8 +12,8 @@
 
         <!-- Styles -->
         <link rel="stylesheet" href="{{ mix('css/app.css') }}">
-        <link rel="stylesheet" href="/css/app.style.css">
-        
+        <link rel="stylesheet" href="/css/style.css">
+        @yield('style')
         @livewireStyles
         <!-- Scripts -->
         <script src="{{ mix('/js/app.js') }}" defer></script>
@@ -43,7 +43,36 @@
         </div>
 
         @stack('modals')
-        
+        @yield('script')
+        <script>
+            function previewFile() {
+                var preview = document.querySelector('.Image-preview');
+                var previewPdf = document.querySelector('.pdf-preview');
+                var file    = document.querySelector('.file-input').files[0];
+                var reader  = new FileReader();
+                
+                if(file.type.match('image/jp.*') || file.type.match('image/png')) {
+                    preview.style.display = "block";
+                    reader.onloadend = function () {
+                        preview.src = reader.result;
+                    }
+                    if (file) {
+                        reader.readAsDataURL(file);
+                    } else {
+                        preview.src = "";
+                    }
+                    
+                }else if(file.type.match('application/pdf')){
+                    previewPdf.style.display = "block";
+                    previewPdf.innerHTML = file.name;
+                }else{
+                    alert("Le type" + file.type + " et non accepté");
+                }
+                
+
+                
+            }
+        </script>
         @livewireScripts
     </body>
 </html>

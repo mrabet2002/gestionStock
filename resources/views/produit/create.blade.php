@@ -72,7 +72,7 @@
                                     <div class="mt-1">
                                         <textarea id="description" name="description" rows="6" class="w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md"></textarea>
                                     </div>
-                                    <p class="mt-2 text-sm text-gray-500">Brief description for your profile. URLs are hyperlinked.</p>
+                                    <p class="mt-2 text-sm text-gray-500">Description brève du produit.</p>
                                 </div>
 
                             </div>
@@ -121,55 +121,77 @@
                         </div>
                         <div class="mt-5 md:mt-0 md:col-span-2">
                             <div class="grid grid-cols-6 gap-6">
-                                <div class="col-span-6 sm:col-span-4">
-                                    <label for="fournisseur" class="block text-sm font-medium text-gray-700">Fournisseur</label>
-                                    <select id="fournisseur" name="fournisseur" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                        <option selected disabled>Selectionner un fournisseur</option>
-                                        @if ($fournisseurs->count() == 0)
-                                            <option disabled>Désolés, nous ne trouvant pas de fournisseurs</option>
-                                        @else
-                                            @foreach ($fournisseurs as $fournisseur)
-                                                <option value="{{$fournisseur->id}}">{{$fournisseur->libele}}</option>
-                                            @endforeach
-                                        @endif
-                                    </select>
-                                </div>
-                                <div class="col-span-2 text-left">
-                                    <span class="">
-                                        <a data-modal-toggle="ajouterFournisseurModal" type="button" {{-- style="margin-top: 25px" --}} class="mt-6 -mb-6 cursor-pointer inline-flex items-center px-3 py-2 border border-transparent text-sm  font-medium rounded-md text-white bg-indigo-500 hover:bg-gray-50 hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition">
-                                            
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                                <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
-                                                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-                                            </svg>
-                                        </a>
-                                    </span>
+                                <div class="col-span-6 sm:col-span-6">
+                                    <label for="fournisseur" class="w-full block text-sm font-medium text-gray-700">Fournisseur</label>
+                                    <div class="flex justify-between">
+                                        <select id="fournisseur" name="fournisseur" class=" mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                            <option selected disabled>Selectionner un fournisseur</option>
+                                            @if ($fournisseurs->count() == 0)
+                                                <option disabled>Désolés, nous ne trouvant pas de fournisseurs</option>
+                                            @else
+                                                @foreach ($fournisseurs as $fournisseur)
+                                                    <option value="{{$fournisseur->id}}">{{$fournisseur->libele}}</option>
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                        <div class="px-3">
+                                            <a data-modal-toggle="ajouterFournisseurModal" style="margin-top: 10px" type="button" {{-- style="margin-top: 25px" --}} class="cursor-pointer px-3 py-2 border border-transparent text-sm  font-medium rounded-md text-white bg-indigo-500 hover:bg-gray-50 hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition">
+                                                
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                                    <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                                                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                                                </svg>
+                                            </a>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="col-span-6 sm:col-span-3">
                                     <label for="categorie" class="block text-sm font-medium text-gray-700">Catégorie</label>
-                                    <select id="categorie" name="categorie" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                        <option selected disabled>Selectionner une catégorie</option>
-                                        @if ($categories->count() == 0)
-                                            <option disabled>Désolés, nous ne trouvant pas de catégories</option>
-                                        @else
-                                            @foreach ($categories as $categorie)
-                                                <option value="{{$categorie->id}}">{{$categorie->libele}}</option>
-                                            @endforeach
-                                        @endif
-                                    </select>
+                                    <div class="flex justify-between">                                        
+                                        <select id="categorie" name="categorie" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                            <option selected disabled>Selectionner une catégorie</option>
+                                            @if ($categories->count() == 0)
+                                                <option disabled>Désolés, nous ne trouvant pas de catégories</option>
+                                            @else
+                                                @foreach ($categories as $categorie)
+                                                    <option value="{{$categorie->id}}">{{$categorie->libele}}</option>
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                        <div class="px-3">
+                                            <a data-modal-toggle="ajouterFournisseurModal" style="margin-top: 10px" type="button" {{-- style="margin-top: 25px" --}} class="cursor-pointer px-3 py-2 border border-transparent text-sm  font-medium rounded-md text-white bg-indigo-500 hover:bg-gray-50 hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition">
+                                                
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                                    <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                                                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                                                </svg>
+                                            </a>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="col-span-6 sm:col-span-3">
                                     <label for="marque" class="block text-sm font-medium text-gray-700">Marque</label>
-                                    <select id="marque" name="marque" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                        <option selected disabled>Selectionner une marque</option>
-                                        @if ($marques->count() == 0)
-                                            <option disabled>Désolés, nous ne trouvant pas de marques</option>
-                                        @else
-                                            @foreach ($marques as $marque)
-                                                <option value="{{$marque->id}}">{{$marque->libele}}</option>
-                                            @endforeach
-                                        @endif
-                                    </select>
+                                    <div class="flex justify-between">                                        
+                                        <select id="marque" name="marque" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                            <option selected disabled>Selectionner une marque</option>
+                                            @if ($marques->count() == 0)
+                                                <option disabled>Désolés, nous ne trouvant pas de marques</option>
+                                            @else
+                                                @foreach ($marques as $marque)
+                                                    <option value="{{$marque->id}}">{{$marque->libele}}</option>
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                        <div class="px-3">
+                                            <a data-modal-toggle="ajouterFournisseurModal" style="margin-top: 10px" type="button" {{-- style="margin-top: 25px" --}} class="cursor-pointer px-3 py-2 border border-transparent text-sm  font-medium rounded-md text-white bg-indigo-500 hover:bg-gray-50 hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition">
+                                                
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                                    <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                                                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                                                </svg>
+                                            </a>
+                                        </div>
+                                    </div>
                                 </div>
 
                     
@@ -190,10 +212,13 @@
                                         </svg>
                                         <div class="flex text-sm text-gray-600">
                                             <label for="image" class="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
-                                            <span>Upload a file</span>
-                                            <input id="image" name="image" type="file" class="sr-only">
+                                                <div class="px-6">
+                                                    <span>Choisisser une image</span>
+                                                    <img class="Image-preview mx-auto" style="display: none;" src="" width="50%" alt="Image preview...">
+                                                    <p class="pdf-preview text-gray-500" style="display: none;"></p>
+                                                </div>
+                                                <input id="image" name="image" type="file" class="file-input sr-only" onchange="previewFile()">
                                             </label>
-                                            <p class="pl-1">or drag and drop</p>
                                         </div>
                                         <p class="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
                                         </div>

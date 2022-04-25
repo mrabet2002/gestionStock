@@ -1,9 +1,12 @@
 <x-app-layout>
+    @section('style')
+    
+    @endsection
     <x-slot name="header">
         <div class="font-semibold text-xl text-gray-800 leading-tight">
             <div class="sm:flex justify-between">
                 <div class="py-2">
-                    {{ __('Créer un nouveau produit') }}
+                    {{ __('Créer un nouveau fournisseur') }}
                 </div>
                 <div class="py-1">
                         <a type="button" class="cursor-pointer inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-500 hover:bg-gray-50 hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition" data-modal-toggle="defaultModal">
@@ -40,5 +43,8 @@
             </div>
         @endif
         @include('fournisseur.create_form')
+    @endsection
+    @section('script')
+        
     @endsection
 </x-app-layout>
