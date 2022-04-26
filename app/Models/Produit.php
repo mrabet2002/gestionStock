@@ -20,7 +20,7 @@ class Produit extends Model
         "id_user",
         "libele",
         "code_barre",
-        "descripiton",
+        "description",
         "image",
         "min_stock",
         "prix_initial",

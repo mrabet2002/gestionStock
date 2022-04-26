@@ -63,4 +63,81 @@ option {
     font-weight: bold;
     color: #fff;
 }
+.grid-cols-2{
+    display: grid;
+    grid-template-columns: 1.5fr 2fr;
+    column-gap: 2rem;
+}
+.welcome{
+    
+    padding: 0 5rem;
+}
+.welcome>h1{
+    font-weight: bold;
+    font-size: 150%;
+}
 
+.align-center{
+    display: flex;
+    align-items: center;
+}
+.btn-indigo{
+    border: 2px solid transparent;
+    outline: 2px solid transparent;
+}
+.btn-indigo:hover{
+    background-color: #818cf8;
+}
+.btn-indigo:focus{
+    border: 2px solid white;
+    outline: 2px solid #818cf8;
+    background-color: #818cf8;
+}
+
+.btn-red{
+    color: white;
+    background-color: #ef4444;
+    border: 2px solid transparent;
+    outline: 2px solid transparent;
+}
+.btn-red:hover{
+    background-color: #f87171;
+}
+.btn-red:focus{
+    border: 2px solid white;
+    outline: 2px solid #f87171;
+    background-color: #ef4444;
+}
+
+.btn{
+    padding: 0.5rem 0.75rem;
+    cursor: pointer;
+    border-radius: 0.375rem;
+    color: white;
+    font-weight: 500;
+    font-size: 0.875rem; /* 14px */
+    line-height: 1.25rem; /* 20px */
+    display: inline-flex;
+    align-items: center;
+}
+
+.btn-blue{
+    background-color: #3b82f6;
+    border: 2px solid transparent;
+    outline: 2px solid transparent;
+}
+.btn-blue:hover{
+    background-color: #60a5fa;
+}
+.btn-blue:focus{
+    border: 2px solid white;
+    outline: 2px solid #60a5fa;
+    background-color: #3b82f6;
+}
+
+@media(max-width: 920px){
+    .welcome-container{
+        display: block;
+        text-align: center;
+    }
+}

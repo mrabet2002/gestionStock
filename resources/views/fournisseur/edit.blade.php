@@ -3,7 +3,7 @@
         <div class="font-semibold text-xl text-gray-800 leading-tight">
             <div class="sm:flex justify-between">
                 <div class="py-2">
-                    {{ __('Modifier le produit : '.$produit->libele) }}
+                    {{ __('Modifier les information du fournisseur : '.$fournisseur->name) }}
                 </div>
                 <div class="py-1">
                         <a type="button" class="cursor-pointer inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-500 hover:bg-gray-50 hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition" data-modal-toggle="defaultModal">
@@ -14,7 +14,7 @@
                                 <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm11.5 5.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/>
                             </svg>
                         </a>
-                        <button type="submit" form="productData" class="cursor-pointer inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-500 hover:bg-gray-50 hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition">
+                        <button type="submit" form="fournisseurData" class="cursor-pointer inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-500 hover:bg-gray-50 hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition">
                             <span class="mr-3">
                                 Enregistrer
                             </span>
@@ -40,7 +40,7 @@
             </div>
         @endif
         <div class="containerc">
-            <form action="{{route('produit.update', $produit->id)}}" method="POST" enctype="multipart/form-data" id="productData">
+            <form action="{{route('fournisseur.update', $fournisseur)}}" method="POST" enctype="multipart/form-data" id="fournisseurData">
                 @csrf
                 <div class="py-12 sm:mt-0">
                     <div class="md:grid md:grid-cols-3 md:gap-6 px-4 py-5 bg-white sm:p-6 shadow overflow-hidden sm:rounded-md">
@@ -52,30 +52,30 @@
                         <div class="mt-5 md:mt-0 md:col-span-2">
                             <div class="grid grid-cols-6 gap-6">
                                 <div class="col-span-6">
-                                    <label for="libele" class="block text-sm font-medium text-gray-700">Libelé</label>
-                                    <input type="text" name="libele" id="libele" value="{{$produit->libele}}" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                    <label for="nom" class="block text-sm font-medium text-gray-700">Nom</label>
+                                    <input type="text" name="nom" id="nom" value="{{$fournisseur->name}}" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                 </div>
                     
                                 <div class="col-span-6 sm:col-span-3">
-                                    <label for="unite" class="block text-sm font-medium text-gray-700">Unité de stock</label>
-                                    <input type="text" name="unite" id="unite" value="{{$produit->unite}}" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                    <label for="num_fournisseur" class="block text-sm font-medium text-gray-700">Numéro Fournisseur</label>
+                                    <input type="text" name="num_fournisseur" id="num_fournisseur" value="{{$fournisseur->num_fournisseur}}" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                 </div>
-
+                                
                                 <div class="col-span-6 sm:col-span-3">
-                                    <label for="code_barre" class="block text-sm font-medium text-gray-700">Code barre</label>
-                                    <input type="text" name="code_barre" id="code_barre" value="{{$produit->code_barre}}" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                                </div>
+                                    <label for="tel" class="block text-sm font-medium text-gray-700">Téléphone</label>
+                                    <input type="text" name="tel" id="tel" value="{{$fournisseur->tel}}" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                </div>                        
                                 
                                 <div class="col-span-6 ">
                                     <label for="description" class="block text-sm font-medium text-gray-700"> Description </label>
                                     <div class="mt-1">
                                         <textarea id="description" name="description" rows="6" class="w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md">
-                                            {{$produit->description}}
+                                            {{$fournisseur->description}}
                                         </textarea>
                                     </div>
-                                    <p class="mt-2 text-sm text-gray-500">Une description brève du produit.</p>
+                                    <p class="mt-2 text-sm text-gray-500">Description brève du fournisseur.</p>
                                 </div>
-
+        
                             </div>
                             
                         </div>
@@ -85,29 +85,34 @@
                 <div>
                     <hr>
                 </div>
-
+        
                 <div class="py-12">
                     <div class="px-4 py-5 bg-white space-y-6 sm:p-6 shadow sm:rounded-md sm:overflow-hidden py-12 md:grid md:grid-cols-3 md:gap-6">
                         <div class="md:col-span-1">
                             <div class="px-4 sm:px-0">
-                                <h3 class="text-lg font-bold leading-6 text-gray-900">Géstion de stock</h3>
+                                <h3 class="text-lg font-bold leading-6 text-gray-900">Adresse</h3>
                             </div>
                         </div>
                         <div class="mt-5 md:mt-0 md:col-span-2">
                             <div class="grid grid-cols-6 gap-6">
-                                <div class="col-span-6 sm:col-span-3">
-                                    <label for="min_stock" class="block text-sm font-medium text-gray-700">Niveau de stock initial</label>
-                                    <input type="number" step="0.01" name="min_stock" id="min_stock" value="{{$produit->min_stock}}" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                <div class="col-span-6">
+                                    <label for="adresse" class="block text-sm font-medium text-gray-700">Adresse</label>
+                                    <input type="text" step="0.01" name="adresse" id="adresse" value="{{$fournisseur->adresse}}" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                 </div>
-
+        
                                 <div class="col-span-6 sm:col-span-3">
-                                    <label for="prix_initial" class="block text-sm font-medium text-gray-700">Prix initial</label>
-                                    <input type="number" name="prix_initial" step="0.01" id="prix_initial" value="{{$produit->prix_initial}}" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                    <label for="pays" class="block text-sm font-medium text-gray-700">Pays</label>
+                                    <input type="text" name="pays" id="pays" value="{{$fournisseur->pays}}" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                 </div>
                     
+                                <div class="col-span-6 sm:col-span-3">
+                                    <label for="ville" class="block text-sm font-medium text-gray-700">Ville</label>
+                                    <input type="text" name="ville" id="ville" value="{{$fournisseur->ville}}" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                </div>
+        
                                 <div class="col-span-6">
-                                    <label for="zone" class="block text-sm font-medium text-gray-700">Emplacement</label>
-                                    <input type="text" name="zone" id="zone" value="{{$produit->zone}}" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                    <label for="code_postal" class="block text-sm font-medium text-gray-700">Code postal</label>
+                                    <input type="text" name="code_postal" id="code_postal" value="{{$fournisseur->code_postal}}" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                 </div>
                             </div>
                         </div>
@@ -122,79 +127,44 @@
                         </div>
                         <div class="mt-5 md:mt-0 md:col-span-2">
                             <div class="grid grid-cols-6 gap-6">
-                                <div class="col-span-6">
-                                    <label for="fournisseur" class="block text-sm font-medium text-gray-700">Fournisseur</label>
-                                    <select id="fournisseur" name="fournisseur" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                        <option selected disabled>Selectionner un fournisseur</option>
-                                        @if ($fournisseurs->count() == 0)
-                                            <option disabled>Désolés, nous ne trouvant pas de fournisseurs</option>
-                                        @else
-                                            @foreach ($fournisseurs as $fournisseur)
-                                                <option value="{{$fournisseur->id}}" 
-                                                    {{$fournisseur->id == $produit->id_fournisseur ? "selected" : ""}}>
-                                                    {{$fournisseur->name}}
-                                                </option>
-                                            @endforeach
-                                        @endif
-                                    </select>
-                                </div>
-                                <div class="col-span-6 sm:col-span-3">
-                                    <label for="categorie" class="block text-sm font-medium text-gray-700">Catégorie</label>
-                                    <select id="categorie" name="categorie" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                        <option selected disabled>Selectionner une catégorie</option>
-                                        @if ($categories->count() == 0)
-                                            <option disabled>Désolés, nous ne trouvant pas de catégories</option>
-                                        @else
-                                            @foreach ($categories as $categorie)
-                                                <option value="{{$categorie->id}}"
-                                                    {{$categorie->id == $produit->id_categorie ? "selected" : ""}}>
-                                                    {{$categorie->libele}}
-                                                </option>
-                                            @endforeach
-                                        @endif
-                                    </select>
-                                </div>
-                                <div class="col-span-6 sm:col-span-3">
-                                    <label for="marque" class="block text-sm font-medium text-gray-700">Marque</label>
-                                    <select id="marque" name="marque" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                        <option selected disabled>Selectionner une marque</option>
-                                        @if ($marques->count() == 0)
-                                            <option disabled>Désolés, nous ne trouvant pas de marques</option>
-                                        @else
-                                            @foreach ($marques as $marque)
-                                                <option value="{{$marque->id}}"
-                                                    {{$marque->id == $produit->id_marque ? "selected" : ""}}>
-                                                    {{$marque->libele}}
-                                                </option>
-                                            @endforeach
-                                        @endif
-                                    </select>
-                                </div>
-
+                                
+        
                     
-                                <div class="col-span-6">
-                                    <label for="poids" class="block text-sm font-medium text-gray-700"> Poids </label>
-                                    <div class="mt-1 flex rounded-md shadow-sm">
-                                        <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm"> Kg </span>
-                                        <input type="number" step="0.01" name="poids" id="poids" value="{{$produit->poids}}" class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300">
-                                    </div>
+                                <div class="col-span-6 sm:col-span-3">
+                                    <label for="email" class="block text-sm font-medium text-gray-700">E-mail</label>
+                                    <input type="email" name="email" id="email" value="{{$fournisseur->email}}" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                 </div>
-                                {{-- Image field --}}
+        
+                                <div class="col-span-6 sm:col-span-3">
+                                    <label for="site_web" class="block text-sm font-medium text-gray-700">Site Web</label>
+                                    <input type="text" name="site_web" id="site_web" value="{{$fournisseur->site_web}}" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                </div>
+        
                                 <div class="col-span-6">
-                                    <label class="block text-sm font-medium text-gray-700"> Image </label>
+                                    <label for="devise" class="block text-sm font-medium text-gray-700">Devise</label>
+                                    <input type="text" name="devise" id="devise" value="{{$fournisseur->devise}}" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                </div>
+                                
+                                {{-- fichier_attache field --}}
+                                <div class="col-span-6">
+                                    <label class="block text-sm font-medium text-gray-700"> Fichier attaché </label>
                                     <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
                                         <div class="space-y-1 text-center">
                                         <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
                                             <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                         </svg>
+                                        
                                         <div class="flex text-sm text-gray-600">
-                                            <label for="image" class="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
-                                            <span>Upload a file</span>
-                                            <input id="image" name="image" type="file" class="sr-only">
+                                            <label for="fichier_attache" class="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
+                                                <div class="px-6">
+                                                    <span>Choisisser un fichier</span>
+                                                    <img class="Image-preview mx-auto" style="display: none;" src="" width="50%" alt="Image preview...">
+                                                    <p class="pdf-preview text-gray-500" style="display: none;"></p>
+                                                </div>
+                                                <input id="fichier_attache" name="fichier_attache" type="file" class="file-input sr-only" onchange="previewFile(true)">
                                             </label>
-                                            <p class="pl-1">or drag and drop</p>
                                         </div>
-                                        <p class="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+                                        <p class="text-xs text-gray-500">PNG, JPG, PDF up to 10MB</p>
                                         </div>
                                     </div>
                                 </div>
@@ -222,7 +192,7 @@
                         <h3 class="mb-4 text-lg font-normal text-gray-500 dark:text-gray-400">
                             Vous êtes sur le point de quitter ce formulaire, votre travail ne sera pas enregistré. Êtes-vous sûr de vouloir continuer ?
                         </h3>
-                        <a href="{{route('produit.index')}}" type="button" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm inline-flex items-center px-2 py-2 text-center mr-2">
+                        <a href="{{route('fournisseur.index')}}" type="button" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm inline-flex items-center px-2 py-2 text-center mr-2">
                             Oui, je suis sur
                         </a>
                         <button data-modal-toggle="defaultModal" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none rounded-lg border border-gray-200 text-sm font-medium px-2 py-2 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">

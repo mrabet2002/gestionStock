@@ -83,7 +83,9 @@ class ProduitController extends Controller
      */
     public function show(produit $produit)
     {
-        //
+        return view('produit.show')->with([
+            'produit' => $produit,
+        ]);
     }
 
     /**
@@ -115,13 +117,15 @@ class ProduitController extends Controller
         $request->validated();
         $imageName = null;
         if($request->has("image")){
-            $image_path = public_path("uploads/".$product->image);
-            if(File::exists($image_path)){
-                unlink($image_path);
+            if ($produit->image) {
+                $image_path = public_path("uploads\\".$produit->image);
+                if(File::exists($image_path)){
+                    unlink($image_path);
+                }
             }
             $file = $request->image;
             $imageName = time()."_".$file->getClientOriginalName();
-            $file->move(public_path("uploads/images/"),$imageName);
+            $file->move(public_path("uploads/"),$imageName);
             $produit->image = $imageName;
         }
         try {
@@ -133,7 +137,7 @@ class ProduitController extends Controller
                 "libele" => $request->libele,
                 "image" => $produit->image,
                 "code_barre" => $request->code_barre,
-                "descripiton" => $request->descripiton,
+                "description" => $request->description,
                 "min_stock" => $request->min_stock,
                 "prix_initial" => $request->prix_initial,
                 "poids" => $request->poids,
@@ -154,10 +158,12 @@ class ProduitController extends Controller
      */
     public function destroy(produit $produit)
     {
-        $image_path = public_path("storage\\images\\products\\".$produit->image);
-        if(File::exists($image_path)){
-            unlink($image_path);
-        } 
+        if ($produit->image) {
+            $image_path = public_path("storage\\images\\products\\".$produit->image);
+            if(File::exists($image_path)){
+                unlink($image_path);
+            } 
+        }
         try {
             $produit->delete();
             return redirect()->route("produit.index")->with("success", "Le produit est supperimé avec succès.");

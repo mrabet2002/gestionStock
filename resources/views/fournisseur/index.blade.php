@@ -17,7 +17,7 @@
     </x-slot>
     @section('content')
     @if (session()->has('success'))
-        <div class="success-container">
+        <div class="success-container" style="margin-top: 30px">
             <div class="success bg-red-100 border px-3 py-3 rounded-lg" role="alert">
                 <svg class="dark:text-gray-200" width="5%" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                 <span class="px-3">{{ session()->get('success') }}</span>
@@ -43,19 +43,16 @@
                                         </div>
                                     </th>
                                     <th scope="col" class="px-6 py-3">
-                                        
+                                        Numéro
                                     </th>
                                     <th scope="col" class="px-6 py-3">
-                                        libelé
+                                        Nom
                                     </th>
                                     <th scope="col" class="px-6 py-3">
-                                        Fournisseur
+                                        E-Mail
                                     </th>
                                     <th scope="col" class="px-6 py-3">
-                                        Categorie
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        marque
+                                        Adresse
                                     </th>
                                     <th scope="col" class="px-6 py-3">
                                         
@@ -71,22 +68,17 @@
                                                 
                                             </div>
                                         </td>
-                                        <td onclick="window.location='{{route('welcome')}}'" scope="row" style="width: 7%" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                                            @if ($fournisseur->image)
-                                                <img src="/uploads/images/{{$fournisseur->image}}" alt="{{$fournisseur->libele}}" width="100%" class="inline-flex invisible sm:visible">
-                                            @endif
-                                        </td>
                                         <td onclick="window.location='{{route('welcome')}}'" scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                                            {{$fournisseur->name}}
+                                            {{$fournisseur->num_fournisseur}}
                                         </td>
                                         <td onclick="window.location='{{route('welcome')}}'" class="px-6 py-4">
-                                            {{$fournisseur->num_fournisseur}}
+                                            {{$fournisseur->name}}
                                         </td>
                                         <td onclick="window.location='{{route('welcome')}}'" class="px-6 py-4">
                                             {{$fournisseur->email}}
                                         </td>
                                         <td onclick="window.location='{{route('welcome')}}'" class="px-6 py-4">
-                                            {{$fournisseur->tel}}
+                                            {{$fournisseur->pays}}
                                         </td>
                                         <td class="py-4 flex justfy-between">
                                             <a href="{{route('fournisseur.edit',$fournisseur->id)}}" class="px-3 edit-btn transition">

@@ -6,7 +6,7 @@
                     {{ __('Créer un nouveau produit') }}
                 </div>
                 <div class="py-1">
-                        <a type="button" class="cursor-pointer inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-500 hover:bg-gray-50 hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition" data-modal-toggle="defaultModal">
+                        <a type="button" class="cursor-pointer inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-500 btn-indigo transition" data-modal-toggle="defaultModal">
                             <span class="mr-3">
                                 Annuler
                             </span>
@@ -14,7 +14,7 @@
                                 <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm11.5 5.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/>
                             </svg>
                         </a>
-                        <button type="submit" form="productData" class="cursor-pointer inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-500 hover:bg-gray-50 hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition">
+                        <button type="submit" form="productData" class="cursor-pointer inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-500 btn-indigo active:bg-gray-50 transition">
                             <span class="mr-3">
                                 Enregistrer
                             </span>
@@ -130,7 +130,7 @@
                                                 <option disabled>Désolés, nous ne trouvant pas de fournisseurs</option>
                                             @else
                                                 @foreach ($fournisseurs as $fournisseur)
-                                                    <option value="{{$fournisseur->id}}">{{$fournisseur->libele}}</option>
+                                                    <option value="{{$fournisseur->id}}">{{$fournisseur->name}}</option>
                                                 @endforeach
                                             @endif
                                         </select>

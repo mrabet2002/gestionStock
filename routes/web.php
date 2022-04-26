@@ -31,6 +31,7 @@ Route::middleware([
 
 /* Produit routes */
 Route::get('/produits', [ProduitController::class, 'index'])->name('produit.index')->middleware(['auth', 'role:responsable-achat']);
+Route::get('/produits/afficher/{produit}', [ProduitController::class, 'show'])->name('produit.show')->middleware(['auth', 'role:responsable-achat']);
 Route::get('/produit/ajouter-produit', [ProduitController::class, 'create'])->name('produit.create')->middleware(['auth', 'role:responsable-achat']);
 Route::post('/produit/ajouter-produit', [ProduitController::class, 'store'])->name('produit.store')->middleware(['auth', 'role:responsable-achat']);
 Route::post('/produit/supprimer-produit/{produit}', [ProduitController::class, 'destroy'])->name('produit.destroy')->middleware(['auth', 'role:responsable-achat']);
