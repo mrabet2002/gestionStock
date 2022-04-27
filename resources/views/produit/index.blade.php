@@ -111,7 +111,7 @@
                                             <div id={{"supprimerProduit".$produit->id}}  tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 md:inset-0 h-full md:h-full">
                                                 <div class="relative modal-container w-full max-w-md h-full md:h-auto">
                                                     <!-- Modal content -->
-                                                    <div class="relative modal-content bg-white rounded-lg shadow dark:bg-gray-700 md:w-1/2">
+                                                    <div class="relative sm-modal-content bg-white rounded-lg shadow dark:bg-gray-700 md:w-1/2">
                                                         <!-- Modal header -->
                                                         <div class="flex justify-end p-2">
                                                             <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-toggle={{"supprimerProduit".$produit->id}} >

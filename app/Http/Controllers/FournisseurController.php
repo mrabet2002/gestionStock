@@ -39,6 +39,7 @@ class FournisseurController extends Controller
      */
     public function store(StoreFournisseurRequest $request)
     {
+        
         $request->validated();
         $fileName = null;
         if($request->has("fichier_attache")){
@@ -62,7 +63,12 @@ class FournisseurController extends Controller
                 "devise" => $request->devise,
                 "fichier_attacher" => $fileName,
             ]);
-            return redirect()->route('fournisseur.index')->with('success', 'Le fournisseur est ajouté avec succès');
+            if ($request->route()->name('produit.fournisseur.store')) {
+                return redirect()->back()->withInput();
+            }else {
+                return redirect()->route('fournisseur.index')->with('success', 'Le fournisseur est ajouté avec succès');
+            }
+            
         } catch (\Throwable $th) {
             return redirect()->back()->withErrors(['Erreur']);
         }
@@ -76,7 +82,9 @@ class FournisseurController extends Controller
      */
     public function show(Fournisseur $fournisseur)
     {
-        //
+        return view('fournisseur.show')->with([
+            'fournisseur' => $fournisseur,
+        ]);
     }
 
     /**

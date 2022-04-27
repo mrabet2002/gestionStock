@@ -193,6 +193,13 @@
                 </div>
 
                 <div class="mt-3 space-y-1">
+                    <!-- Actions -->
+                    <x-jet-responsive-nav-link href="{{ route('produit.index') }}" :active="request()->routeIs('produit.index')">
+                        {{ __('Produits') }}
+                    </x-jet-responsive-nav-link>
+                    <x-jet-responsive-nav-link href="{{ route('fournisseur.index') }}" :active="request()->routeIs('fournisseur.index')">
+                        {{ __('Fournisseur') }}
+                    </x-jet-responsive-nav-link>
                     <!-- Account Management -->
                     <x-jet-responsive-nav-link href="{{ route('profile.show') }}" :active="request()->routeIs('profile.show')">
                         {{ __('Profile') }}

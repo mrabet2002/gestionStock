@@ -1,6 +1,6 @@
 <x-app-layout>
     @section('content') 
-        <div class="containerc align-center">
+        <div class="containerc" style="padding: 1rem 2rem;">
             <div class="bg-white shadow-lg rounded-lg p-6">
                 <div class="welcome-container">
                     <div class="flex align-center justify-center py-12 bg-gray-50 rounded-md">

@@ -112,6 +112,11 @@
                         </div>
                     </div>
                 </div>
+
+                <div>
+                    <hr>
+                </div>
+
                 <div class="py-12">
                     <div class="px-4 py-5 bg-white space-y-6 sm:p-6 shadow sm:rounded-md sm:overflow-hidden py-12 md:grid md:grid-cols-3 md:gap-6">
                         <div class="md:col-span-1">
@@ -124,7 +129,7 @@
                                 <div class="col-span-6 sm:col-span-6">
                                     <label for="fournisseur" class="w-full block text-sm font-medium text-gray-700">Fournisseur</label>
                                     <div class="flex justify-between">
-                                        <select id="fournisseur" name="fournisseur" class=" mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                        <select id="fournisseur" name="fournisseur" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                             <option selected disabled>Selectionner un fournisseur</option>
                                             @if ($fournisseurs->count() == 0)
                                                 <option disabled>Désolés, nous ne trouvant pas de fournisseurs</option>
@@ -135,7 +140,7 @@
                                             @endif
                                         </select>
                                         <div class="px-3">
-                                            <a data-modal-toggle="ajouterFournisseurModal" style="margin-top: 10px" type="button" {{-- style="margin-top: 25px" --}} class="cursor-pointer px-3 py-2 border border-transparent text-sm  font-medium rounded-md text-white bg-indigo-500 hover:bg-gray-50 hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition">
+                                            <a data-modal-toggle="ajouterFournisseurModal" style="margin-top: 10px" type="button" {{-- style="margin-top: 25px" --}} class="btn btn-indigo transition">
                                                 
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                                                     <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
@@ -159,7 +164,7 @@
                                             @endif
                                         </select>
                                         <div class="px-3">
-                                            <a data-modal-toggle="ajouterFournisseurModal" style="margin-top: 10px" type="button" {{-- style="margin-top: 25px" --}} class="cursor-pointer px-3 py-2 border border-transparent text-sm  font-medium rounded-md text-white bg-indigo-500 hover:bg-gray-50 hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition">
+                                            <a data-modal-toggle="ajouterFournisseurModal" style="margin-top: 10px" type="button" class="btn btn-indigo transition">
                                                 
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                                                     <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
@@ -183,7 +188,7 @@
                                             @endif
                                         </select>
                                         <div class="px-3">
-                                            <a data-modal-toggle="ajouterFournisseurModal" style="margin-top: 10px" type="button" {{-- style="margin-top: 25px" --}} class="cursor-pointer px-3 py-2 border border-transparent text-sm  font-medium rounded-md text-white bg-indigo-500 hover:bg-gray-50 hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition">
+                                            <a data-modal-toggle="ajouterFournisseurModal" style="margin-top: 10px" type="button" class="btn btn-indigo transition">
                                                 
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                                                     <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
@@ -235,23 +240,24 @@
         <div id="defaultModal" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 md:inset-0 h-full md:h-full">
             <div class="relative modal-container w-full max-w-md h-full md:h-auto">
                 <!-- Modal content -->
-                <div class="relative modal-content bg-white rounded-lg shadow dark:bg-gray-700 md:w-1/2">
+                <div class="relative sm-modal-content bg-white rounded-lg shadow dark:bg-gray-700 md:w-3/4">
                     <!-- Modal header -->
-                    <div class="flex justify-end p-2">
-                        <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-toggle="defaultModal">
+                    <div class="flex justify-end p-6">
+                        <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-100 hover:text-gray-900 rounded-lg text-sm p-2 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-toggle="defaultModal">
                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>  
                         </button>
-                    </div>
+                        
+                    </div><hr>
                     <!-- Modal body -->
                     <div class="p-6 pt-0 text-center">
                         <svg class="mx-auto mb-4 text-gray-400 dark:text-gray-200" width="10%" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                         <h3 class="mb-4 text-lg font-normal text-gray-500 dark:text-gray-400">
-                            Vous êtes sur le point de quitter ce formulaire, votre travail ne sera pas enregistré. Êtes-vous sûr de vouloir continuer ?
+                            Votre travail ne sera pas enregistré. Êtes-vous sûr de vouloir continuer ?
                         </h3>
-                        <a href="{{route('produit.index')}}" type="button" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm inline-flex items-center px-2 py-2 text-center mr-2">
+                        <a href="{{route('produit.index')}}" type="button" class="text-white bg-red-600 hover:bg-red-500 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm inline-flex items-center px-2 py-2 text-center mr-2">
                             Oui, je suis sur
                         </a>
-                        <button data-modal-toggle="defaultModal" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none rounded-lg border border-gray-200 text-sm font-medium px-2 py-2 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
+                        <button data-modal-toggle="defaultModal" type="button" class="mt-3 text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none rounded-lg border border-gray-200 text-sm font-medium px-2 py-2 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
                             Non, rester sur ce formulaire
                         </button>
                     </div>
@@ -259,27 +265,34 @@
             </div>
         </div>
         <!-- Extra Large Modal -->
-        <div id="ajouterFournisseurModal" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full">
-            <div class="relative p-4 w-full max-w-7xl h-full md:h-auto">
+        <div id="ajouterFournisseurModal" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-1/2">
+            <div class="modal-container py-6 relative p-4 w-full h-full md:h-auto">
                 <!-- Modal content -->
-                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <div class="modal-content bg-white rounded-lg shadow dark:bg-gray-700">
                     <!-- Modal header -->
-                    <div class="flex justify-between items-center p-5 rounded-t border-b dark:border-gray-600">
+                    <div class="flex justify-between items-center p-6 rounded-t border-b dark:border-gray-600">
                         <h3 class="text-xl font-medium text-gray-900 dark:text-white">
-                            Extra Large modal
+                            Ajouter Un Fournisseur
                         </h3>
-                        <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="ajouterFournisseurModal">
+                        <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-100 hover:text-gray-900 rounded-lg text-sm p-2 ml-auto inline-flex items-center transition" data-modal-toggle="ajouterFournisseurModal">
                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>  
                         </button>
                     </div>
                     <!-- Modal body -->
-                    <div class="p-6 space-y-6">
+                    <div class="p-6 space-y-6 modal-body bg-gray-100">
                         @include('fournisseur.create_form')
                     </div>
                     <!-- Modal footer -->
-                    <div class="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
-                        <button data-modal-toggle="ajouterFournisseurModal" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">I accept</button>
-                        <button data-modal-toggle="ajouterFournisseurModal" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Decline</button>
+                    <div class="flex justify-end p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
+                        <form action="{{route('produit.fournisseur.store')}}" method="post" id="storeFournisseur">
+                            @csrf
+                        </form>
+                        <button data-modal-toggle="ajouterFournisseurModal" form="storeFournisseur" type="submit" class="btn btn-indigo" style="margin: 0 15px;">
+                            Enregistrer
+                        </button>
+                        <button data-modal-toggle="ajouterFournisseurModal" type="button" class="btn btn-red">
+                            Annuler
+                        </button>
                     </div>
                 </div>
             </div>
