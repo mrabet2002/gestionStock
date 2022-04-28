@@ -8,6 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class Stock extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        "id_produit",
+        "prix_vente",
+        "prix_achat",
+        "prix_vente_cons",
+        "qte",
+        "qte_disponible",
+        "date_expiration",
+        "descripiton",
+    ];
     /**
      * Get all of the produits for the Stock
      *

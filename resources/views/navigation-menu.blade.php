@@ -35,6 +35,11 @@
                             </x-jet-nav-link>
                         </div>
                     @endif
+                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                        <x-jet-nav-link href="{{ route('stock.index') }}" :active="request()->routeIs('stock.index')">
+                            {!! __('Stock') !!}
+                        </x-jet-nav-link>
+                    </div>
                 @endauth
             </div>
             
@@ -194,11 +199,17 @@
 
                 <div class="mt-3 space-y-1">
                     <!-- Actions -->
-                    <x-jet-responsive-nav-link href="{{ route('produit.index') }}" :active="request()->routeIs('produit.index')">
-                        {{ __('Produits') }}
-                    </x-jet-responsive-nav-link>
-                    <x-jet-responsive-nav-link href="{{ route('fournisseur.index') }}" :active="request()->routeIs('fournisseur.index')">
-                        {{ __('Fournisseur') }}
+                    @if (auth()->user()->roles()->where('slug', 'responsable-achat')->exists())
+                        <x-jet-responsive-nav-link href="{{ route('produit.index') }}" :active="request()->routeIs('produit.index')">
+                            {{ __('Produits') }}
+                        </x-jet-responsive-nav-link>
+                        <x-jet-responsive-nav-link href="{{ route('fournisseur.index') }}" :active="request()->routeIs('fournisseur.index')">
+                            {{ __('Fournisseur') }}
+                        </x-jet-responsive-nav-link>
+                    @endif
+                    
+                    <x-jet-responsive-nav-link href="{{ route('stock.index') }}" :active="request()->routeIs('stock.index')">
+                        {{ __('Stock') }}
                     </x-jet-responsive-nav-link>
                     <!-- Account Management -->
                     <x-jet-responsive-nav-link href="{{ route('profile.show') }}" :active="request()->routeIs('profile.show')">

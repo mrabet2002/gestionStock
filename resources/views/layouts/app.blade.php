@@ -36,7 +36,7 @@
             @endif
 
             <!-- Page Content -->
-            <main class="py-3">
+            <main class="py-1">
                 {{-- {{ $slot }} --}}
                 @yield('content')
             </main>

@@ -1,10 +1,10 @@
-let tableSearch = document.querySelector('#table-search');
+/* let tableSearch = document.querySelector('#table-search');
 let result = document.querySelector('.lable-ts');
 const rows = document.querySelectorAll('tbody')[0].rows;
 const tbody = document.querySelector('tbody')
 let table = document.getElementById('table');
 let fournisseursJSON = JSON.parse(document.querySelector('.fournisseurs').innerHTML);
-console.log(fournisseursJSON.find(fournisseur => fournisseur.num_fournisseur == "1"))
+console.log(fournisseursJSON.find(fournisseur => fournisseur.num_fournisseur == "1")) */
 /* function parseHTMLTableElem(tableEl) {
     const columns = Array.from(tableEl.querySelectorAll('thead th')).map(it => it.textContent)
     const rows = tableEl.querySelectorAll('tbody tr')
@@ -28,7 +28,9 @@ console.log(fournisseursJSON.find(fournisseur => fournisseur.num_fournisseur == 
 } */
 
 /* Array.from(rows).find(row => row.cells[1].innerText == 1).cells[1].innerText */
-tableSearch.addEventListener('keyup', function show() {
+
+
+/* tableSearch.addEventListener('keyup', function show() {
 
     let fournisseur = fournisseursJSON.find(fournisseur => fournisseur.num_fournisseur == tableSearch.value)
     tbody.innerHTML = ""
@@ -59,7 +61,6 @@ tableSearch.addEventListener('keyup', function show() {
     cell4.innerHTML = fournisseur.email
     cell5.innerHTML = fournisseur.pays
     
-    /* set cell6 data */
     const showFournisseurLink = document.createElement('a')
     const editFournisseurLink = document.createElement('a')
     const deleteFournisseurLink = document.createElement('a')
@@ -91,4 +92,48 @@ tableSearch.addEventListener('keyup', function show() {
 
 
     
+})  */
+
+const addLigneAchatBtn = document.getElementById('ajouterLigneAchat')
+
+
+addLigneAchatBtn.addEventListener('click', function () {
+    const tbody = document.querySelector('tbody')
+    const rowCount = document.getElementsByTagName('tbody')[0].rows.length
+    const newRow = document.createElement('tr')
+    const LigneCommandeRow = document.getElementById('LigneCommandeRow')
+    const deleteButton = '<button id="'+rowCount+'" type="button" class="delete-product hover:bg-red-500 hover-text-white border rounded-md py-1 px-3 text-red-500 transition">X</button>'
+    const tbodyLastChild = tbody.lastElementChild;
+    const input1Name = tbodyLastChild.cells[0].firstElementChild.firstElementChild.getAttribute('name')
+    let inputCount = parseInt(input1Name.replace('lignesAchat[element','').replace('][id_produit]','')) + 1
+
+    newRow.setAttribute('class', 'cursor-pointer bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600')
+    newRow.setAttribute('id', rowCount)
+    newRow.innerHTML = LigneCommandeRow.innerHTML
+    newRow.cells[0].firstElementChild.firstElementChild.setAttribute('name', 'lignesAchat[element'+inputCount+'][id_produit]')
+    newRow.cells[1].firstElementChild.firstElementChild.setAttribute('name', 'lignesAchat[element'+inputCount+'][prix]')
+    newRow.cells[2].firstElementChild.firstElementChild.setAttribute('name', 'lignesAchat[element'+inputCount+'][qte]')
+    newRow.cells[3].firstElementChild.lastElementChild.setAttribute('name', 'lignesAchat[element'+inputCount+'][remise]')
+    newRow.lastElementChild.innerHTML = deleteButton;
+    
+    //alert(LigneCommandeRow.cells[1].firstElementChild.firstElementChild.getAttribute('name'))
+    tbody.appendChild(newRow);
+    const deleteLigneAchatBtn = document.querySelectorAll('.delete-product')
+    deleteLigneAchatBtn.forEach(element => {
+    element.addEventListener('click', removeRow)
+});
+
 })
+
+const deleteLigneAchatBtn = document.querySelectorAll('.delete-product')
+deleteLigneAchatBtn.forEach(element => {
+    element.addEventListener('click', removeRow)
+});
+
+function removeRow(event) {
+    const rows = document.querySelectorAll('tbody')[0].rows;
+    const tbody = document.querySelector('tbody');
+
+    const tbodyChild = Array.from(rows).find(row => row.getAttribute('id') == event.target.getAttribute('id'))
+    tbody.removeChild(tbodyChild)
+}

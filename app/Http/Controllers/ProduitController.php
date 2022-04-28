@@ -47,6 +47,7 @@ class ProduitController extends Controller
     public function store(StoreproduitRequest $request)
     {
         $request->validated();
+        $imageName = null;
         if($request->has("image")){
             $file = $request->image;
             $imageName = time()."_".$file->getClientOriginalName();
@@ -59,7 +60,7 @@ class ProduitController extends Controller
                 "id_fournisseur" => $request->fournisseur,
                 "id_user" => $request->user()->id,
                 "libele" => $request->libele,
-                'image' => $imageName,
+                "image" => $imageName,
                 "code_barre" => $request->code_barre,
                 "descripiton" => $request->descripiton,
                 "min_stock" => $request->min_stock,

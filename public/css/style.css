@@ -13,6 +13,9 @@
 .delete-btn:hover{
     color: rgb(255, 129, 129);
 }
+.hover-text-white:hover{
+    color: white;
+}
 .modal-content{
     width: 90%;
     z-index: 100;
@@ -127,7 +130,9 @@ option {
     outline: 2px solid #dc2626;
     background-color: #dc2626;
 }
-
+.bg-red-400{
+    background-color: #ef4444;
+}
 .btn{
     padding: 0.5rem 0.75rem;
     cursor: pointer;
@@ -152,6 +157,9 @@ option {
     background-color: #3b82f6;
 }
 
+.bg-blue-500{
+    background-color: #3b82f6;
+}
 .card{
     /* px-4 py-5 bg-white sm:p-6 shadow overflow-hidden sm:rounded-md; */
     

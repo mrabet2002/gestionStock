@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\stock;
+use App\Models\Stock;
 use App\Http\Requests\StorestockRequest;
 use App\Http\Requests\UpdatestockRequest;
 
@@ -15,7 +15,9 @@ class StockController extends Controller
      */
     public function index()
     {
-        //
+        return view('stock.index')->with([
+            'stocks' => Stock::all(),
+        ]);
     }
 
     /**
@@ -42,10 +44,10 @@ class StockController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\stock  $stock
+     * @param  \App\Models\Stock  $stock
      * @return \Illuminate\Http\Response
      */
-    public function show(stock $stock)
+    public function show(Stock $stock)
     {
         //
     }
@@ -53,10 +55,10 @@ class StockController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\stock  $stock
+     * @param  \App\Models\Stock  $stock
      * @return \Illuminate\Http\Response
      */
-    public function edit(stock $stock)
+    public function edit(Stock $stock)
     {
         //
     }
@@ -65,10 +67,10 @@ class StockController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \App\Http\Requests\UpdatestockRequest  $request
-     * @param  \App\Models\stock  $stock
+     * @param  \App\Models\Stock  $stock
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdatestockRequest $request, stock $stock)
+    public function update(UpdatestockRequest $request, Stock $stock)
     {
         //
     }
@@ -76,10 +78,10 @@ class StockController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\stock  $stock
+     * @param  \App\Models\Stock  $stock
      * @return \Illuminate\Http\Response
      */
-    public function destroy(stock $stock)
+    public function destroy(Stock $stock)
     {
         //
     }

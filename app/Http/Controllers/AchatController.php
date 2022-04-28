@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\achat;
+use App\Models\Achat;
+use App\Models\Produit;
+use App\Models\Fournisseur;
 use App\Http\Requests\StoreachatRequest;
 use App\Http\Requests\UpdateachatRequest;
 
@@ -15,7 +17,9 @@ class AchatController extends Controller
      */
     public function index()
     {
-        //
+        return view('achat.index')->with([
+            'achats' => Achat::all(),
+        ]);
     }
 
     /**
@@ -25,7 +29,10 @@ class AchatController extends Controller
      */
     public function create()
     {
-        //
+        return view('achat.create')->with([
+            'fournisseurs' => Fournisseur::all(),
+            'produits' => Produit::all(),
+        ]);
     }
 
     /**
@@ -36,16 +43,21 @@ class AchatController extends Controller
      */
     public function store(StoreachatRequest $request)
     {
-        //
+        
+        return view('achat.create')->with([
+            'lignesAchat' => $request->lignesAchat,
+            'fournisseurs' => Fournisseur::all(),
+            'produits' => Produit::all(),
+        ]);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\achat  $achat
+     * @param  \App\Models\Achat  $achat
      * @return \Illuminate\Http\Response
      */
-    public function show(achat $achat)
+    public function show(Achat $achat)
     {
         //
     }
@@ -53,10 +65,10 @@ class AchatController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\achat  $achat
+     * @param  \App\Models\Achat  $achat
      * @return \Illuminate\Http\Response
      */
-    public function edit(achat $achat)
+    public function edit(Achat $achat)
     {
         //
     }
@@ -65,10 +77,10 @@ class AchatController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \App\Http\Requests\UpdateachatRequest  $request
-     * @param  \App\Models\achat  $achat
+     * @param  \App\Models\Achat  $achat
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateachatRequest $request, achat $achat)
+    public function update(UpdateachatRequest $request, Achat $achat)
     {
         //
     }
@@ -76,10 +88,10 @@ class AchatController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\achat  $achat
+     * @param  \App\Models\Achat  $achat
      * @return \Illuminate\Http\Response
      */
-    public function destroy(achat $achat)
+    public function destroy(Achat $achat)
     {
         //
     }
