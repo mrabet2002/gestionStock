@@ -61,7 +61,9 @@
                                                         <option disabled>Désolés, nous ne trouvant pas de fournisseurs</option>
                                                     @else
                                                         @foreach ($fournisseurs as $fournisseur)
-                                                            <option value="{{$fournisseur->id}}">{{$fournisseur->name}}</option>
+                                                            <option value="{{$fournisseur->id}}" {{$fournisseur->id == old('fournisseur') ? "selected" : ""}}>
+                                                                {{$fournisseur->name}}
+                                                            </option>
                                                         @endforeach
                                                     @endif
                                                 </select>
@@ -97,26 +99,26 @@
                                 <div class="mt-5 md:mt-0 card-body">
                                     <div class="grid grid-cols-6 gap-6">
                                         <div class="col-span-6">
-                                            <label for="adresse" class="block text-sm font-medium text-gray-700">Date de création</label>
-                                            <input type="date" step="0.01" name="adresse" id="adresse" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                            <label for="date_creation" class="block text-sm font-medium text-gray-700">Date de création</label>
+                                            <input type="date" step="0.01" name="date_creation" id="date_creation" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                         </div>
                 
                                         <div class="col-span-6 sm:col-span-3">
-                                            <label for="remise" class="block text-sm font-medium text-gray-700"> Remise </label>
+                                            <label for="remiseAchat" class="block text-sm font-medium text-gray-700"> Remise </label>
                                             <div class="mt-1 flex rounded-md shadow-sm">
                                                 <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm"> % </span>
-                                                <input type="number" name="remise" id="remise" class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300">
+                                                <input type="number" name="remiseAchat" id="remiseAchat" value="{{old('remiseAchat')}}" class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300">
                                             </div>
                                         </div>
 
                                         <div class="col-span-6 sm:col-span-3">
-                                            <label for="ville" class="block text-sm font-medium text-gray-700">Devise</label>
-                                            <input type="text" name="ville" id="ville" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                            <label for="devie" class="block text-sm font-medium text-gray-700">Devise</label>
+                                            <input type="text" name="devie" id="devie" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                         </div>
                 
                                         <div class="col-span-6">
-                                            <label for="code_postal" class="block text-sm font-medium text-gray-700">Taxe</label>
-                                            <input type="number" step="0.01" name="code_postal" id="code_postal" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                            <label for="taxe" class="block text-sm font-medium text-gray-700">Taxe</label>
+                                            <input type="number" step="0.01" name="taxe" id="taxe" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                         </div>
                                     </div>
                                 </div>
@@ -150,36 +152,10 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @if (session()->has('lignesproduit'))
-                                                    @foreach (session()->get('lignesproduit') as $ligneproduit)
-                                                    <tr id="1" class="cursor-pointer bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                                    
-                                                        <td id="produit1" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                                                            {{$ligneproduit->produit->libele}}
-                                                        </td>
-                                                        <td id="prix1" class="px-6 py-4">
-                                                            {{$ligneproduit->prix}}
-                                                        </td>
-                                                        <td id="qte1" class="px-6 py-4">
-                                                            {{$ligneproduit->qte}}
-                                                        </td>
-                                                        <td id="remise1" class="px-6 py-4">
-                                                            {{$ligneproduit->remise}}
-                                                        </td>
-                                                        <td id="delete1" class="py-4">
-                                                            <a href="{{route('produit.create')}}" type="button" class="delete-product px-3 text-red-500 delete-btn transition">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
-                                                                    <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
-                                                                </svg>
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                    @endforeach
-                                                @endif
                                                 <tr id="LigneCommandeRow" style="display: none">
                                                     <td class="produitCell px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
                                                         <div class="flex justify-between">
-                                                            <select name="lignesAchat[element0][id_produit]" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                                            <select name="" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                                                 <option selected disabled>Selectionner un produit</option>
                                                                 @if ($produits->count() == 0)
                                                                     <option disabled>Désolés, nous ne trouvant pas de produits</option>
@@ -202,7 +178,7 @@
                                                     </td>
                                                     <td class="prixCell px-6 py-4">
                                                         <div class="col-span-6">
-                                                            <input type="number" step="0.01" name="lignesAchat[element0][prix]"  class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                                            <input type="number" step="0.01" name=""  class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                                         </div>
                                                     </td>
                                                     <td class="px-6 py-4">
@@ -219,25 +195,27 @@
                                                     <td class="py-4">
                                                     </td>
                                                 </tr>
-
-                                                @isset ($lignesAchat)
-                                                    @foreach ($lignesAchat as $key => $ligneAchat)
-                                                        {{$key}}
-                                                        <tr id="1" class="cursor-pointer bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                                @php
+                                                    $i = 1
+                                                @endphp
+                                                
+                                                @if (old('lignesAchat'))
+                                                    @foreach (old('lignesAchat') as $key => $value)
+                                                        <tr id="{{$key}}" class="cursor-pointer bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                                                             <td class="produitCell px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
                                                                 <div class="flex justify-between">
-                                                                    <select name="lignesAchat[element1][id_produit]" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                                                    <select name="lignesAchat[{{$key}}][id_produit]" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                                                         <option selected disabled>Selectionner un produit</option>
                                                                         @if ($produits->count() == 0)
                                                                             <option disabled>Désolés, nous ne trouvant pas de produits</option>
                                                                         @else
                                                                             @foreach ($produits as $produit)
-                                                                                <option value="{{$produit->id}}">{{$produit->libele}}</option>
+                                                                                <option value="{{$produit->id}}" {{$produit->id == old('lignesAchat.'.$key.'.id_produit') ? "selected" : ""}}>{{$produit->libele}}</option>
                                                                             @endforeach
                                                                         @endif
                                                                     </select>
                                                                     <div class="px-3">
-                                                                        <a href="{{route('produit.create')}}" style="margin-top: 10px" type="button" {{-- style="margin-top: 25px" --}} class="btn btn-indigo transition">
+                                                                        <a href="{{route('produit.create')}}" style="margin-top: 10px" type="button" class="btn btn-indigo transition">
                                                                             
                                                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                                                                                 <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
@@ -249,77 +227,29 @@
                                                             </td>
                                                             <td class="prixCell px-6 py-4">
                                                                 <div class="col-span-6">
-                                                                    <input type="number" step="0.01" name="lignesAchat[element1][prix]"  class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                                                    <input type="number" step="0.01" name="lignesAchat[{{$key}}][prix]" value="{{old('lignesAchat.'.$key.'.prix')}}" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                                                 </div>
                                                             </td>
                                                             <td class="px-6 py-4">
                                                                 <div class="mt-1 flex rounded-md shadow-sm">
-                                                                    <input type="number" name="lignesAchat[element1][qte]" class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-md sm:text-sm border-gray-300">
+                                                                    <input type="number" name="lignesAchat[{{$key}}][qte]" value="{{old('lignesAchat.'.$key.'.qte')}}" class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-md sm:text-sm border-gray-300">
                                                                     
                                                                 </div>
                                                             </td>
                                                             <td class="px-6 py-4">
                                                                 <div class="mt-1 flex rounded-md shadow-sm">
                                                                     <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm"> % </span>
-                                                                    <input type="number" name="lignesAchat[element1][remise]" class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300">
+                                                                    <input type="number" name="lignesAchat[{{$key}}][remise]" value="{{old('lignesAchat.'.$key.'.remise')}}" class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300">
                                                                 </div>
                                                             </td>
                                                             <td class="py-4">
-                                                                <button id="1" type="button" class="delete-product hover:bg-red-500 hover-text-white border rounded-md py-1 px-3 text-red-500 transition">
+                                                                <button id="{{$key}}" type="button" class="delete-product hover:bg-red-500 hover-text-white border rounded-md py-1 px-3 text-red-500 transition">
                                                                     X
                                                                 </button>
                                                             </td>
                                                         </tr>
                                                     @endforeach
-                                                @else
-                                                <tr id="1" class="cursor-pointer bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                                    <td class="produitCell px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                                                        <div class="flex justify-between">
-                                                            <select name="lignesAchat[element1][id_produit]" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                                                <option selected disabled>Selectionner un produit</option>
-                                                                @if ($produits->count() == 0)
-                                                                    <option disabled>Désolés, nous ne trouvant pas de produits</option>
-                                                                @else
-                                                                    @foreach ($produits as $produit)
-                                                                        <option value="{{$produit->id}}">{{$produit->libele}}</option>
-                                                                    @endforeach
-                                                                @endif
-                                                            </select>
-                                                            <div class="px-3">
-                                                                <a href="{{route('produit.create')}}" style="margin-top: 10px" type="button" {{-- style="margin-top: 25px" --}} class="btn btn-indigo transition">
-                                                                    
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                                                        <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
-                                                                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-                                                                    </svg>
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td class="prixCell px-6 py-4">
-                                                        <div class="col-span-6">
-                                                            <input type="number" step="0.01" name="lignesAchat[element1][prix]"  class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                                                        </div>
-                                                    </td>
-                                                    <td class="px-6 py-4">
-                                                        <div class="mt-1 flex rounded-md shadow-sm">
-                                                            <input type="number" name="lignesAchat[element1][qte]" class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-md sm:text-sm border-gray-300">
-                                                            
-                                                        </div>
-                                                    </td>
-                                                    <td class="px-6 py-4">
-                                                        <div class="mt-1 flex rounded-md shadow-sm">
-                                                            <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm"> % </span>
-                                                            <input type="number" name="lignesAchat[element1][remise]" class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300">
-                                                        </div>
-                                                    </td>
-                                                    <td class="py-4">
-                                                        <button id="1" type="button" class="delete-product hover:bg-red-500 hover-text-white border rounded-md py-1 px-3 text-red-500 transition">
-                                                            X
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                                @endisset
+                                                @endif
                                             </tbody>
                                         </table>
                                         <div class="mt-3 text-center">

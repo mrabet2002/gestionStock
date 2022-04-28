@@ -43,12 +43,18 @@ class AchatController extends Controller
      */
     public function store(StoreachatRequest $request)
     {
+        if($request->validated()){
+            try {
+                Achat::create([
+                    
+                ]);
+            } catch (\Throwable $th) {
+                //throw $th;
+            }
+        }else {
+            return redirect()->back()->withInput($request->input());
+        }
         
-        return view('achat.create')->with([
-            'lignesAchat' => $request->lignesAchat,
-            'fournisseurs' => Fournisseur::all(),
-            'produits' => Produit::all(),
-        ]);
     }
 
     /**

@@ -105,7 +105,12 @@ addLigneAchatBtn.addEventListener('click', function () {
     const deleteButton = '<button id="'+rowCount+'" type="button" class="delete-product hover:bg-red-500 hover-text-white border rounded-md py-1 px-3 text-red-500 transition">X</button>'
     const tbodyLastChild = tbody.lastElementChild;
     const input1Name = tbodyLastChild.cells[0].firstElementChild.firstElementChild.getAttribute('name')
-    let inputCount = parseInt(input1Name.replace('lignesAchat[element','').replace('][id_produit]','')) + 1
+    let inputCount;
+    if (rowCount == 1) {
+        inputCount = 1
+    }else{
+        inputCount = parseInt(input1Name.replace('lignesAchat[element','').replace('][id_produit]','')) + 1
+    }
 
     newRow.setAttribute('class', 'cursor-pointer bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600')
     newRow.setAttribute('id', rowCount)

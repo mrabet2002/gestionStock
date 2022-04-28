@@ -24,13 +24,16 @@ class StoreachatRequest extends FormRequest
     public function rules()
     {
         return [
-            "categorie" => "required",
-            "libele" => "required|max:255",
-            "code_barre" => "max:255",
-            "descripiton" => "max:2000",
-            "unite" => "max:255",
-            "zone" => "max:200",
-            "image"=> "image|mimes:png,jpg,jpeg,gif|max:2048",
+            "fournisseur" => "required|integer",
+            "devise" => "nullable|string|max:255",
+            "remiseAchat" => "nullable|integer",
+            "descripiton" => "nillable|string|max:2000",
+            "remise" => "max:255",
+            "lignesAchat.*.id_produit" => "required|max:200",
+            "lignesAchat.*.prix" => "nullable",
+            "lignesAchat.*.devise" => "nullable",
+            "lignesAchat.*.remise" => "nullable",
+            "taxe" => "nullable",
         ];
     }
     /**
@@ -41,10 +44,11 @@ class StoreachatRequest extends FormRequest
     public function messages()
     {
         return [
-            'libele.required' => 'Le nom du produit ne peut pas être vide.',
-            'libele.max' => 'Le nom du produit ne peut pas dépasser 255 caractères.',
-            'code_barre.max' => 'Le code barre ne peut pas dépasser 255 caractères.',
+            'fournisseur.required' => 'Le champ du fournisseur est obligatoire.',
+            'fournisseur.integer' => 'Le nom du produit ne peut pas dépasser 255 caractères.',
+            'lignesAchat.*.id_produit.required' => 'Le produit et non specifier dans l\'une des lignes.',
             'descripiton.max' => 'La descripiton ne peut pas dépasser 2000 caractères.',
+            'descripiton.string' => 'La descripiton est invalide.',
             'unite.max' => "L'unité ne peut pas dépasser 255 caractères.",
             'zone.max' => "L'emplacement ne peut pas dépasser 255 caractères.",
             'categorie.required' => 'Vous devez choisir une categorie.',
