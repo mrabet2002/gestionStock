@@ -73,4 +73,3 @@ Route::resource('achat', AchatController::class)->middleware(['auth', 'role:resp
 Route::post('/achat/supprimer-achat/{achat}', [AchatController::class, 'destroy'])->name('achat.destroy')->middleware(['auth', 'role:responsable-achat']);
 Route::post('/achat/modifier-achat/{achat}', [AchatController::class, 'update'])->name('achat.update')->middleware(['auth', 'role:responsable-achat']);
 
-Route::post('/ligne_acha/add', [AchatController::class, 'addLigneAchat'])->name('ligneAchat.store')->middleware(['auth', 'role:responsable-achat']);

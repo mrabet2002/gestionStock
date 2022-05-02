@@ -1,23 +1,27 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="flex justify-between font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Stock') }}
-            <span class="rounded-md">
-                @if (auth()->user()->roles()->where('slug', 'responsable-achat')->exists())
-                    <a href="{{route('stock.create')}}" type="button" class="btn btn-indigo inline-flex items-center transition">
-                        <span>
-                            Ordre d'achat
-                        </span>
-                    </a>
-                @endif
-                @if (auth()->user()->roles()->where('slug', 'vendeur')->exists())
-                    <a href="{{route('achat.index')}}" type="button" class="btn btn-indigo inline-flex items-center transition">
-                        <span>
-                            Bons de commande
-                        </span>
-                    </a>
-                @endif
-            </span>
+        <h2 class="grid grid-cols-2 font-semibold text-xl text-gray-800 leading-tight">
+            <div class="flex items-center">
+                {{ __('Stock') }}
+            </div>
+            <div class="text-right">
+                <span class="rounded-md">
+                    @if (auth()->user()->roles()->where('slug', 'responsable-achat')->exists())
+                        <a href="{{route('achat.index')}}" type="button" class="btn btn-indigo inline-flex items-center transition">
+                            <span>
+                                Ordre d'achat
+                            </span>
+                        </a>
+                    @endif
+                    @if (auth()->user()->roles()->where('slug', 'vendeur')->exists())
+                        <a href="{{route('achat.index')}}" type="button" class="btn btn-indigo inline-flex items-center transition">
+                            <span>
+                                Bons de commande
+                            </span>
+                        </a>
+                    @endif
+                </span>
+            </div>
         </h2>
     </x-slot>
     @section('content')

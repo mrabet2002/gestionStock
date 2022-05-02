@@ -60,63 +60,87 @@
         </div>
     </x-slot>
     @section('content')
-        <div class="containerc mt-4">
-            <div class="bg-white shadow-lg rounded-lg p-6">
-                <div class="grid-cols-2">
-                    <div class="flex align-center justify-center py-12 bg-gray-50 rounded-md">
-                        <div class="welcome text-center">
-                            <h1>{{$fournisseur->name}}</h1>
-                            <p class="hidden code_barre">{{$fournisseur->code_barre}}</p>
-                            <svg id="barcode" class="mx-auto"></svg>
+    <div class="containerc mt-6 mb-6">
+        <div class="grid md:grid-cols-2 gap-6">
+            <div class="md:col-span-2">
+                <div class="bg-white shadow-lg rounded-lg p-6">
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="flex align-center justify-center py-12 bg-gray-50 rounded-md">
+                            <div class="welcome text-center">
+                                <h1>{{$fournisseur->name}}</h1>
+                            </div>
+                        </div>
+                        <div>
+                            <h1 class="text-xl font-bold">Détails</h1>
+                            <div class="py-2"><hr></div>
+                            <table>
+                                @if ($fournisseur->email)
+                                <tr>
+                                    <th class="px-6 py-4 text-sm uppercase text-left text-gray-900 dark:text-white whitespace-nowrap">E-mail</th>
+                                    <td class="px-6 py-4 text-right w-full"><a href="mailto:{{$fournisseur->email}}">{{$fournisseur->email}}</a></td>
+                                </tr>
+                                @endif
+                                @if ($fournisseur->tel)
+                                    <tr>
+                                        <th class="px-6 py-4 text-sm uppercase text-left text-gray-900 dark:text-white whitespace-nowrap">Téléphone</th>
+                                        <td class="px-6 py-4 text-right w-full"><a href="tel:{{$fournisseur->tel}}">{{$fournisseur->tel}}</a></td>
+                                    </tr>
+                                @endif
+                                @if ($fournisseur->adresse)
+                                    <tr>
+                                        <th class="px-6 py-4 text-sm uppercase text-left text-gray-900 dark:text-white whitespace-nowrap">Adresse</th>
+                                        <td class="px-6 py-4 text-right w-full">{{$fournisseur->adresse}} DH</td>
+                                    </tr>
+                                @endif
+                                @if ($fournisseur->pays)
+                                    <tr>
+                                        <th class="px-6 py-4 text-sm uppercase text-left text-gray-900 dark:text-white whitespace-nowrap">Pays</th>
+                                        <td class="px-6 py-4 text-right w-full">{{$fournisseur->pays}}</td>
+                                    </tr>
+                                @endif
+                                @if ($fournisseur->ville)
+                                    <tr>
+                                        <th class="px-6 py-4 text-sm uppercase text-left text-gray-900 dark:text-white whitespace-nowrap">Ville</th>
+                                        <td class="px-6 py-4 text-right w-full">{{$fournisseur->ville}}</td>
+                                    </tr>
+                                @endif
+                                @if ($fournisseur->code_postal)
+                                    <tr>
+                                        <th class="px-6 py-4 text-sm uppercase text-left text-gray-900 dark:text-white whitespace-nowrap">Code postal</th>
+                                        <td class="px-6 py-4 text-right w-full">{{$fournisseur->code_postal}}</td>
+                                    </tr>
+                                @endif
+                                @if ($fournisseur->site_web)
+                                    <tr>
+                                        <th class="px-6 py-4 text-sm uppercase text-left text-gray-900 dark:text-white whitespace-nowrap">Site Web</th>
+                                        <td class="px-6 py-4 text-right w-full"><a href="{{$fournisseur->site_web}}" target="_blank">{{$fournisseur->site_web}}</a></td>
+                                    </tr>
+                                @endif
+                            </table>
                         </div>
                     </div>
                 </div>
-                
             </div>
-            <div class="grid-cols-2">
-                <div class="bg-white shadow-lg rounded-lg p-6 mt-6">
-                    <h1 class="text-xl font-bold">Description</h1>
-                    <div class="py-2"><hr></div>
-                    <p>{{$fournisseur->description}}</p>
+            @if ($fournisseur->description)
+                <div class="col">
+                    <div class="bg-white shadow-lg rounded-lg p-6" style="height: fit-content">
+                        <h1 class="text-xl font-bold">Description</h1>
+                        <div class="py-2"><hr></div>
+                        <p style="text-align: justify">{{$fournisseur->description}}</p>
+                    </div>
                 </div>
-                <div class="bg-white shadow-lg rounded-lg p-6 mt-6">
-                    <h1 class="text-xl font-bold">Détails</h1>
-                    <div class="py-2"><hr></div>
-                    <table>
-                        @if ($fournisseur->pays)
-                            <tr>
-                                <th class="px-6 py-4 text-sm uppercase text-left text-gray-900 dark:text-white whitespace-nowrap">Categorie</th>
-                                <td class="px-6 py-4 text-right w-full">{{$fournisseur->pays}}</td>
-                            </tr>
-                        @endif
-                        <tr>
-                            <th class="px-6 py-4 text-sm uppercase text-left text-gray-900 dark:text-white whitespace-nowrap">Marque</th>
-                            <td class="px-6 py-4 text-right w-full">{{$fournisseur->email}}</td>
-                        </tr>
-                        <tr>
-                            <th class="px-6 py-4 text-sm uppercase text-left text-gray-900 dark:text-white whitespace-nowrap">Fournisseur</th>
-                            <td class="px-6 py-4 text-right w-full">{{$fournisseur->ville}}</td>
-                        </tr>
-                        <tr>
-                            <th class="px-6 py-4 text-sm uppercase text-left text-gray-900 dark:text-white whitespace-nowrap">Prix initial</th>
-                            <td class="px-6 py-4 text-right w-full">{{$fournisseur->numfournisseur}} DH</td>
-                        </tr>
-                        <tr>
-                            <th class="px-6 py-4 text-sm uppercase text-left text-gray-900 dark:text-white whitespace-nowrap">Zone</th>
-                            <td class="px-6 py-4 text-right w-full">{{$fournisseur->code_postal}}</td>
-                        </tr>
-                        <tr>
-                            <th class="px-6 py-4 text-sm uppercase text-left text-gray-900 dark:text-white whitespace-nowrap">Poids</th>
-                            <td class="px-6 py-4 text-right w-full">{{$fournisseur->tel}}</td>
-                        </tr>
-                        <tr>
-                            <th class="px-6 py-4 text-sm uppercase text-left text-gray-900 dark:text-white whitespace-nowrap">Nive de stock minimal</th>
-                            <td class="px-6 py-4 text-right w-full">{{$fournisseur->address}}</td>
-                        </tr>
-                    </table>
+            @endif
+            @if ($fournisseur->fichier_attacher)
+                <div class="col">
+                    <div class="bg-white shadow-lg rounded-lg p-6" style="height: fit-content">
+                        <h1 class="text-xl font-bold">Fichier attacher</h1>
+                        <div class="py-2"><hr></div>
+                        <div class="welcome-img">
+                            <iframe width="100%" style="height: 100mm" csp="true" allowfullscreen="true" src="/uploads/{{$fournisseur->fichier_attacher}}" frameborder="0"></iframe>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            
+            @endif
         </div>
     @endsection
     @section('script')

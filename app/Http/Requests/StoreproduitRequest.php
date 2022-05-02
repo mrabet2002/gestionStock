@@ -24,13 +24,17 @@ class StoreproduitRequest extends FormRequest
     public function rules()
     {
         return [
-            "categorie" => "required",
+            "categorie" => "required|integer",
+            "marque" => "nullable|integer",
             "libele" => "required|max:255",
-            "code_barre" => "max:255",
-            "descripiton" => "max:2000",
-            "unite" => "max:255",
-            "zone" => "max:200",
+            "code_barre" => "nullable|regex:/^([0-9\(\)]*)$/|max:30",
+            "descripiton" => "nullable|string|max:2000",
+            "fournisseur" => "required|integer",
+            "unite" => "nullable|string|max:20",
+            "zone" => "nullable|string|max:200",
             "image"=> "image|mimes:png,jpg,jpeg,gif|max:2048",
+            "prix_initial" => "nullable|regex:/^\d+(\.\d{1,2})?$/",
+            "poids" => "nullable|regex:/^\d+(\.\d{1,2})?$/"
         ];
     }
     /**
@@ -41,13 +45,10 @@ class StoreproduitRequest extends FormRequest
     public function messages()
     {
         return [
-            'libele.required' => 'Le nom du produit ne peut pas être vide.',
-            'libele.max' => 'Le nom du produit ne peut pas dépasser 255 caractères.',
-            'code_barre.max' => 'Le code barre ne peut pas dépasser 255 caractères.',
-            'descripiton.max' => 'La descripiton ne peut pas dépasser 2000 caractères.',
-            'unite.max' => "L'unité ne peut pas dépasser 255 caractères.",
-            'zone.max' => "L'emplacement ne peut pas dépasser 255 caractères.",
-            'categorie.required' => 'Vous devez choisir une categorie.',
+            'required' => 'Le champ ":attribute" ne peut pas être vide.',
+            'max' => "Le champ :attribute ne peut pas dépasser :max caractères.",
+            "regex" => 'Le format du :attribute et invalide',
+            'image.max' => 'Le fichier choisi est très volumineux.'
         ];
     }
 }

@@ -28,7 +28,7 @@
             <div class="w-3/4 mx-auto px-6 py-12 bg-white border-0 shadow-lg rounded-lg">
                 <div class="relative overflow-x-auto">
                     <div class="py-3 px-3">
-                        <label for="table-search" class="sr-only">Search</label>
+                        <label for="table-search">Search</label>
                         <div class="relative mt-1">
                             <input type="text" id="table-search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-80 pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for items">
                         </div>

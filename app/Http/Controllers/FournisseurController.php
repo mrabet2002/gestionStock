@@ -111,14 +111,14 @@ class FournisseurController extends Controller
     {
         $request->validated();
         if($request->has("fichier_attache")){
-            $file_path = public_path('uploads/'.$fournisseur->fichier_attache);
+            $file_path = public_path('uploads\\'.$request->fichier_attache);
             if(File::exists($file_path)){
-                unlink($file_path0);
+                unlink($file_path);
             }
             $file = $request->fichier_attache;
             $fileName = time()."_".$file->getClientOriginalName();
             $file->move(public_path("uploads/"),$fileName);
-            $fournisseur->fichier_attache = $fileName;
+            $fournisseur->fichier_attacher = $fileName;
         }
         try {
             $fournisseur->update([
@@ -134,7 +134,7 @@ class FournisseurController extends Controller
                 "ville" => $request->ville,
                 "description" => $request->description,
                 "devise" => $request->devise,
-                "fichier_attacher" => $fournisseur->fichier_attache,
+                "fichier_attacher" => $fournisseur->fichier_attacher,
             ]);
             return redirect()->route('fournisseur.index')->with('success', 'Le fournisseur est modifié avec succès');
         } catch (\Throwable $th) {

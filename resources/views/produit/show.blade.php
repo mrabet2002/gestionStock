@@ -60,9 +60,9 @@
         </div>
     </x-slot>
     @section('content')
-        <div class="containerc mt-4">
+        <div class="containerc mt-6 mb-6">
             <div class="bg-white shadow-lg rounded-lg p-6">
-                <div class="grid-cols-2">
+                <div class="grid md:grid-cols-2 gap-6">
                     <div class="flex align-center justify-center py-12 bg-gray-50 rounded-md">
                         <div class="welcome text-center">
                             <h1>{{$produit->libele}}</h1>
@@ -71,49 +71,68 @@
                         </div>
                     </div>
                     <div class="welcome-img">
-                        <img width="100%" src="/uploads/{{$produit->image}}" class="rounded-md" alt="{{$produit->libele}}">
+                        @if ($produit->image)
+                            <img width="100%" src="/uploads/{{$produit->image}}" class="rounded-md" alt="{{$produit->libele}}">
+                        @else
+                            <img width="100%" src="/images/image_placeholder.png" class="rounded-md" alt="Aucune image pour ce produit">
+                        @endif
                     </div>
                 </div>
-                
             </div>
-            <div class="grid-cols-2">
-                <div class="bg-white shadow-lg rounded-lg p-6 mt-6">
-                    <h1 class="text-xl font-bold">Description</h1>
-                    <div class="py-2"><hr></div>
-                    <p>{{$produit->description}}</p>
-                </div>
-                <div class="bg-white shadow-lg rounded-lg p-6 mt-6">
+            <div class="grid md:grid-cols-2 gap-6 mt-6">
+                @if ($produit->description)
+                    <div class="bg-white shadow-lg rounded-lg p-6" style="height: fit-content">
+                        <h1 class="text-xl font-bold">Description</h1>
+                        <div class="py-2"><hr></div>
+                        <p style="text-align: justify">{{$produit->description}}</p>
+                    </div>
+                @endif
+                <div class="bg-white shadow-lg rounded-lg p-6">
                     <h1 class="text-xl font-bold">Détails</h1>
                     <div class="py-2"><hr></div>
                     <table>
+                        @if ($produit->categorie->libele)
                         <tr>
                             <th class="px-6 py-4 text-sm uppercase text-left text-gray-900 dark:text-white whitespace-nowrap">Categorie</th>
                             <td class="px-6 py-4 text-right w-full">{{$produit->categorie->libele}}</td>
                         </tr>
-                        <tr>
-                            <th class="px-6 py-4 text-sm uppercase text-left text-gray-900 dark:text-white whitespace-nowrap">Marque</th>
-                            <td class="px-6 py-4 text-right w-full">{{$produit->marque->libele}}</td>
-                        </tr>
-                        <tr>
-                            <th class="px-6 py-4 text-sm uppercase text-left text-gray-900 dark:text-white whitespace-nowrap">Fournisseur</th>
-                            <td class="px-6 py-4 text-right w-full">{{$produit->fournisseur ? $produit->fournisseur->name : ""}}</td>
-                        </tr>
-                        <tr>
-                            <th class="px-6 py-4 text-sm uppercase text-left text-gray-900 dark:text-white whitespace-nowrap">Prix initial</th>
-                            <td class="px-6 py-4 text-right w-full">{{$produit->prix_initial}} DH</td>
-                        </tr>
-                        <tr>
-                            <th class="px-6 py-4 text-sm uppercase text-left text-gray-900 dark:text-white whitespace-nowrap">Zone</th>
-                            <td class="px-6 py-4 text-right w-full">{{$produit->zone}}</td>
-                        </tr>
-                        <tr>
-                            <th class="px-6 py-4 text-sm uppercase text-left text-gray-900 dark:text-white whitespace-nowrap">Poids</th>
-                            <td class="px-6 py-4 text-right w-full">{{$produit->poids}}</td>
-                        </tr>
-                        <tr>
-                            <th class="px-6 py-4 text-sm uppercase text-left text-gray-900 dark:text-white whitespace-nowrap">Nive de stock minimal</th>
-                            <td class="px-6 py-4 text-right w-full">{{$produit->min_stock}}</td>
-                        </tr>
+                        @endif
+                        @if ($produit->marque->libele)
+                            <tr>
+                                <th class="px-6 py-4 text-sm uppercase text-left text-gray-900 dark:text-white whitespace-nowrap">Marque</th>
+                                <td class="px-6 py-4 text-right w-full">{{$produit->marque->libele}}</td>
+                            </tr>
+                        @endif
+                        @if ($produit->fournisseur)                            
+                            <tr>
+                                <th class="px-6 py-4 text-sm uppercase text-left text-gray-900 dark:text-white whitespace-nowrap">Fournisseur</th>
+                                <td class="px-6 py-4 text-right w-full">{{$produit->fournisseur->name}}</td>
+                            </tr>
+                        @endif
+                        @if ($produit->prix_initial)
+                            <tr>
+                                <th class="px-6 py-4 text-sm uppercase text-left text-gray-900 dark:text-white whitespace-nowrap">Prix initial</th>
+                                <td class="px-6 py-4 text-right w-full">{{$produit->prix_initial}} DH</td>
+                            </tr>
+                        @endif
+                        @if ($produit->zone)
+                            <tr>
+                                <th class="px-6 py-4 text-sm uppercase text-left text-gray-900 dark:text-white whitespace-nowrap">Zone</th>
+                                <td class="px-6 py-4 text-right w-full">{{$produit->zone}}</td>
+                            </tr>
+                        @endif
+                        @if ($produit->poids)
+                            <tr>
+                                <th class="px-6 py-4 text-sm uppercase text-left text-gray-900 dark:text-white whitespace-nowrap">Poids</th>
+                                <td class="px-6 py-4 text-right w-full">{{$produit->poids}}</td>
+                            </tr>
+                        @endif
+                        @if ($produit->min_stock)
+                            <tr>
+                                <th class="px-6 py-4 text-sm uppercase text-left text-gray-900 dark:text-white whitespace-nowrap">Nive de stock minimal</th>
+                                <td class="px-6 py-4 text-right w-full">{{$produit->min_stock}}</td>
+                            </tr>
+                        @endif
                     </table>
                 </div>
             </div>

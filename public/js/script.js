@@ -94,7 +94,7 @@ console.log(fournisseursJSON.find(fournisseur => fournisseur.num_fournisseur == 
     
 })  */
 
-const addLigneAchatBtn = document.getElementById('ajouterLigneAchat')
+/* const addLigneAchatBtn = document.getElementById('ajouterLigneAchat')
 
 
 addLigneAchatBtn.addEventListener('click', function () {
@@ -102,7 +102,7 @@ addLigneAchatBtn.addEventListener('click', function () {
     const rowCount = document.getElementsByTagName('tbody')[0].rows.length
     const newRow = document.createElement('tr')
     const LigneCommandeRow = document.getElementById('LigneCommandeRow')
-    const deleteButton = '<button id="'+rowCount+'" type="button" class="delete-product hover:bg-red-500 hover-text-white border rounded-md py-1 px-3 text-red-500 transition">X</button>'
+    const deleteButton = '<button id="element'+rowCount+'" type="button" class="delete-product hover:bg-red-500 hover-text-white border rounded-md py-1 px-3 text-red-500 transition">X</button>'
     const tbodyLastChild = tbody.lastElementChild;
     const input1Name = tbodyLastChild.cells[0].firstElementChild.firstElementChild.getAttribute('name')
     let inputCount;
@@ -113,12 +113,14 @@ addLigneAchatBtn.addEventListener('click', function () {
     }
 
     newRow.setAttribute('class', 'cursor-pointer bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600')
-    newRow.setAttribute('id', rowCount)
+    newRow.setAttribute('id', "element"+rowCount)
     newRow.innerHTML = LigneCommandeRow.innerHTML
     newRow.cells[0].firstElementChild.firstElementChild.setAttribute('name', 'lignesAchat[element'+inputCount+'][id_produit]')
     newRow.cells[1].firstElementChild.firstElementChild.setAttribute('name', 'lignesAchat[element'+inputCount+'][prix]')
     newRow.cells[2].firstElementChild.firstElementChild.setAttribute('name', 'lignesAchat[element'+inputCount+'][qte]')
     newRow.cells[3].firstElementChild.lastElementChild.setAttribute('name', 'lignesAchat[element'+inputCount+'][remise]')
+    newRow.cells[4].firstElementChild.firstElementChild.setAttribute('name', 'lignesAchat[element'+inputCount+'][date_expiration]')
+    newRow.cells[5].firstElementChild.firstElementChild.setAttribute('name', 'lignesAchat[element'+inputCount+'][total]')
     newRow.lastElementChild.innerHTML = deleteButton;
     
     //alert(LigneCommandeRow.cells[1].firstElementChild.firstElementChild.getAttribute('name'))
@@ -133,12 +135,49 @@ addLigneAchatBtn.addEventListener('click', function () {
 const deleteLigneAchatBtn = document.querySelectorAll('.delete-product')
 deleteLigneAchatBtn.forEach(element => {
     element.addEventListener('click', removeRow)
-});
-
+}); */
 function removeRow(event) {
     const rows = document.querySelectorAll('tbody')[0].rows;
     const tbody = document.querySelector('tbody');
 
     const tbodyChild = Array.from(rows).find(row => row.getAttribute('id') == event.target.getAttribute('id'))
-    tbody.removeChild(tbodyChild)
+    tbodyChild.cells[2].firstElementChild.firstElementChild.value = 0
+    tbodyChild.cells[3].firstElementChild.lastElementChild.value = 0
+}
+
+function calculatTotal(event) {
+    const rows = document.querySelectorAll('tbody')[0].rows;
+    const tbodyChild = Array.from(rows).find(row =>  event.target.getAttribute('name').includes('lignesAchat['+row.getAttribute('id')+']'))
+    const prixInput = tbodyChild.cells[1].firstElementChild.firstElementChild
+    const totalInput = tbodyChild.cells[5].firstElementChild.firstElementChild
+    const qteInput = tbodyChild.cells[2].firstElementChild.firstElementChild
+    const remiseInput = tbodyChild.cells[3].firstElementChild.lastElementChild
+    totalInput.setAttribute('value', Math.round(((prixInput.value) * (qteInput.value))*(1 - (remiseInput.value)/100)*100)/100)
+    
+    
+    /* Calcule de la quantiter total et du prix total */
+    const prixTotal = document.getElementById('prix-total')
+    const totalInputAll = document.querySelectorAll('.total-input')
+    const remiseGlobalInput = document.getElementById('remiseAchat')
+    prixTotal.setAttribute('value', 0)
+    totalInputAll.forEach(element => {
+        if (element.value) {
+            prixTotal.setAttribute('value', Math.round((parseFloat(prixTotal.value) + parseFloat(element.value))*(1-parseFloat(remiseGlobalInput.value)/100)*100)/100)
+        }
+    });
+}
+const fournisseurList = document.getElementById('fournisseur')
+
+fournisseurList.addEventListener('change', filtreProduit)
+
+function filtreProduit() {
+    const rows = document.querySelectorAll('tbody')[0].rows;
+    const noRowFound = document.getElementById('noRowFound')
+    const rowFound = Array.from(rows).map(row => row.firstElementChild.value != this.value && this.value ? row.style.display = "none" : row.style.display = "table-row" )
+    rowFound.find(display => display == 'table-row') == undefined ? noRowFound.style.display = 'table-row' : noRowFound.style.display = 'none' 
+}
+function resetValue(event) {
+    if (event.target.value == 0) {
+        event.target.setAttribute('value', "")
+    }
 }

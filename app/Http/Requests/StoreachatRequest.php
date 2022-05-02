@@ -29,7 +29,6 @@ class StoreachatRequest extends FormRequest
             "remiseAchat" => "nullable|integer",
             "descripiton" => "nillable|string|max:2000",
             "remise" => "max:255",
-            "lignesAchat.*.id_produit" => "required|max:200",
             "lignesAchat.*.prix" => "nullable",
             "lignesAchat.*.devise" => "nullable",
             "lignesAchat.*.remise" => "nullable",
@@ -46,7 +45,6 @@ class StoreachatRequest extends FormRequest
         return [
             'fournisseur.required' => 'Le champ du fournisseur est obligatoire.',
             'fournisseur.integer' => 'Le nom du produit ne peut pas dépasser 255 caractères.',
-            'lignesAchat.*.id_produit.required' => 'Le produit et non specifier dans l\'une des lignes.',
             'descripiton.max' => 'La descripiton ne peut pas dépasser 2000 caractères.',
             'descripiton.string' => 'La descripiton est invalide.',
             'unite.max' => "L'unité ne peut pas dépasser 255 caractères.",

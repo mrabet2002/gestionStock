@@ -70,6 +70,9 @@
                 @endforeach
             </div>
         @endif
+        @php
+            $route = route('fournisseur.store')
+        @endphp
         @include('fournisseur.create_form')
     @endsection
 </x-app-layout>

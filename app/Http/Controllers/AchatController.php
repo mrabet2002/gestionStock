@@ -19,7 +19,7 @@ class AchatController extends Controller
     public function index()
     {
         return view('achat.index')->with([
-            'achats' => Achat::all(),
+            'achats' => Achat::orderBy('updated_at', 'desc')->get(),
         ]);
     }
 
