@@ -52,9 +52,6 @@
                                         </div>
                                     </th>
                                     <th scope="col" class="px-6 py-3">
-                                        
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
                                         Produit
                                     </th>
                                     <th scope="col" class="px-6 py-3">

@@ -267,7 +267,7 @@
             </div>
         </div>
         <!-- Extra Large Modal -->
-        <div id="ajouterFournisseurModal" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-1/2">
+        {{-- <div id="ajouterFournisseurModal" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-1/2">
             <div class="modal-container py-6 relative p-4 w-full h-full md:h-auto">
                 <!-- Modal content -->
                 <div class="modal-content bg-white rounded-lg shadow dark:bg-gray-700">
@@ -298,6 +298,6 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     @endsection
 </x-app-layout>

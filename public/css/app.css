@@ -1406,6 +1406,36 @@ select {
 .border-transparent {
   border-color: transparent;
 }
+.bg-orange-50	  {
+  background-color: rgb(255 247 237);
+}
+.bg-orange-100	{
+  background-color: rgb(255 237 213);
+}
+.bg-orange-200	{
+  background-color: rgb(254 215 170);
+}
+.bg-orange-300	{
+  background-color: rgb(253 186 116);
+}
+.bg-orange-400	{
+  background-color: rgb(251 146 60);
+}
+.bg-orange-500	{
+  background-color: rgb(249 115 22);
+}
+.bg-orange-600	{
+  background-color: rgb(234 88 12);
+}
+.bg-orange-700	{
+  background-color: rgb(194 65 12);
+}
+.bg-orange-800	{
+  background-color: rgb(154 52 18);
+}
+.bg-orange-900	{
+  background-color: rgb(124 45 18);
+}
 .border-indigo-400 {
   --tw-border-opacity: 1;
   border-color: rgb(129 140 248 / var(--tw-border-opacity));
@@ -1433,6 +1463,10 @@ select {
 .bg-indigo-500 {
   --tw-bg-opacity: 1;
   background-color: rgb(99 102 241 / var(--tw-bg-opacity));
+}
+.bg-indigo-400 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(129, 140, 248);
 }
 .bg-red-700 {
   --tw-bg-opacity: 1;
@@ -1484,10 +1518,22 @@ select {
 }
 .object-cover {
   -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
+}
+.float-left{
+  float: left;
+}
+.float-right{
+  float: right;
+}
+.p-1{	
+  padding: 0.25rem;
 }
 .p-2 {
   padding: 0.5rem;
+}
+.p-1\.5{
+  padding: 0.375rem;
 }
 .p-6 {
   padding: 1.5rem;
@@ -1568,6 +1614,12 @@ select {
 }
 .pr-4 {
   padding-right: 1rem;
+}
+.pr-6 {
+  padding-right: 1.5rem;
+}
+.pl-6 {
+  padding-left: 1.5rem;
 }
 .pt-2 {
   padding-top: 0.5rem;
@@ -1902,6 +1954,10 @@ select {
 .hover\:text-indigo-500:hover {
   --tw-text-opacity: 1;
   color: rgb(99 102 241 / var(--tw-text-opacity));
+}
+.hover\:text-indigo-400:hover {
+  --tw-text-opacity: 1;
+  color: rgb(129, 140, 248);
 }
 .focus\:z-10:focus {
   z-index: 10;

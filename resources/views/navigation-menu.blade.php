@@ -37,7 +37,7 @@
                     @endif
                     <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                         <x-jet-nav-link href="{{ route('stock.index') }}" :active="request()->routeIs('stock.index')">
-                            {!! __('Stock') !!}
+                            {!! __('Stocks') !!}
                         </x-jet-nav-link>
                     </div>
                 @endauth
@@ -209,7 +209,7 @@
                     @endif
                     
                     <x-jet-responsive-nav-link href="{{ route('stock.index') }}" :active="request()->routeIs('stock.index')">
-                        {{ __('Stock') }}
+                        {{ __('Stocks') }}
                     </x-jet-responsive-nav-link>
                     <!-- Account Management -->
                     <x-jet-responsive-nav-link href="{{ route('profile.show') }}" :active="request()->routeIs('profile.show')">

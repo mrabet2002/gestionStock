@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Achat;
+use App\Models\Stock;
 use App\Models\Produit;
 use App\Models\Fournisseur;
 use App\Http\Requests\StoreachatRequest;
 use App\Http\Requests\UpdateachatRequest;
+use App\Http\Requests\RecevoirProduitsRequest;
 
 class AchatController extends Controller
 {
@@ -110,11 +112,15 @@ class AchatController extends Controller
      */
     public function edit(Achat $achat)
     {
-        return view('achat.edit')->with([
-            'achat' => $achat,
-            'fournisseurs' => Fournisseur::all(),
-            'produits' => Produit::orderBy('libele', 'asc')->get(),
-        ]);
+        if ($achat->statut != 'Valoriser') {
+            return view('achat.edit')->with([
+                'achat' => $achat,
+                'fournisseurs' => Fournisseur::all(),
+                'produits' => Produit::orderBy('libele', 'asc')->get(),
+            ]);
+        }else {
+            abort(403);
+        }
     }
 
     /**
@@ -126,32 +132,75 @@ class AchatController extends Controller
      */
     public function update(UpdateachatRequest $request, Achat $achat)
     {
-        if($request->validated()){
-            $lignesAchatTotal = $this->getLignesAchat($request->lignesAchat);
-            if (!empty($lignesAchatTotal['lignesAchatValide'])) {
-                $date_creation = $request->date_creation ? $request->date_creation : Carbon::now();
-                $remiseAchat = $request->remiseAchat ? $request->remiseAchat : 0; 
-                $taxe = $request->taxe ? $request->taxe : 0;
-                $achat->update([
-                    "id_user" => auth()->user()->id,
-                    "id_fournisseur" => $request->fournisseur,
-                    "total" => number_format(($lignesAchatTotal['total']*(1-(double)$remiseAchat/100)),2),
-                    "taxe" => $taxe,
-                    "created_at" => $date_creation,
-                    "description" => $request->description,
-                    "devise" => $request->devise,
-                    "remise" => $remiseAchat,
-                ]);
-                $achat->produits()->sync($lignesAchatTotal['lignesAchatValide']);
+        if ($achat->statut != 'Valoriser') {
+            if($request->validated()){
+                $lignesAchatTotal = $this->getLignesAchat($request->lignesAchat);
+                if (!empty($lignesAchatTotal['lignesAchatValide'])) {
+                    $date_creation = $request->date_creation ? $request->date_creation : Carbon::now();
+                    $remiseAchat = $request->remiseAchat ? $request->remiseAchat : 0; 
+                    $taxe = $request->taxe ? $request->taxe : 0;
+                    $achat->update([
+                        "id_user" => auth()->user()->id,
+                        "id_fournisseur" => $request->fournisseur,
+                        "total" => number_format(($lignesAchatTotal['total']*(1-(double)$remiseAchat/100)),2),
+                        "taxe" => $taxe,
+                        "created_at" => $date_creation,
+                        "description" => $request->description,
+                        "devise" => $request->devise,
+                        "remise" => $remiseAchat,
+                    ]);
+                    $achat->produits()->sync($lignesAchatTotal['lignesAchatValide']);
+                }else {
+                    return redirect()->back()->withErrors(['Vous devez ajouer au moins une ligne d\'achat'])->withInput($request->input());
+                }
+                    return redirect()->route('achat.index')->with('success', 'Achat ajouter avec succès.');
             }else {
-                return redirect()->back()->withErrors(['Vous devez ajouer au moins une ligne d\'achat'])->withInput($request->input());
+                return redirect()->back()->withInput($request->input());
             }
-                return redirect()->route('achat.index')->with('success', 'Achat ajouter avec succès.');
+        }else {
+            abort(403);
+        }
+    }
+
+    public function recevoirProduit(RecevoirProduitsRequest $request, Achat $achat)
+    {
+        if($request->validated()){
+            if ($achat->statut == 'En cours') {
+                $date_reception = $request->date_reception ? $request->date_reception : Carbon::now();
+                $achat->update([
+                    'date_reception' => $request->date_reception,
+                    'statut' => 'Livrais'
+                ]);
+                $achat->produits()->sync($request->lignesAchat);
+                return redirect()->route('achat.index')->with('success', 'L\'achat est valider avec succes');
+            }else{
+                return redirect()->back()->withErrors(['Ce achat est déjà'.$achat->statut])->withInput($request->input());
+            }
         }else {
             return redirect()->back()->withInput($request->input());
         }
     }
 
+    public function valoriser(Achat $achat)
+    {
+        if ($achat->statut == 'Livrais') {
+            $achat->update([
+                'statut' => 'Valoriser'
+            ]);
+            foreach ($achat->produits as $key => $produit) {
+                Stock::create([
+                    "id_produit" => $produit->id,
+                    "prix_achat" => $produit->pivot->prix,
+                    "qte" => $produit->pivot->qte_recu,
+                    "qte_disponible" => $produit->pivot->qte_recu,
+                    "date_expiration" => $produit->pivot->date_expiration,
+                ]);
+            }
+            return redirect()->route('achat.index')->with('success', 'L\'achat modifier avec succes');
+        }else{
+            return redirect()->back()->withErrors(['Vous pouvais pas fair cette action.'])->withInput($request->input());
+        }
+    }
     /**
      * Remove the specified resource from storage.
      *

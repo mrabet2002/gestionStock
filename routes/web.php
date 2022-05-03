@@ -72,4 +72,5 @@ Route::post('/stock/modifier-stock/{stock}', [StockController::class, 'update'])
 Route::resource('achat', AchatController::class)->middleware(['auth', 'role:responsable-achat']);
 Route::post('/achat/supprimer-achat/{achat}', [AchatController::class, 'destroy'])->name('achat.destroy')->middleware(['auth', 'role:responsable-achat']);
 Route::post('/achat/modifier-achat/{achat}', [AchatController::class, 'update'])->name('achat.update')->middleware(['auth', 'role:responsable-achat']);
-
+Route::post('/achat/recevoir-produits/{achat}', [AchatController::class, 'recevoirProduit'])->name('achat.recevoir_produits')->middleware(['auth', 'role:responsable-achat']);
+Route::post('/achat/valoriser/{achat}', [AchatController::class, 'valoriser'])->name('achat.valoriser')->middleware(['auth', 'role:responsable-achat']);

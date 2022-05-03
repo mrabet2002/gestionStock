@@ -22,6 +22,8 @@ class Achat extends Model
         "description",
         "devise",
         "remise",
+        "statut",
+        "date_reception"
     ];
     public function getRouteKeyName()
     {
@@ -53,6 +55,6 @@ class Achat extends Model
     public function produits()
     {
         return $this->belongsToMany(Produit::class, 'achat_produit', 'id_achat', 'id_produit')
-        ->withPivot('date_expiration', 'remise', 'qte_demandee', 'qte_recue', 'taxe', 'prix', 'total');
+        ->withPivot('date_expiration', 'remise', 'qte_demandee', 'qte_recu', 'taxe', 'prix', 'total');
     }
 }

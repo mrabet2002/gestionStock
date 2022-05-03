@@ -155,29 +155,125 @@ function calculatTotal(event) {
     totalInput.setAttribute('value', Math.round(((prixInput.value) * (qteInput.value))*(1 - (remiseInput.value)/100)*100)/100)
     
     
-    /* Calcule de la quantiter total et du prix total */
+    remiseGlobal()
+}
+function remiseGlobal() {
     const prixTotal = document.getElementById('prix-total')
     const totalInputAll = document.querySelectorAll('.total-input')
     const remiseGlobalInput = document.getElementById('remiseAchat')
-    prixTotal.setAttribute('value', 0)
+    let total = 0
     totalInputAll.forEach(element => {
         if (element.value) {
-            prixTotal.setAttribute('value', Math.round((parseFloat(prixTotal.value) + parseFloat(element.value))*(1-parseFloat(remiseGlobalInput.value)/100)*100)/100)
+            total += parseFloat(element.value)
         }
     });
+    prixTotal.setAttribute('value', Math.round((total*(1-(remiseGlobalInput.value)/100))*100)/100)
 }
+
 const fournisseurList = document.getElementById('fournisseur')
 
 fournisseurList.addEventListener('change', filtreProduit)
 
 function filtreProduit() {
     const rows = document.querySelectorAll('tbody')[0].rows;
+    const options = document.getElementsByTagName('option')
+    const deviseInput = document.getElementById('devise')
+    const totalDevise = document.getElementById('total-devise')
+    let devise = Array.from(options).find(option => option.value == this.value).getAttribute('devise')
+    deviseInput.value = devise
+    totalDevise.innerText = devise
     const noRowFound = document.getElementById('noRowFound')
     const rowFound = Array.from(rows).map(row => row.firstElementChild.value != this.value && this.value ? row.style.display = "none" : row.style.display = "table-row" )
     rowFound.find(display => display == 'table-row') == undefined ? noRowFound.style.display = 'table-row' : noRowFound.style.display = 'none' 
 }
+
 function resetValue(event) {
     if (event.target.value == 0) {
         event.target.setAttribute('value', "")
     }
+}
+function chercherLigne(event) {
+    const rows = document.querySelectorAll('tbody')[0].rows;
+    const chercherPar = document.querySelectorAll('.filtrer-par')
+    let cellIndex = 2;
+    if (Array.from(chercherPar).find(radio => radio.checked)) {
+        cellIndex = Array.from(chercherPar).find(radio => radio.checked).value
+    }
+    Array.from(rows).map(row => {
+        row.cells[cellIndex].innerText.toLowerCase().includes(event.target.value.toLowerCase()) ? row.style.display = 'table-row' : row.style.display = 'none'
+    })
+}
+
+
+function trierString(event, cellIndex) {
+    
+    const rows = document.querySelectorAll('tbody')[0].rows;
+    const tbody = document.querySelectorAll('tbody')
+    const ordre = event.target.getAttribute('ordre')
+    switch (ordre) {
+        case 'asc':
+            lignesTrier = Array.from(rows).sort((a,b) => {
+                if (a.cells[cellIndex].innerText.toLowerCase() < b.cells[cellIndex].innerText.toLowerCase()) {
+                    return 1;
+                }else{
+                    return -1;
+                }
+            })
+            event.target.setAttribute('ordre', 'desc')
+            event.target.style.transform = "rotate(180deg)";
+            break;
+        case 'desc':
+            
+            lignesTrier = Array.from(rows).sort((a,b) => {
+                if (a.cells[cellIndex].innerText.toLowerCase() > b.cells[cellIndex].innerText.toLowerCase()) {
+                    return 1;
+                }else{
+                    return -1;
+                }
+            })
+            event.target.setAttribute('ordre', 'asc')
+            event.target.style.transform = "rotate(0deg)";
+            break;
+        default:
+            break;
+    }
+    
+    tbody[0].innerHTML = "" 
+    lignesTrier.map(ligne => tbody[0].appendChild(ligne))
+    
+}
+function trierNum(event, cellIndex) {
+    const rows = document.querySelectorAll('tbody')[0].rows;
+    const tbody = document.querySelectorAll('tbody')
+    const ordre = event.target.getAttribute('ordre')
+    switch (ordre) {
+        case 'asc':
+            lignesTrier = Array.from(rows).sort((a,b) => {
+                if (parseInt(a.cells[cellIndex].innerText) < parseInt(b.cells[cellIndex].innerText)) {
+                    return 1;
+                }else{
+                    return -1;
+                }
+            })
+            event.target.setAttribute('ordre', 'desc')
+            event.target.style.transform = "rotate(180deg)";
+            break;
+        case 'desc':
+            
+            lignesTrier = Array.from(rows).sort((a,b) => {
+                if (parseInt(a.cells[cellIndex].innerText) > parseInt(b.cells[cellIndex].innerText)) {
+                    return 1;
+                }else{
+                    return -1;
+                }
+            })
+            event.target.setAttribute('ordre', 'asc')
+            event.target.style.transform = "rotate(0deg)";
+            break;
+        default:
+            break;
+    }
+    
+    tbody[0].innerHTML = "" 
+    lignesTrier.map(ligne => tbody[0].appendChild(ligne))
 }

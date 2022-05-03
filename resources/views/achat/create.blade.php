@@ -3,7 +3,7 @@
         <div class="font-semibold text-xl text-gray-800 leading-tight">
             <div class="sm:flex justify-between">
                 <div class="py-2">
-                    {{ __("Créer un ordre d'chat") }}
+                    {{ __("Créer un ordre d'achat") }}
                 </div>
                 <div class="py-1">
                         <button data-modal-toggle="annulerFormModal" type="button" class="cursor-pointer inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-500 btn-indigo transition" >
@@ -89,7 +89,7 @@
                                                         <option disabled>Désolés, nous ne trouvant pas de fournisseurs</option>
                                                     @else
                                                         @foreach ($fournisseurs as $fournisseur)
-                                                            <option value="{{$fournisseur->id}}" {{$fournisseur->id == old('fournisseur') ? "selected" : ""}}>
+                                                            <option devise="{{$fournisseur->devise}}" value="{{$fournisseur->id}}" {{$fournisseur->id == old('fournisseur') ? "selected" : ""}}>
                                                                 {{$fournisseur->name}}
                                                             </option>
                                                         @endforeach
@@ -101,7 +101,9 @@
                                         <div class="col-span-6 ">
                                             <label for="description" class="block text-sm font-medium text-gray-700"> Description </label>
                                             <div class="mt-1">
-                                                <textarea id="description" name="description" rows="6" class="w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md"></textarea>
+                                                <textarea id="description" name="description" rows="6" class="w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md">
+                                                    {{old('devie')}}
+                                                </textarea>
                                             </div>
                                             <p class="mt-2 text-sm text-gray-500">Description brève du fournisseur.</p>
                                         </div>
@@ -119,7 +121,9 @@
                                     <div class="grid grid-cols-6 gap-6">
                                         <div class="col-span-6">
                                             <label for="date_creation" class="block text-sm font-medium text-gray-700">Date de création</label>
-                                            <input type="date" step="0.01" name="date_creation" id="date_creation" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                            <input type="date" step="0.01" name="date_creation" id="date_creation" 
+                                            value="{{old('date_creation') ? old('date_creation') : (new DateTime())->format('Y-m-d')}}"
+                                            class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                             <p class="mt-2 text-sm text-gray-500">Si aucune date n'est indiquée, la date du jour est prise par défaut.</p>
                                         </div>
                 
@@ -127,18 +131,20 @@
                                             <label for="remiseAchat" class="block text-sm font-medium text-gray-700"> Remise Globale </label>
                                             <div class="mt-1 flex rounded-md shadow-sm">
                                                 <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm"> % </span>
-                                                <input type="number" name="remiseAchat" id="remiseAchat" value="{{old('remiseAchat')}}" class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300">
+                                                <input type="number" name="remiseAchat" id="remiseAchat" value="{{old('remiseAchat')}}" 
+                                                class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300"
+                                                onkeyup="remiseGlobal()">
                                             </div>
                                         </div>
 
                                         <div class="col-span-6 sm:col-span-3">
                                             <label for="devie" class="block text-sm font-medium text-gray-700">Devise</label>
-                                            <input type="text" name="devie" id="devie" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                            <input type="text" name="devie" id="devise" value="{{old('devie')}}" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                         </div>
                 
                                         <div class="col-span-6">
                                             <label for="taxe" class="block text-sm font-medium text-gray-700">Taxe</label>
-                                            <input type="number" step="0.01" name="taxe" id="taxe" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                            <input type="number" step="0.01" name="taxe" id="taxe" value="{{old('taxe')}}" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                         </div>
                                     </div>
                                 </div>
@@ -227,6 +233,43 @@
                                                             <h4 class="py-3 text-md font-bold">Aucun produit trouver pour ce fournisseur.</h4>
                                                         </td>
                                                     </tr>
+                                            </tbody>
+                                        </table>
+                                        <div class="flex justify-end">
+                                            <div class="card shadow-md border w-1/2 mt-3">
+                                                <div class="card-body">
+                                                    <table>
+                                                        <tr>
+                                                            <th class="px-6 py-4 text-sm uppercase text-left text-gray-900 dark:text-white whitespace-nowrap">Total</th>
+                                                            <td class="relative px-6 py-4 text-right w-full">
+                                                                <input id="prix-total" disabled style="border-bottom: 1px dashed gray;" type="number" step="0.01" name="total" value="{{old('total') ? old('total') : 0}}" class="text-gray-500 border-0">
+                                                                <span id="total-devise" style="top: 1.5rem; right: 1.5rem;" class="absolute block inline-flex items-center px-3 border-0 text-gray-500 text-sm">DH</span>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+    @endsection
+    @section('script')
+        <script src="/js/script.js"></script>
+    @endsection
+</x-app-layout>
+
+
+
+
+
+
+
+
                                                 {{-- <tr id="LigneCommandeRow" style="display: none">
                                                     <td class="produitCell px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
                                                         <div class="flex justify-between">
@@ -387,35 +430,3 @@
                                                         </td>
                                                     </tr>
                                                 @endif --}}
-                                            </tbody>
-                                        </table>
-                                        <div class="flex justify-end">
-                                            <div class="card shadow-md border w-1/2 mt-3">
-                                                <div class="card-head">
-                                                    <h3 class="text-lg font-bold leading-6 text-gray-900">Details d'achat</h3>
-                                                </div><hr>
-                                                <div class="card-body">
-                                                    <table>
-                                                        <tr>
-                                                            <th class="px-6 py-4 text-sm uppercase text-left text-gray-900 dark:text-white whitespace-nowrap">Total</th>
-                                                            <td class="relative px-6 py-4 text-right w-full">
-                                                                <input id="prix-total" style="border-bottom: 1px dashed gray;" type="number" step="0.01" name="total" value="{{old('total') ? old('total') : 0}}" class="text-gray-500 border-0">
-                                                                <span style="top: 1.5rem; right: 1.5rem;" class="absolute block inline-flex items-center px-3 border-0 text-gray-500 text-sm">DH</span>
-                                                            </td>
-                                                        </tr>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-    @endsection
-    @section('script')
-        <script src="/js/script.js"></script>
-    @endsection
-</x-app-layout>
