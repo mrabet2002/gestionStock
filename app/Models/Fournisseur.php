@@ -37,9 +37,18 @@ class Fournisseur extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function produits(): HasMany
+    public function produits()
     {
         
         return $this->hasMany(Produit::class);
+    }
+    /**
+     * Get all of the achats for the Fournisseur
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function achats()
+    {
+        return $this->hasMany(Achat::class, 'id_fournisseur');
     }
 }

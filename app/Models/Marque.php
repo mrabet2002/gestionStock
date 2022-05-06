@@ -8,6 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Marque extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        "id_user",
+        "libele",
+        "logo",
+        "descripiton",
+    ];
     /**
      * Get all of the produits for the Marque
      *

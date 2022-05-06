@@ -159,7 +159,7 @@
                                                             $achat_produit = null;
                                                         @endphp
                                                     @endif
-                                                    <tr id="{{$produit->id}}" style="{{$achat->fournisseur->id == $produit->fournisseur->id ? "display:table-row;" : "display:none;"}}" class="cursor-pointer bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                                    <tr id="{{$produit->id}}" class="cursor-pointer bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                                                         <input type="hidden" value="{{$produit->fournisseur->id}}">
                                                         <td class="produitCell px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
                                                             <div class="col-span-6">

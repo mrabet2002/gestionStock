@@ -47,7 +47,7 @@ class AchatController extends Controller
     public function store(StoreachatRequest $request)
     {
         if($request->validated()){
-            $lignesAchatTotal = $this->getLignesAchat($request->lignesAchat);
+            $lignesAchatTotal = $this->getLignesAchat($request->lignesAchat, $request->fournisseur);
             if (!empty($lignesAchatTotal['lignesAchatValide'])) {
                 $date_creation = $request->date_creation ? $request->date_creation : Carbon::now();
                 $remiseAchat = $request->remiseAchat ? $request->remiseAchat : 0; 
@@ -73,7 +73,7 @@ class AchatController extends Controller
         
     }
 
-    public function getLignesAchat($lignesAchat)
+    public function getLignesAchat($lignesAchat, $fournisseur)
     {
         $lignesAchatValide = [];
         if (isset($lignesAchat)) {
@@ -116,7 +116,7 @@ class AchatController extends Controller
             return view('achat.edit')->with([
                 'achat' => $achat,
                 'fournisseurs' => Fournisseur::all(),
-                'produits' => Produit::orderBy('libele', 'asc')->get(),
+                'produits' => Produit::where('id_fournisseur',$achat->id_fournisseur)->get(),
             ]);
         }else {
             abort(403);

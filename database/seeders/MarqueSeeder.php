@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Marque;
 use Illuminate\Database\Seeder;
 
 class MarqueSeeder extends Seeder
@@ -13,6 +14,6 @@ class MarqueSeeder extends Seeder
      */
     public function run()
     {
-        //
+        Marque::factory()->count(10)->create();
     }
 }

@@ -37,9 +37,9 @@ class Produit extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function stocks(): HasMany
+    public function stocks()
     {
-        return $this->hasMany(Stock::class);
+        return $this->hasMany(Stock::class, 'id_produit');
     }
     /**
      * Get the categorie that owns the Produit
@@ -67,5 +67,14 @@ class Produit extends Model
     public function fournisseur()
     {
         return $this->belongsTo(Fournisseur::class, 'id_fournisseur');
+    }
+    /**
+     * The achats that belong to the Produit
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function achats()
+    {
+        return $this->belongsToMany(Achat::class);
     }
 }

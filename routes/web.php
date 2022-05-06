@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AchatController;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\ProduitController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FournisseurController;
 
 /*
@@ -26,9 +27,14 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified'
 ])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+});
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified'
+])->group(function () {
+    Route::get('/dashboard/produits-non-pas-en-stock', [DashboardController::class, 'prosuitsNotInStock'])->name('dashboard.prosuitsNotInStock');
 });
 
 /* Produit routes */
