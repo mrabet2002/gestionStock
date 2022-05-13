@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="grid grid-cols-2 font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="md:grid md:grid-cols-2 font-semibold text-xl text-gray-800 leading-tight">
             <div class="flex items-center">
                 {{ __('Stock') }}
             </div>
@@ -13,8 +13,8 @@
                             </span>
                         </a>
                     @endif
-                    @if (auth()->user()->roles()->where('slug', 'vendeur')->exists())
-                        <a href="{{route('achat.index')}}" type="button" class="btn btn-indigo inline-flex items-center transition">
+                    @if (auth()->user()->roles()->where('slug', 'vendeur')->orWhere('slug', 'responsable-vente')->exists())
+                        <a href="{{route('vente.index')}}" type="button" class="btn btn-indigo inline-flex items-center transition">
                             <span>
                                 Bons de commande
                             </span>

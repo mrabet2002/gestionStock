@@ -195,7 +195,7 @@ function resetValue(event) {
 function chercherLigne(event) {
     const rows = document.querySelectorAll('tbody')[0].rows;
     const chercherPar = document.querySelectorAll('.filtrer-par')
-    let cellIndex = 2;
+    let cellIndex = 1;
     if (Array.from(chercherPar).find(radio => radio.checked)) {
         cellIndex = Array.from(chercherPar).find(radio => radio.checked).value
     }
@@ -276,4 +276,13 @@ function trierNum(event, cellIndex) {
     
     tbody[0].innerHTML = "" 
     lignesTrier.map(ligne => tbody[0].appendChild(ligne))
+}
+
+function checkAllToggel(event) {
+    let checkboxs = document.querySelectorAll('.checkboxs')
+    if (event.target.checked == true) {
+        Array.from(checkboxs).map(checkbox => checkbox.checked = true)
+    }else if(event.target.checked == false){
+        Array.from(checkboxs).map(checkbox => checkbox.checked = false)
+    }
 }

@@ -12,7 +12,7 @@ class Marque extends Model
         "id_user",
         "libele",
         "logo",
-        "descripiton",
+        "description",
     ];
     /**
      * Get all of the produits for the Marque

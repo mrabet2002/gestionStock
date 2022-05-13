@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
+use Illuminate\Support\Facades\File;
 use App\Http\Requests\StoreClientRequest;
 use App\Http\Requests\UpdateClientRequest;
 
@@ -15,7 +16,9 @@ class ClientController extends Controller
      */
     public function index()
     {
-        //
+        return view('client.index')->with([
+            'clients' => Client::orderBy('name', 'asc')->get(),
+        ]);
     }
 
     /**
@@ -25,7 +28,7 @@ class ClientController extends Controller
      */
     public function create()
     {
-        //
+        return view('client.create');
     }
 
     /**
@@ -36,7 +39,35 @@ class ClientController extends Controller
      */
     public function store(StoreClientRequest $request)
     {
-        //
+        $request->validated();
+        $fileName = null;
+        if($request->has("fichier_attache")){
+            $file = $request->fichier_attache;
+            $fileName = time()."_".$file->getClientOriginalName();
+            $file->move(public_path("uploads/"),$fileName);
+        }
+        try {
+            Client::create([
+                "id_user" => $request->user()->id,
+                "num_client" => $request->num_client,
+                "name" => $request->nom,
+                "email" => $request->email,
+                "tel" => $request->tel,
+                "site_web" => $request->site_web,
+                "adresse" => $request->adresse,
+                "code_postal" => $request->code_postal,
+                "pays" => $request->pays,
+                "ville" => $request->ville,
+                "description" => $request->description,
+                "devise" => $request->devise,
+                "statut" => $request->statut,
+                "fichier_attacher" => $fileName,
+            ]);
+            return redirect()->route('client.index')->with('success', 'Le client est ajouté avec succès');
+            
+        } catch (\Throwable $th) {
+            return redirect()->back()->withErrors(['Erreur'])->withInput($request->input());
+        }
     }
 
     /**
@@ -47,7 +78,9 @@ class ClientController extends Controller
      */
     public function show(Client $client)
     {
-        //
+        return view('client.show')->with([
+            'client' => $client,
+        ]);
     }
 
     /**
@@ -58,7 +91,9 @@ class ClientController extends Controller
      */
     public function edit(Client $client)
     {
-        //
+        return view('client.edit')->with([
+            'client' => $client,
+        ]);
     }
 
     /**
@@ -70,7 +105,34 @@ class ClientController extends Controller
      */
     public function update(UpdateClientRequest $request, Client $client)
     {
-        //
+        $request->validated();
+        if($request->has("fichier_attache")){
+            $file_path = public_path('uploads\\'.$request->fichier_attache);
+            if(File::exists($file_path)){
+                unlink($file_path);
+            }
+            $file = $request->fichier_attache;
+            $fileName = time()."_".$file->getClientOriginalName();
+            $file->move(public_path("uploads/"),$fileName);
+            $client->fichier_attacher = $fileName;
+        }
+        $client->update([
+            "id_user" => $request->user()->id,
+            "num_client" => $request->num_client,
+            "name" => $request->nom,
+            "email" => $request->email,
+            "tel" => $request->tel,
+            "site_web" => $request->site_web,
+            "adresse" => $request->adresse,
+            "code_postal" => $request->code_postal,
+            "pays" => $request->pays,
+            "ville" => $request->ville,
+            "description" => $request->description,
+            "devise" => $request->devise,
+            'statut' => $request->statut,
+            "fichier_attacher" => $client->fichier_attacher,
+        ]);
+        return redirect()->route('client.show', $client)->with('success', 'Le client est modifié avec succès');
     }
 
     /**
@@ -81,6 +143,13 @@ class ClientController extends Controller
      */
     public function destroy(Client $client)
     {
-        //
+        if ($client->fichier_attache) {
+            $file_path = public_path("uploads\\".$client->fichier_attache);
+            if (File::exists($file_path)) {
+                unlink($file_path);
+            }
+        }
+        $client->delete();
+        return redirect()->route('client.index')->with("success", "Le client est supperimé avec succès.");
     }
 }

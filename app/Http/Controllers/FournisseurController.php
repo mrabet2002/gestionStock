@@ -70,7 +70,7 @@ class FournisseurController extends Controller
             }
             
         } catch (\Throwable $th) {
-            return redirect()->back()->withErrors(['Erreur']);
+            return redirect()->back()->withErrors(['Erreur'])->withInput($request->input());
         }
     }
 
@@ -138,7 +138,7 @@ class FournisseurController extends Controller
             ]);
             return redirect()->route('fournisseur.index')->with('success', 'Le fournisseur est modifié avec succès');
         } catch (\Throwable $th) {
-            return redirect()->back()->withErrors(['Erreur']);
+            return redirect()->back()->withErrors(['Erreur'])->withInput($request->input());
         }
     }
 

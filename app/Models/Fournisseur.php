@@ -40,7 +40,7 @@ class Fournisseur extends Model
     public function produits()
     {
         
-        return $this->hasMany(Produit::class);
+        return $this->hasMany(Produit::class, 'id_fournisseur');
     }
     /**
      * Get all of the achats for the Fournisseur

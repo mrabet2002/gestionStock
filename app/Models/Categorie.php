@@ -16,7 +16,7 @@ class Categorie extends Model
     protected $fillable = [
         "id_user",
         "libele",
-        "descripiton",
+        "description",
     ];
     
     /**

@@ -6,6 +6,7 @@ use App\Models\Marque;
 use App\Models\produit;
 use App\Models\Categorie;
 use App\Models\Fournisseur;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use App\Http\Requests\StoreproduitRequest;
 use App\Http\Requests\UpdateproduitRequest;
@@ -62,7 +63,7 @@ class ProduitController extends Controller
                 "libele" => $request->libele,
                 "image" => $imageName,
                 "code_barre" => $request->code_barre,
-                "descripiton" => $request->descripiton,
+                "description" => $request->description,
                 "min_stock" => $request->min_stock,
                 "prix_initial" => $request->prix_initial,
                 "poids" => $request->poids,
@@ -170,6 +171,15 @@ class ProduitController extends Controller
             return redirect()->route("produit.index")->with("success", "Le produit est supperimé avec succès.");
         } catch (\Throwable $th) {
             return redirect()->back()->withErrors(['Erreur']);
+        }
+    }
+    public function destroyGroup(Request $request)
+    {
+        if ($request->produits_a_supprimer) {
+            Produit::whereIn('id', $request->produits_a_supprimer)->delete();
+            return redirect()->back()->with("success", "Les produits sont supperimés avec succès.");
+        }else {
+            return redirect()->back()->withErrors(['Aucun produit selectionner']);
         }
     }
 }

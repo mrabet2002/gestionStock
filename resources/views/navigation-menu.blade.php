@@ -35,6 +35,13 @@
                             </x-jet-nav-link>
                         </div>
                     @endif
+                    @if(auth()->user()->roles()->where('slug', 'responsable-vente')->orWhere('slug', 'vendeur')->exists())
+                        <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <x-jet-nav-link href="{{ route('client.index') }}" :active="request()->routeIs('client.index')">
+                                {!! __('Clients') !!}
+                            </x-jet-nav-link>
+                        </div>
+                    @endif
                     <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                         <x-jet-nav-link href="{{ route('stock.index') }}" :active="request()->routeIs('stock.index')">
                             {!! __('Stocks') !!}
@@ -43,7 +50,7 @@
                 @endauth
             </div>
             
-            <div class="hidden sm:flex sm:items-center sm:ml-6">
+            <div class="hidden sm:flex sm:items-center sm:ml-6 z-50">
                 <!-- Teams Dropdown -->
                 @auth
                     @if (Laravel\Jetstream\Jetstream::hasTeamFeatures())

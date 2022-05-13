@@ -14,39 +14,24 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        
-        $stocks = DB::select('SELECT s.*, min_stock, libele , f.name as fournisseur
-        FROM stocks s 
-        INNER JOIN produits p ON s.id_produit = p.id 
-        INNER JOIN fournisseurs f ON p.id_fournisseur = f.id
-        WHERE s.qte <= p.min_stock AND p.id NOT IN
-        (SELECT id_produit FROM stocks s INNER JOIN produits p
-        ON s.id_produit = p.id WHERE s.qte > p.min_stock);');
+        $variablesToReturn = [];
+        if (auth()->user()->roles()->where('slug', 'responsable-achat')->exists()) {
+            $stocks = $this->getStockStatistics();
+            $stocks = collect($stocks);
+            $fournisseurs = $this->getFournisseursStatistics();
+            $produitsNotInStockCount = $this->getProsuitsNotInStockCount();
+            $produitsNotInStock = $this->getProsuitsNotInStock(5);
 
-        $fournisseurs = DB::select(
-            'SELECT 
-            fournisseurs.* , 
-            Format((sum(qte_recu)*100)/sum(qte_demandee), 2) as rapport_total 
-            from achats inner JOIN achat_produit
-            on achats.id = id_achat inner JOIN fournisseurs on id_fournisseur = fournisseurs.id
-            WHERE qte_recu IS NOT NULL 
-            AND YEAR(achats.date_reception) = YEAR(?)
-            AND MONTH(achats.date_reception) = MONTH(?)
-            GROUP BY id_fournisseur;',
-            [Carbon::now(), Carbon::now()]
-        );
-
-        $stocks = collect($stocks);
-
-        $produitsNotInStockCount = $this->getProsuitsNotInStockCount();
-        $produitsNotInStock = $this->getProsuitsNotInStock(5);
-
-        return view('dashboard.index')->with([
-            'stocks'=> $stocks,
-            'produitsNotInStock' => $produitsNotInStock,
-            'produitsNotInStockCount' => $produitsNotInStockCount,
-            'fournisseurs' => $fournisseurs
-        ]);
+            $variablesToReturn = [
+                'stocks'=> $stocks,
+                'produitsNotInStock' => $produitsNotInStock,
+                'produitsNotInStockCount' => $produitsNotInStockCount,
+                'fournisseurs' => $fournisseurs
+            ];
+        }elseif (auth()->user()->roles()->where('slug', 'responsable-vente')->exists()) {
+            
+        }
+        return view('dashboard.index')->with($variablesToReturn);
     }
     public function prosuitsNotInStock()
     {
@@ -54,6 +39,7 @@ class DashboardController extends Controller
             'prosuitsNotInStock' => $this->getProsuitsNotInStock(),
         ]);
     }
+    /* ===============================================R.Achat Dashboard Functions============================================== */
     /* 
         retourner les produits 
         qui ne sont pas en stock
@@ -96,6 +82,40 @@ class DashboardController extends Controller
         )->first();
         return $produitsNotInStockCount;
     }
+    /* 
+     */
+    private function getFournisseursStatistics()
+    {
+        return DB::select(
+            'SELECT 
+            fournisseurs.* , 
+            Format((sum(qte_recu)*100)/sum(qte_demandee), 2) as rapport_total 
+            from achats inner JOIN achat_produit
+            on achats.id = id_achat inner JOIN fournisseurs on id_fournisseur = fournisseurs.id
+            WHERE qte_recu IS NOT NULL 
+            AND YEAR(achats.date_reception) = YEAR(?)
+            AND MONTH(achats.date_reception) = MONTH(?)
+            GROUP BY id_fournisseur;',
+            [Carbon::now(), Carbon::now()]
+        );
+    }
+    /* 
+     */
+    private function getStockStatistics()
+    {
+        return DB::select('SELECT s.*, min_stock, libele , f.name as fournisseur
+        FROM stocks s 
+        INNER JOIN produits p ON s.id_produit = p.id 
+        INNER JOIN fournisseurs f ON p.id_fournisseur = f.id
+        WHERE s.qte <= p.min_stock AND p.id NOT IN
+        (SELECT id_produit FROM stocks s INNER JOIN produits p
+        ON s.id_produit = p.id WHERE s.qte > p.min_stock);');
+    }
+    /* ===============================================R.Vente Dashboard Functions============================================== */
+    private function getStocksAboutToExp()
+    {
+    }
+
 }
 
 

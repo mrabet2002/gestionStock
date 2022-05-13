@@ -1,86 +1,139 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="flex justify-between font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Produits') }}
-            <span class="rounded-md">
-                <a href="{{route('produit.create')}}" type="button" class="cursor-pointer btn-indigo inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-indigo-500 active:bg-gray-50 transition">
-                    <span class="mr-3">
-                        Créer
-                    </span>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                        <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
-                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-                    </svg>
-                </a>
-            </span>
+            <div class="flex items-center">
+                {{ __('Produits') }}
+            </div>
+            <div class="text-right">
+                <span class="rounded-md">
+                    <a href="{{route('produit.create')}}" type="button" class="cursor-pointer btn-indigo inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-indigo-500 active:bg-gray-50 transition">
+                        <span class="mr-3">
+                            Créer Un Produit
+                        </span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                        </svg>
+                    </a>
+                    <a type="button" id="dropdownAutreButton" data-dropdown-toggle="dropdownAutre" class="cursor-pointer btn-indigo inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-indigo-500 active:bg-gray-50 transition">
+                        <span class="mr-3">
+                            Autre
+                        </span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-square" viewBox="0 0 16 16">
+                            <path d="M3.626 6.832A.5.5 0 0 1 4 6h8a.5.5 0 0 1 .374.832l-4 4.5a.5.5 0 0 1-.748 0l-4-4.5z"/>
+                            <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm15 0a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2z"/>
+                        </svg>
+                    </a>
+                    <div id="dropdownAutre" class="z-10 shadow-lg border-2 hidden bg-white divide-y divide-gray-100 rounded shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
+                        <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownAutreButton">
+                            <li class="cursor-pointer block flex justify-between px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">                                        
+                                <a href="{{route('categorie.index')}}">
+                                    <div class="py-2">
+                                        Catégorie
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="cursor-pointer block flex justify-between px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">                                        
+                                <a href="{{route('marque.index')}}">
+                                    <div class="py-2">
+                                        Marque
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </span>
+            </div>
         </h2>
     </x-slot>
     @section('content')
-    @if (session()->has('success'))
-        <div class="success-container">
-            <div class="success bg-red-100 border px-3 py-3 rounded-lg" role="alert">
-                <svg class="dark:text-gray-200" width="5%" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                <span class="px-3">{{ session()->get('success') }}</span>
+        @if (session()->has('success'))
+            <div class="success-container">
+                <div class="success bg-red-100 border px-3 py-3 rounded-lg" role="alert">
+                    <svg class="dark:text-gray-200" width="5%" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <span class="px-3">{{ session()->get('success') }}</span>
+                </div>
             </div>
-        </div>
-    @endif
+        @endif
+        @if ($errors->any())
+                <div class="alert-container">
+                    @foreach ($errors->all() as $error)
+                        <div class="alert bg-red-100 border px-3 py-3 rounded-lg" role="alert">
+                            <svg class="dark:text-gray-200" width="5%" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <span class="px-3">{{ $error }}</span>
+                        </div>
+                    @endforeach
+                </div>
+        @endif
         <div class=" py-12">
             <div class="w-3/4 mx-auto px-6 py-12 bg-white border-0 shadow-lg rounded-lg">
                 <div class="relative overflow-x-auto">
                     <div class="py-3 px-3">
                         <label for="table-search">Search</label>
-                        <div class="flex">
-                            <div class="relative mt-1">
-                                <input type="text" id="table-search" value="" 
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-80 pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                                placeholder="Search for items"
-                                onkeyup="chercherLigne(event)">
+                        <div class="md:grid md:grid-cols-2 gap-6">
+                            <div class="flex">
+                                <div class="relative mt-1">
+                                    <input type="text" id="table-search" value="" 
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-80 pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                                    placeholder="Search for items"
+                                    onkeyup="chercherLigne(event)">
+                                </div>
+                                <div class="flex align-center">
+                                    <div class="px-6 flex align-center">
+                                        <button class="text-indigo-500 hover:text-indigo-400 transition" type="button" id="dropdownDividerButton" data-dropdown-toggle="dropdownDivider" data-dropdown-placement="right-start">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" fill="currentColor" class="bi bi-funnel-fill" viewBox="0 0 16 16">
+                                                <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2z"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    <!-- Dropdown menu -->
+                                    <div id="dropdownDivider" class="z-10 shadow-lg border-2 hidden bg-white divide-y divide-gray-100 rounded shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
+                                        <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDividerButton">
+                                        <li class="cursor-pointer block flex justify-between px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">                                        
+                                            <div class="py-2">
+                                                Libelé
+                                            </div>
+                                            <div class="py-2">
+                                                <input id="2" value="2" type="radio" name="filtrer-par" class="filtrer-par w-4 h-4 text-indigo-600 bg-gray-100 border-gray-300 rounded-full focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                            </div>
+                                        </li>
+                                        <li class="cursor-pointer block flex justify-between px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">                                        
+                                            <div class="py-2">
+                                                Fournisseur
+                                            </div>
+                                            <div class="pl-6 py-2">
+                                                <input id="3" value="3" type="radio" name="filtrer-par" class="filtrer-par w-4 h-4 text-indigo-600 bg-gray-100 border-gray-300 rounded-full focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                            </div>
+                                        </li>
+                                        <li class="cursor-pointer block flex justify-between px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">                                        
+                                            <div class="py-2">
+                                                Catégorie
+                                            </div>
+                                            <div class="pl-6 py-2">
+                                                <input id="4" value="4" type="radio" name="filtrer-par" class="filtrer-par w-4 h-4 text-indigo-600 bg-gray-100 border-gray-300 rounded-full focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                            </div>
+                                        </li>
+                                        <li class="cursor-pointer block flex justify-between px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">                                        
+                                            <div class="py-2">
+                                                Marque
+                                            </div>
+                                            <div class="pl-6 py-2">
+                                                <input id="5" value="5" type="radio" name="filtrer-par" class="filtrer-par w-4 h-4 text-indigo-600 bg-gray-100 border-gray-300 rounded-full focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                            </div>
+                                        </li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="flex align-center">
-                                <div class="px-6 flex align-center">
-                                    <button class="text-indigo-500 hover:text-indigo-400 transition" type="button" id="dropdownDividerButton" data-dropdown-toggle="dropdownDivider" data-dropdown-placement="right-start">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" fill="currentColor" class="bi bi-funnel-fill" viewBox="0 0 16 16">
-                                            <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2z"/>
+                            <div class="flex justify-end align-center">
+                                <form action="{{route('produit.destroyGroup')}}" method="post" id="supprimerProduits">
+                                    @csrf
+                                    <button class="btn btn-red w-fit" form="supprimerProduits">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                            <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
                                         </svg>
                                     </button>
-                                </div>
-                                <!-- Dropdown menu -->
-                                <div id="dropdownDivider" class="z-10 shadow-lg border-2 hidden bg-white divide-y divide-gray-100 rounded shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
-                                    <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDividerButton">
-                                    <li class="cursor-pointer block flex justify-between px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">                                        
-                                        <div class="py-2">
-                                            Libelé
-                                        </div>
-                                        <div class="py-2">
-                                            <input id="2" value="2" type="radio" name="filtrer-par" class="filtrer-par w-4 h-4 text-indigo-600 bg-gray-100 border-gray-300 rounded-full focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                        </div>
-                                    </li>
-                                    <li class="cursor-pointer block flex justify-between px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">                                        
-                                        <div class="py-2">
-                                            Fournisseur
-                                        </div>
-                                        <div class="pl-6 py-2">
-                                            <input id="3" value="3" type="radio" name="filtrer-par" class="filtrer-par w-4 h-4 text-indigo-600 bg-gray-100 border-gray-300 rounded-full focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                        </div>
-                                    </li>
-                                    <li class="cursor-pointer block flex justify-between px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">                                        
-                                        <div class="py-2">
-                                            Catégorie
-                                        </div>
-                                        <div class="pl-6 py-2">
-                                            <input id="4" value="4" type="radio" name="filtrer-par" class="filtrer-par w-4 h-4 text-indigo-600 bg-gray-100 border-gray-300 rounded-full focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                        </div>
-                                    </li>
-                                    <li class="cursor-pointer block flex justify-between px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">                                        
-                                        <div class="py-2">
-                                            Marque
-                                        </div>
-                                        <div class="pl-6 py-2">
-                                            <input id="5" value="5" type="radio" name="filtrer-par" class="filtrer-par w-4 h-4 text-indigo-600 bg-gray-100 border-gray-300 rounded-full focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                        </div>
-                                    </li>
-                                    </ul>
-                                </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -89,11 +142,10 @@
                                 <tr>
                                     <th scope="col" class="py-4 px-4">
                                         <div class="flex items-center">
-                                            <input id="checkbox-all-search" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                            <input id="checkbox-all-search" type="checkbox" 
+                                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                            onclick="checkAllToggel(event)">
                                         </div>
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        
                                     </th>
                                     <th scope="col" class="px-6 py-3">
                                         <div class="flex justify-between">
@@ -153,13 +205,8 @@
                                     <tr class="cursor-pointer bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                                         <td class="w-4 px-4">
                                             <div class="flex items-center">
-                                                <input id="checkbox-table-search-1" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                                <input form="supprimerProduits" id="{{$produit->id}}" value="{{$produit->id}}" name="produits_a_supprimer[{{$produit->id}}]" type="checkbox" class="checkboxs w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                             </div>
-                                        </td>
-                                        <td scope="row" style="width: 7%" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                                            @if ($produit->image)
-                                                <img src="/uploads/{{$produit->image}}" alt="{{$produit->libele}}" width="100%" class="inline-flex invisible sm:visible">
-                                            @endif
                                         </td>
                                         <td scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white">
                                             {{$produit->libele}}

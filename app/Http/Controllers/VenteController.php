@@ -15,7 +15,9 @@ class VenteController extends Controller
      */
     public function index()
     {
-        //
+        return view('vente.index')->with([
+            'ventes' => Vente::orderBy('updated_at', 'desc')->get(),
+        ]);
     }
 
     /**

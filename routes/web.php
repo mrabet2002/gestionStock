@@ -3,7 +3,11 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AchatController;
 use App\Http\Controllers\StockController;
+use App\Http\Controllers\VenteController;
+use App\Http\Controllers\ClientController;
+use App\Http\Controllers\MarqueController;
 use App\Http\Controllers\ProduitController;
+use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FournisseurController;
 
@@ -48,6 +52,7 @@ Route::get('/produit/modifier-produit/{produit}', [ProduitController::class, 'ed
 Route::resource('produit', ProduitController::class)->middleware(['auth', 'role:responsable-achat']);
 Route::post('/produit/modifier-produit/{produit}', [ProduitController::class, 'update'])->name('produit.update')->middleware(['auth', 'role:responsable-achat']); 
 Route::post('/produit/supprimer-produit/{produit}', [ProduitController::class, 'destroy'])->name('produit.destroy')->middleware(['auth', 'role:responsable-achat']);
+Route::post('/produit/supprimer-produits', [ProduitController::class, 'destroyGroup'])->name('produit.destroyGroup')->middleware(['auth', 'role:responsable-achat']);
 
 
 /* Fournisseur routes */
@@ -80,3 +85,25 @@ Route::post('/achat/supprimer-achat/{achat}', [AchatController::class, 'destroy'
 Route::post('/achat/modifier-achat/{achat}', [AchatController::class, 'update'])->name('achat.update')->middleware(['auth', 'role:responsable-achat']);
 Route::post('/achat/recevoir-produits/{achat}', [AchatController::class, 'recevoirProduit'])->name('achat.recevoir_produits')->middleware(['auth', 'role:responsable-achat']);
 Route::post('/achat/valoriser/{achat}', [AchatController::class, 'valoriser'])->name('achat.valoriser')->middleware(['auth', 'role:responsable-achat']);
+
+/* Clients routes */
+Route::resource('client', ClientController::class)->middleware(['auth', 'role:responsable-vente,vendeur']);;
+Route::post('/client/modifier-client/{client}', [ClientController::class, 'update'])->name('client.update')->middleware(['auth', 'role:responsable-vente,vendeur']);
+Route::post('/client/supprimer-client/{client}', [ClientController::class, 'destroy'])->name('client.destroy')->middleware(['auth', 'role:responsable-vente,vendeur']);
+
+/* Vente routes */
+Route::resource('vente', VenteController::class)->middleware(['auth', 'role:responsable-vente,vendeur']);
+Route::post('/vente/supprimer-vente/{vente}', [VenteController::class, 'destroy'])->name('vente.destroy')->middleware(['auth', 'role:responsable-vente,vendeur']);
+Route::post('/vente/modifier-vente/{vente}', [VenteController::class, 'update'])->name('vente.update')->middleware(['auth', 'role:responsable-vente,vendeur']);
+Route::post('/vente/recevoir-produits/{vente}', [VenteController::class, 'recevoirProduit'])->name('vente.recevoir_produits')->middleware(['auth', 'role:responsable-vente,vendeur']);
+Route::post('/vente/valoriser/{vente}', [VenteController::class, 'valoriser'])->name('vente.valoriser')->middleware(['auth', 'role:responsable-vente,vendeur']);
+
+/* Categorie routes */
+Route::resource('categorie', CategorieController::class)->middleware(['auth', 'role:responsable-vente,vendeur']);;
+Route::post('/categorie/modifier-categorie/{categorie}', [CategorieController::class, 'update'])->name('categorie.update')->middleware(['auth', 'role:responsable-achat']);
+Route::post('/categorie/supprimer-categorie/{categorie}', [CategorieController::class, 'destroy'])->name('categorie.destroy')->middleware(['auth', 'role:responsable-achat']);
+
+/* Marque routes */
+Route::resource('marque', MarqueController::class)->middleware(['auth', 'role:responsable-vente,vendeur']);;
+Route::post('/marque/modifier-marque/{marque}', [MarqueController::class, 'update'])->name('marque.update')->middleware(['auth', 'role:responsable-achat']);
+Route::post('/marque/supprimer-marque/{marque}', [MarqueController::class, 'destroy'])->name('marque.destroy')->middleware(['auth', 'role:responsable-achat']);
