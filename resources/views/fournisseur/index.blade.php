@@ -1,7 +1,9 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="flex justify-between font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Fournisseurs') }}
+            <div class="flex items-center">
+                {{ __('Fournisseurs') }}
+            </div>
             <span class="rounded-md">
                 <a href="{{route('fournisseur.create')}}" type="button" class="inline-flex items-center btn btn-indigo transition">
                     <span class="mr-3">
@@ -112,7 +114,7 @@
                                                 Nom
                                             </div>
                                             <div class="cursor-pointer rounded ordre-icone transition">
-                                                <svg onclick="trierString(event, 2)" ordre="desc" id="trie-icone" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="cursor-pointer bi bi-arrow-down" viewBox="0 0 16 16">
+                                                <svg onclick="trierString(event, 2, 'body')" ordre="desc" id="trie-icone" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="cursor-pointer bi bi-arrow-down" viewBox="0 0 16 16">
                                                     <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"/>
                                                 </svg>
                                             </div>
@@ -124,7 +126,7 @@
                                                 E-Mail
                                             </div>
                                             <div class="cursor-pointer rounded ordre-icone transition">
-                                                <svg onclick="trierString(event, 3)" ordre="desc" id="trie-icone" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="cursor-pointer bi bi-arrow-down" viewBox="0 0 16 16">
+                                                <svg onclick="trierString(event, 3, 'body')" ordre="desc" id="trie-icone" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="cursor-pointer bi bi-arrow-down" viewBox="0 0 16 16">
                                                     <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"/>
                                                 </svg>
                                             </div>
@@ -136,7 +138,7 @@
                                                 Adresse
                                             </div>
                                             <div class="cursor-pointer rounded ordre-icone transition">
-                                                <svg onclick="trierString(event, 4)" ordre="desc" id="trie-icone" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="cursor-pointer bi bi-arrow-down" viewBox="0 0 16 16">
+                                                <svg onclick="trierString(event, 4, 'body')" ordre="desc" id="trie-icone" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="cursor-pointer bi bi-arrow-down" viewBox="0 0 16 16">
                                                     <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"/>
                                                 </svg>
                                             </div>
@@ -147,7 +149,7 @@
                                     </th>
                                 </tr>
                             </thead>
-                            <tbody id="table">
+                            <tbody id="table" class="body">
                                 <div class="fournisseurs" style="display: none;">
                                     {{$fournisseurs}}
                                 </div>

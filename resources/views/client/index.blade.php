@@ -1,7 +1,9 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="flex justify-between font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('clients') }}
+            <div class="flex items-center">
+                {{ __('Clients') }}
+            </div>
             <span class="rounded-md">
                 <a href="{{route('client.create')}}" type="button" class="inline-flex items-center btn btn-indigo transition">
                     <span class="mr-3">

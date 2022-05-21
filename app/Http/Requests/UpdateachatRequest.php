@@ -44,12 +44,9 @@ class UpdateachatRequest extends FormRequest
     {
         return [
             'fournisseur.required' => 'Le champ du fournisseur est obligatoire.',
-            'fournisseur.integer' => 'Le nom du produit ne peut pas dépasser 255 caractères.',
+            'fournisseur.integer' => 'Le fournisseur est invalide.',
             'descripiton.max' => 'La descripiton ne peut pas dépasser 2000 caractères.',
             'descripiton.string' => 'La descripiton est invalide.',
-            'unite.max' => "L'unité ne peut pas dépasser 255 caractères.",
-            'zone.max' => "L'emplacement ne peut pas dépasser 255 caractères.",
-            'categorie.required' => 'Vous devez choisir une categorie.',
         ];
     }
 }

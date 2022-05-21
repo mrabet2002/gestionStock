@@ -68,7 +68,7 @@
             </div>
         @endif
             <div class="containerc">
-                <form action="{{route('achat.store')}}" method="POST" enctype="multipart/form-data" id="achatData">
+                <form action="{{route('vente.store')}}" method="POST" enctype="multipart/form-data" id="achatData">
                     @csrf
                     <div class="sm:mt-0">
                         <div class="md:grid md:grid-cols-2 md:gap-6 overflow-hidden">
@@ -102,7 +102,7 @@
                                             <label for="description" class="block text-sm font-medium text-gray-700"> Description </label>
                                             <div class="mt-1">
                                                 <textarea id="description" name="description" rows="6" class="w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md">
-                                                    {{old('devie')}}
+                                                    {{old('description')}}
                                                 </textarea>
                                             </div>
                                             <p class="mt-2 text-sm text-gray-500">Description brève du fournisseur.</p>
@@ -133,7 +133,7 @@
                                                 <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm"> % </span>
                                                 <input type="number" name="remiseAchat" id="remiseAchat" value="{{old('remiseAchat')}}" 
                                                 class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300"
-                                                onkeyup="remiseGlobal()">
+                                                onkeyup="remiseGlobal('remiseAchat')">
                                             </div>
                                         </div>
 
@@ -180,59 +180,59 @@
                                                     </th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
+                                            <tbody class="lignesAhat-body">
                                                 @foreach ($produits as $produit)
-                                                        <tr id="{{$produit->id}}" style="{{$produit->fournisseur->id == old('fournisseur') ? "display:none;" : ""}}" class="cursor-pointer bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                                            <input type="hidden" value="{{$produit->fournisseur->id}}">
-                                                            <td class="produitCell px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                                                                <div class="col-span-6">
-                                                                    {{$produit->libele}}
-                                                                </div>
-                                                            </td>
-                                                            <td class="prixCell px-6 py-4">
-                                                                <div class="col-span-6">
-                                                                    <input type="number" step="0.01" name="lignesAchat[{{$produit->id}}][prix]" 
-                                                                    value="{{old('lignesAchat.'.$produit->id.'.prix') ? old('lignesAchat.'.$produit->id.'.prix') : $produit->prix_initial}}" 
-                                                                    class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                                                                    onkeyup="calculatTotal(event)">
-                                                                </div>
-                                                            </td>
-                                                            <td class="px-6 py-4">
-                                                                <div class="mt-1 flex rounded-md shadow-sm">
-                                                                    <input type="number" name="lignesAchat[{{$produit->id}}][qte_demandee]" 
-                                                                    value="{{old('lignesAchat.'.$produit->id.'.qte_demandee') ? old('lignesAchat.'.$produit->id.'.qte_demandee') : 0}}" 
-                                                                    class="qte-input focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-md sm:text-sm border-gray-300"
-                                                                    onkeyup="calculatTotal(event)"
-                                                                    onclick="resetValue(event)">
-                                                                </div>
-                                                            </td>
-                                                            <td class="px-6 py-4">
-                                                                <div class="mt-1 flex rounded-md shadow-sm">
-                                                                    <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm"> % </span>
-                                                                    <input type="number" name="lignesAchat[{{$produit->id}}][remise]" 
-                                                                    value="{{old('lignesAchat.'.$produit->id.'.remise') ? old('lignesAchat.'.$produit->id.'.remise') : 0}}" 
-                                                                    class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300"
-                                                                    onkeyup="calculatTotal(event)"
-                                                                    onclick="resetValue(event)">
-                                                                </div>
-                                                            </td>
-                                                            <td class="px-6 py-4">
-                                                                <div class="mt-1 flex rounded-md shadow-sm">
-                                                                    <input type="date" name="lignesAchat[{{$produit->id}}][date_expiration]" value="{{old('lignesAchat.'.$produit->id.'.date_expiration')}}" class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-md sm:text-sm border-gray-300">
-                                                                </div>
-                                                            </td>
-                                                            <td class="px-6 py-4">
-                                                                <div class="mt-1 flex rounded-md shadow-sm">
-                                                                    <input type="number" step="0.01" name="lignesAchat[{{$produit->id}}][total]" value="{{old('lignesAchat.'.$produit->id.'.total')}}" class="total-input focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-md sm:text-sm border-gray-300">
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                    @endforeach
-                                                    <tr id="noRowFound" style="display: none" class="cursor-pointer bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                                        <td class="px-6 py-4 text-center" colspan="8">
-                                                            <h4 class="py-3 text-md font-bold">Aucun produit trouver pour ce fournisseur.</h4>
+                                                    <tr id="{{$produit->id}}" style="{{$produit->fournisseur->id == old('fournisseur') ? "display:none;" : ""}}" class="cursor-pointer bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                                        <input type="hidden" value="{{$produit->fournisseur->id}}">
+                                                        <td class="produitCell px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
+                                                            <div class="col-span-6">
+                                                                {{$produit->libele}}
+                                                            </div>
+                                                        </td>
+                                                        <td class="prixCell px-6 py-4">
+                                                            <div class="col-span-6">
+                                                                <input type="number" step="0.01" name="lignesAchat[{{$produit->id}}][prix]" 
+                                                                value="{{old('lignesAchat.'.$produit->id.'.prix') ? old('lignesAchat.'.$produit->id.'.prix') : $produit->prix_initial}}" 
+                                                                class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                                                                onkeyup="calculatTotal(event, 'lignesAhat-body', 'remiseAchat')">
+                                                            </div>
+                                                        </td>
+                                                        <td class="px-6 py-4">
+                                                            <div class="mt-1 flex rounded-md shadow-sm">
+                                                                <input type="number" name="lignesAchat[{{$produit->id}}][qte_demandee]" 
+                                                                value="{{old('lignesAchat.'.$produit->id.'.qte_demandee') ? old('lignesAchat.'.$produit->id.'.qte_demandee') : 0}}" 
+                                                                class="qte-input focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-md sm:text-sm border-gray-300"
+                                                                onkeyup="calculatTotal(event, 'lignesAhat-body', 'remiseAchat')"
+                                                                onclick="resetValue(event)">
+                                                            </div>
+                                                        </td>
+                                                        <td class="px-6 py-4">
+                                                            <div class="mt-1 flex rounded-md shadow-sm">
+                                                                <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm"> % </span>
+                                                                <input type="number" name="lignesAchat[{{$produit->id}}][remise]" 
+                                                                value="{{old('lignesAchat.'.$produit->id.'.remise') ? old('lignesAchat.'.$produit->id.'.remise') : 0}}" 
+                                                                class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300"
+                                                                onkeyup="calculatTotal(event, 'lignesAhat-body', 'remiseAchat')"
+                                                                onclick="resetValue(event)">
+                                                            </div>
+                                                        </td>
+                                                        <td class="px-6 py-4">
+                                                            <div class="mt-1 flex rounded-md shadow-sm">
+                                                                <input type="date" name="lignesAchat[{{$produit->id}}][date_expiration]" value="{{old('lignesAchat.'.$produit->id.'.date_expiration')}}" class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-md sm:text-sm border-gray-300">
+                                                            </div>
+                                                        </td>
+                                                        <td class="px-6 py-4">
+                                                            <div class="mt-1 flex rounded-md shadow-sm">
+                                                                <input type="number" step="0.01" name="lignesAchat[{{$produit->id}}][total]" value="{{old('lignesAchat.'.$produit->id.'.total')}}" class="total-input focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-md sm:text-sm border-gray-300">
+                                                            </div>
                                                         </td>
                                                     </tr>
+                                                @endforeach
+                                                <tr id="noRowFound" style="display: none" class="cursor-pointer bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                                    <td class="px-6 py-4 text-center" colspan="8">
+                                                        <h4 class="py-3 text-md font-bold">Aucun produit trouver pour ce fournisseur.</h4>
+                                                    </td>
+                                                </tr>
                                             </tbody>
                                         </table>
                                         <div class="flex justify-end">

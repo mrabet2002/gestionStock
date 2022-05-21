@@ -51,7 +51,7 @@
                                         Date de creation
                                     </th>
                                     <th scope="col" class="px-6 py-3">
-                                        Date de reception
+                                        Date de livraison
                                     </th>
                                     <th scope="col" class="px-6 py-3">
                                         Total
@@ -88,19 +88,14 @@
                                             </td>
                                             <td class="px-6 py-4">
                                                 @switch($vente->statut)
-                                                    @case('En cours')
-                                                        <div class="bg-gray-500 font-bold py-1 px-3 rounded text-white text-center" style="width: fit-content">
-                                                            En cours
-                                                        </div>
-                                                        @break
-                                                    @case('Livrais')
+                                                    @case('Éditer')
                                                         <div class="bg-orange-500 font-bold py-1 px-3 rounded text-white text-center" style="width: fit-content">
-                                                            Livrais
+                                                            Éditer
                                                         </div>
                                                         @break
-                                                    @case('Valoriser')
+                                                    @case('Valider')
                                                         <div class="bg-green-500 font-bold py-1 px-3 rounded text-white text-center" style="width: fit-content">
-                                                            Valoriser
+                                                            Valider
                                                         </div>
                                                         @break
                                                     @default

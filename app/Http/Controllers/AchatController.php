@@ -70,7 +70,6 @@ class AchatController extends Controller
         }else {
             return redirect()->back()->withInput($request->input());
         }
-        
     }
 
     public function getLignesAchat($lignesAchat, $fournisseur)

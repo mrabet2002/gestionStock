@@ -95,7 +95,7 @@ Route::post('/client/supprimer-client/{client}', [ClientController::class, 'dest
 Route::resource('vente', VenteController::class)->middleware(['auth', 'role:responsable-vente,vendeur']);
 Route::post('/vente/supprimer-vente/{vente}', [VenteController::class, 'destroy'])->name('vente.destroy')->middleware(['auth', 'role:responsable-vente,vendeur']);
 Route::post('/vente/modifier-vente/{vente}', [VenteController::class, 'update'])->name('vente.update')->middleware(['auth', 'role:responsable-vente,vendeur']);
-Route::post('/vente/recevoir-produits/{vente}', [VenteController::class, 'recevoirProduit'])->name('vente.recevoir_produits')->middleware(['auth', 'role:responsable-vente,vendeur']);
+Route::post('/vente/valider/{vente}', [VenteController::class, 'validerVente'])->name('vente.validerVente')->middleware(['auth', 'role:responsable-vente,vendeur']);
 Route::post('/vente/valoriser/{vente}', [VenteController::class, 'valoriser'])->name('vente.valoriser')->middleware(['auth', 'role:responsable-vente,vendeur']);
 
 /* Categorie routes */

@@ -27,6 +27,8 @@ console.log(fournisseursJSON.find(fournisseur => fournisseur.num_fournisseur == 
     })
 } */
 
+const { replace } = require("lodash")
+
 /* Array.from(rows).find(row => row.cells[1].innerText == 1).cells[1].innerText */
 
 
@@ -136,31 +138,151 @@ const deleteLigneAchatBtn = document.querySelectorAll('.delete-product')
 deleteLigneAchatBtn.forEach(element => {
     element.addEventListener('click', removeRow)
 }); */
+function ajouterLigneVente(event) {
+    if (event.target.checked == true) {
+        let body = document.querySelector('.table-lignesvente-body')
+        const ligneVente = document.querySelector('tr#'+event.target.getAttribute('id'))
+        body.appendChild(ligneVente)
+    }else{
+        let body = document.querySelector('.table-produits-body')
+        const ligneVente = document.querySelector('tr#'+event.target.getAttribute('id'))
+        body.appendChild(ligneVente)
+    }
+}
+
+function dragStart(event) {
+    event.dataTransfer.setData('text/plain', event.target.id);
+    setTimeout(()=>{
+        event.target.classList.add('hidden')
+    }, 0)
+}
+function dragEnd(event) {
+    event.target.classList.remove('hidden')
+}
+function dragEnter(event) {
+    let dropZoneTop = document.getElementById('drop-zone-top')
+    event.preventDefault()
+    dropZoneTop.classList.remove('hidden')
+    dropZoneTop.classList.add('drag-over');
+}
+
+function dragOver(event) {
+    let dropZoneTop = document.getElementById('drop-zone-top')
+    event.preventDefault()
+    dropZoneTop.classList.remove('hidden')
+    dropZoneTop.classList.add('drag-over');
+}
+
+function dragLeave(event) {
+    let dropZoneTop = document.getElementById('drop-zone-top')
+    dropZoneTop.classList.add('hidden');
+    dropZoneTop.classList.remove('drag-over');
+}
+
+function drop(event) {
+    let dropZoneTop = document.getElementById('drop-zone-top')
+    let dropZone = document.getElementById('drop-zone')
+    dropZoneTop.classList.add('hidden')
+    dropZone.classList.remove('drag-over');
+    dropZone.classList.add('ligne-produit');
+
+    // get the draggable element
+    const id = event.dataTransfer.getData('text/plain');
+    const draggable = document.getElementById(id);
+    if ((Array.from(dropZone.rows).find(row => row.getAttribute('id') == id.replace('produit-', 'ligneVente-'))) == undefined) {
+        for (let i = 0; i < 6; i++) {
+            draggable.cells[i].classList.remove('hidden');
+        }
+        draggable.cells[1].firstElementChild.firstElementChild.setAttribute('name', 'lignesVente['+id.replace('produit-', '')+'][prix]')
+        draggable.cells[2].firstElementChild.firstElementChild.setAttribute('name', 'lignesVente['+id.replace('produit-', '')+'][qte_demandee]')
+        draggable.cells[3].firstElementChild.lastElementChild.setAttribute('name', 'lignesVente['+id.replace('produit-', '')+'][remise]')
+        draggable.cells[4].firstElementChild.firstElementChild.setAttribute('name', 'lignesVente['+id.replace('produit-', '')+'][date_expiration]')
+        draggable.cells[5].firstElementChild.firstElementChild.setAttribute('name', 'lignesVente['+id.replace('produit-', '')+'][total]')
+        draggable.cells[5].firstElementChild.firstElementChild.classList.add('total-input')
+        draggable.setAttribute('id', id.replace('produit-', 'ligneVente-'))
+        // add it to the drop target
+        
+        dropZone.appendChild(draggable);
+        // display the draggable element
+    }
+    draggable.classList.remove('hidden');
+}
+function SourceDragEnter(event) {
+    let dropZoneTop = document.getElementById('source-zone-top')
+    event.preventDefault()
+    dropZoneTop.classList.remove('hidden')
+    dropZoneTop.classList.add('drag-over');
+}
+
+function SourceDragOver(event) {
+    let dropZoneTop = document.getElementById('source-zone-top')
+    event.preventDefault()
+    dropZoneTop.classList.remove('hidden')
+    dropZoneTop.classList.add('drag-over');
+}
+
+function SourceDragLeave(event) {
+    let dropZoneTop = document.getElementById('source-zone-top')
+    dropZoneTop.classList.add('hidden');
+    dropZoneTop.classList.remove('drag-over');
+}
+
+function SourceDrop(event) {
+    let dropZoneTop = document.getElementById('source-zone-top')
+    let dropZone = document.getElementById('source-zone')
+    dropZoneTop.classList.add('hidden')
+    dropZone.classList.remove('drag-over');
+    dropZone.classList.remove('ligne-produit');
+
+    // get the draggable element
+    const id = event.dataTransfer.getData('text/plain');
+    console.log(event.dataTransfer.getData('text/plain'))
+    const draggable = document.getElementById(id);
+    for (let i = 0; i < 6; i++) {
+        if (i > 0) {
+            draggable.cells[i].classList.add('hidden');
+        }
+    }
+    draggable.cells[1].firstElementChild.firstElementChild.setAttribute('name', '')
+    draggable.cells[2].firstElementChild.firstElementChild.setAttribute('name', '')
+    draggable.cells[3].firstElementChild.lastElementChild.setAttribute('name', '')
+    draggable.cells[4].firstElementChild.firstElementChild.setAttribute('name', '')
+    draggable.cells[5].firstElementChild.firstElementChild.setAttribute('name', '')
+    draggable.cells[5].firstElementChild.firstElementChild.classList.remove('total-input')
+    let repeatedChild = Array.from(dropZone.rows).find(row => row.getAttribute('id') == id.replace('ligneVente-', 'produit-'))
+    if (repeatedChild != undefined) {
+        dropZone.removeChild(repeatedChild)
+    }
+    draggable.setAttribute('id', id.replace('ligneVente-', 'produit-'))
+    // add it to the drop target
+    dropZone.appendChild(draggable);
+    // display the draggable element
+    draggable.classList.remove('hidden');
+}
+
+
 function removeRow(event) {
     const rows = document.querySelectorAll('tbody')[0].rows;
-    const tbody = document.querySelector('tbody');
-
     const tbodyChild = Array.from(rows).find(row => row.getAttribute('id') == event.target.getAttribute('id'))
     tbodyChild.cells[2].firstElementChild.firstElementChild.value = 0
     tbodyChild.cells[3].firstElementChild.lastElementChild.value = 0
 }
 
-function calculatTotal(event) {
-    const rows = document.querySelectorAll('tbody')[0].rows;
-    const tbodyChild = Array.from(rows).find(row =>  event.target.getAttribute('name').includes('lignesAchat['+row.getAttribute('id')+']'))
+function calculatTotal(event, bodyClass, inputRemiseId) {
+    const rows = document.querySelectorAll('.'+bodyClass)[0].rows;
+    const tbodyChild = Array.from(rows).find(row =>  event.target.getAttribute('name').includes('['+row.getAttribute('id').replace('ligneVente-', '')+']'))
     const prixInput = tbodyChild.cells[1].firstElementChild.firstElementChild
     const totalInput = tbodyChild.cells[5].firstElementChild.firstElementChild
     const qteInput = tbodyChild.cells[2].firstElementChild.firstElementChild
     const remiseInput = tbodyChild.cells[3].firstElementChild.lastElementChild
     totalInput.setAttribute('value', Math.round(((prixInput.value) * (qteInput.value))*(1 - (remiseInput.value)/100)*100)/100)
-    
-    
-    remiseGlobal()
+    remiseGlobal(inputRemiseId)
 }
-function remiseGlobal() {
+function remiseGlobal(inputRemiseId) {
     const prixTotal = document.getElementById('prix-total')
     const totalInputAll = document.querySelectorAll('.total-input')
-    const remiseGlobalInput = document.getElementById('remiseAchat')
+    console.log(totalInputAll)
+    const remiseGlobalInput = document.getElementById(inputRemiseId)
     let total = 0
     totalInputAll.forEach(element => {
         if (element.value) {
@@ -187,15 +309,27 @@ function filtreProduit() {
     rowFound.find(display => display == 'table-row') == undefined ? noRowFound.style.display = 'table-row' : noRowFound.style.display = 'none' 
 }
 
+function defaultProperties(event) {
+    const options = document.getElementsByTagName('option')
+    const deviseInput = document.getElementById('devise')
+    const adresseInput = document.getElementById('adresse_livraison')
+    const totalDevise = document.getElementById('total-devise')
+    let selectedOption = Array.from(options).find(option => option.value == event.target.value)
+    let devise = selectedOption.getAttribute('devise')
+    let adresse = selectedOption.getAttribute('adresse')
+    deviseInput.value = devise
+    adresseInput.value = adresse
+    totalDevise.innerText = devise
+}
+
 function resetValue(event) {
     if (event.target.value == 0) {
         event.target.setAttribute('value', "")
     }
 }
-function chercherLigne(event) {
-    const rows = document.querySelectorAll('tbody')[0].rows;
+function chercherLigne(event, bodyClass, cellIndex) {
+    const rows = document.querySelectorAll('.'+bodyClass)[0].rows;
     const chercherPar = document.querySelectorAll('.filtrer-par')
-    let cellIndex = 1;
     if (Array.from(chercherPar).find(radio => radio.checked)) {
         cellIndex = Array.from(chercherPar).find(radio => radio.checked).value
     }
@@ -205,10 +339,10 @@ function chercherLigne(event) {
 }
 
 
-function trierString(event, cellIndex) {
+function trierString(event, cellIndex, bodyClass) {
     
-    const rows = document.querySelectorAll('tbody')[0].rows;
-    const tbody = document.querySelectorAll('tbody')
+    const rows = document.querySelectorAll('.'+bodyClass)[0].rows;
+    const tbody = document.querySelectorAll('.'+bodyClass)
     const ordre = event.target.getAttribute('ordre')
     switch (ordre) {
         case 'asc':
@@ -233,8 +367,6 @@ function trierString(event, cellIndex) {
             })
             event.target.setAttribute('ordre', 'asc')
             event.target.style.transform = "rotate(0deg)";
-            break;
-        default:
             break;
     }
     
@@ -286,3 +418,5 @@ function checkAllToggel(event) {
         Array.from(checkboxs).map(checkbox => checkbox.checked = false)
     }
 }
+
+

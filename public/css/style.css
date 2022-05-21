@@ -216,6 +216,9 @@ input::-webkit-inner-spin-button {
 .ordre-icone:hover{
     background-color: #8789fa;
 }
+.drag-over{
+    border: dashed 3px rgb(239 68 68);
+}
 @media(max-width: 920px){
     .welcome-container{
         display: block;
