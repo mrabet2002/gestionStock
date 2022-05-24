@@ -50,7 +50,7 @@
                 @endauth
             </div>
             
-            <div class="hidden sm:flex sm:items-center sm:ml-6 z-50">
+            <div class="hidden sm:flex sm:items-center sm:ml-6 z-200">
                 <!-- Teams Dropdown -->
                 @auth
                     @if (Laravel\Jetstream\Jetstream::hasTeamFeatures())

@@ -201,7 +201,7 @@
                                             <table class="w-full mt-5 text-sm text-left text-gray-500 dark:text-gray-400">
                                                 <thead class="text-xs text-white uppercase bg-blue-500 dark:bg-gray-700 dark:text-gray-400">
                                                     <tr class="block relative">
-                                                        <th scope="col" class="px-6 py-4">
+                                                        <th scope="col" class="px-6 py-4 w-1/2">
                                                             <div class="flex justify-between">
                                                                 <div class="flex align-center">
                                                                     Produits
@@ -213,17 +213,30 @@
                                                                 </div>
                                                             </div>
                                                         </th>
+                                                        <th scope="col" class="px-6 py-4">
+                                                            <div class="flex justify-between">
+                                                                <div class="flex align-center">
+                                                                    Quantité en stock
+                                                                </div>
+                                                                <div class="cursor-pointer rounded ordre-icone transition">
+                                                                    <svg onclick="trierNum(event, 6, 'table-produits-body')" ordre="desc" id="trie-icone" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="cursor-pointer bi bi-arrow-down" viewBox="0 0 16 16">
+                                                                        <path onclick="trierNum(event, 6, 'table-produits-body')" ordre="desc" fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"/>
+                                                                    </svg>
+                                                                </div>
+                                                            </div>
+                                                        </th>
                                                     </tr>
                                                 </thead>
                                                 <tbody  class="border border-gray-500 border-2 block table-produits-body" id="source-zone" style="height: 300px; overflow: auto"
                                                 ondragenter="SourceDragEnter(event)"
                                                 ondragover="SourceDragOver(event)">
                                                     @foreach ($produits as $produit)
+                                                    
                                                         <tr draggable="true" id="produit-{{$produit->id}}" 
-                                                            class="cursor-pointer block w-full bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                                                            class="cursor-pointer flex justify-between align-center w-full bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                                                             ondragstart="dragStart(event)"
                                                             ondragend="dragEnd(event)">
-                                                            <td class="produitCell px-6 py-4 font-medium text-gray-900 dark:text-white" style="width: 17%">
+                                                            <td class="produitCell px-6 py-4 font-medium text-gray-900 dark:text-white w-1/4">
                                                                 <div class="mt-1 flex">
                                                                     {{$produit->libele}}
                                                                 </div>
@@ -263,6 +276,20 @@
                                                             <td class="px-2 py-4 hidden" style="width: 15%">
                                                                 <div class="mt-1 flex">
                                                                     <input type="number" step="0.01" name="" value="" class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-md sm:text-sm border-gray-300">
+                                                                </div>
+                                                            </td>
+                                                            <td class="px-6 py-4 font-medium text-gray-900 dark:text-white">
+                                                                @if ($produit->stocks->where('id_produit', $produit->id)->sum('qte_disponible') > 0)
+                                                                    @php
+                                                                        $color = 'green'
+                                                                    @endphp
+                                                                @else
+                                                                    @php
+                                                                        $color = 'red'
+                                                                    @endphp
+                                                                @endif
+                                                                <div class="cursor-pointer bg-{{$color}}-500 hover:bg-{{$color}}-600 shadow font-bold py-1 px-3 rounded text-white transition">
+                                                                    {{$produit->stocks->where('id_produit', $produit->id)->sum('qte_disponible')}}
                                                                 </div>
                                                             </td>
                                                         </tr>

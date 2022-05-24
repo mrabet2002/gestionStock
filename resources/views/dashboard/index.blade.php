@@ -18,20 +18,17 @@
                         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                             <thead class="text-xs text-white uppercase bg-gray-500 dark:bg-gray-700 dark:text-gray-400">
                                 <tr>
-                                    <th scope="col" class="px-6 py-3">
+                                    <th scope="col" class="px-4 py-3 w-fit">
                                         Produit
                                     </th>
-                                    <th scope="col" class="px-6 py-3">
+                                    <th scope="col" class="px-4 py-3 w-fit">
                                         Fournisseur
                                     </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Reél
+                                    <th scope="col" class="px-4 py-3 w-fit">
+                                        Qté disponible
                                     </th>
-                                    <th scope="col" class="px-6 py-3">
+                                    <th scope="col" class="px-4 py-3 w-fit">
                                         Minimun
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        prix d'achat
                                     </th>
                                 </tr>
                             </thead>
@@ -39,14 +36,14 @@
                                 @if ($stocks->count() > 0)
                                     @foreach ($stocks as $stock)
                                         <tr class="bg-gray-100 border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                            <td scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white">
+                                            <td scope="row" class="px-4 py-4 font-medium text-gray-900 dark:text-white">
                                                 {{$stock->libele}}
                                             </td>
-                                            <td scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white">
+                                            <td scope="row" class="px-4 py-4 font-medium text-gray-900 dark:text-white">
                                                 {{$stock->fournisseur}}
                                             </td>
-                                            <td scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white">
-                                                @if ($stock->qte == $stock->min_stock)
+                                            <td scope="row" class="px-4 py-4 text-center font-medium text-gray-900 dark:text-white">
+                                                @if ($stock->qte_total == $stock->min_stock)
                                                     @php
                                                         $color = 'orange'
                                                     @endphp
@@ -55,17 +52,14 @@
                                                         $color = 'red'
                                                     @endphp
                                                 @endif
-                                                <div class="cursor-pointer bg-{{$color}}-500 hover:bg-{{$color}}-600 shadow font-bold py-1 px-3 rounded text-white text-center transition">
-                                                    {{$stock->qte}}
+                                                <div class="cursor-pointer w-fit bg-{{$color}}-500 hover:bg-{{$color}}-600 shadow font-bold py-1 px-3 rounded text-white text-center transition">
+                                                    {{$stock->qte_total}}
                                                 </div>
                                             </td>
-                                            <td scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white">
+                                            <td scope="row" class="px-4 py-4 font-medium text-gray-900 dark:text-white">
                                                 <div class="cursor-pointer bg-gray-400 hover:bg-gray-500 shadow font-bold py-1 px-3 rounded text-white text-center transition">
                                                     {{$stock->min_stock}}
                                                 </div>
-                                            </td>
-                                            <td scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white">
-                                                {{$stock->prix_achat}}
                                             </td>
                                         </tr>
                                     @endforeach

@@ -16,8 +16,16 @@ class DashboardController extends Controller
     {
         $variablesToReturn = [];
         if (auth()->user()->roles()->where('slug', 'responsable-achat')->exists()) {
-            $stocks = $this->getStockStatistics();
-            $stocks = collect($stocks);
+            $stocks = Stock::join('produits', 'produits.id', '=', 'stocks.id_produit')
+            ->join('fournisseurs', 'fournisseurs.id', '=', 'produits.id_fournisseur')
+            ->select('id_produit', 'name as fournisseur' ,'libele', 'min_stock', DB::raw('sum(qte_disponible) as qte_total'))
+            ->where('produits.min_stock', '>', 0)
+            ->groupBy('id_produit')
+            ->get()
+            ->filter(function ($item)
+            {
+                return $item->min_stock >= $item->qte_total;
+            });
             $fournisseurs = $this->getFournisseursStatistics();
             $produitsNotInStockCount = $this->getProsuitsNotInStockCount();
             $produitsNotInStock = $this->getProsuitsNotInStock(5);
@@ -122,12 +130,12 @@ class DashboardController extends Controller
 
 
 
-        /* Produit::with(['stocks', 'stocks.produit'])
-        ->whereHas('stocks', function ($query)
-        {
-            $query->where('min_stock', '>=', 'stocks.qte');
-        })->get(); */
-        /* Stock::select('s.id FROM stocks s INNER JOIN produits p
-        on s.id_produit = p.id WHERE s.qte <= p.min_stock and p.id not IN
-        (SELECT id_produit FROM stocks s INNER JOIN produits p
-        on s.id_produit = p.id WHERE s.qte > p.min_stock);')->get(); */
+/* Produit::with(['stocks', 'stocks.produit'])
+->whereHas('stocks', function ($query)
+{
+    $query->where('min_stock', '>=', 'stocks.qte');
+})->get(); */
+/* Stock::select('s.id FROM stocks s INNER JOIN produits p
+on s.id_produit = p.id WHERE s.qte <= p.min_stock and p.id not IN
+(SELECT id_produit FROM stocks s INNER JOIN produits p
+on s.id_produit = p.id WHERE s.qte > p.min_stock);')->get(); */

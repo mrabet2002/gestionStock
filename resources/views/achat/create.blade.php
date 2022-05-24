@@ -68,7 +68,7 @@
             </div>
         @endif
             <div class="containerc">
-                <form action="{{route('vente.store')}}" method="POST" enctype="multipart/form-data" id="achatData">
+                <form action="{{route('achat.store')}}" method="POST" enctype="multipart/form-data" id="achatData">
                     @csrf
                     <div class="sm:mt-0">
                         <div class="md:grid md:grid-cols-2 md:gap-6 overflow-hidden">

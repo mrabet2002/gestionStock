@@ -77,11 +77,11 @@
                                             @if ($vente->statut == 'Éditer')
                                                 <form action="{{route('vente.validerVente', $vente->id)}}" method="post" id="validerVente">
                                                 @csrf
-                                                <input type="number" value="{{old('lignesvente.'.$produit->id.'.qte_recu') ? old('lignesvente.'.$produit->id.'.qte_recu') : $produit->pivot->qte_demandee}}" 
-                                                name="lignesvente[{{$produit->id}}][qte_recu]"  id={{'lignesvente.'.$produit->id.'.qte_recu'}}
+                                                <input type="number" value="{{old('lignesvente.'.$produit->id.'.qte_livrai') ? old('lignesvente.'.$produit->id.'.qte_livrai') : $produit->pivot->qte_livrai}}" 
+                                                name="lignesvente[{{$produit->id}}][qte_livrai]"  id={{'lignesvente.'.$produit->id.'.qte_livrai'}}
                                                 class="w-3/4 focus:ring-indigo-500 text-gray-500 focus:border-indigo-500 rounded-md sm:text-sm border-gray-300">
                                             @else
-                                                {{$produit->pivot->qte_recu}}
+                                                {{$produit->pivot->qte_livrai}}
                                             @endif
                                             <span class="text-right">/{{$produit->pivot->qte_demandee}}</span>
                                         </div>

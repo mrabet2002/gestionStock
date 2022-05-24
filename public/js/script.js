@@ -27,7 +27,7 @@ console.log(fournisseursJSON.find(fournisseur => fournisseur.num_fournisseur == 
     })
 } */
 
-const { replace } = require("lodash")
+//const { replace } = require("lodash")
 
 /* Array.from(rows).find(row => row.cells[1].innerText == 1).cells[1].innerText */
 
@@ -199,6 +199,7 @@ function drop(event) {
         draggable.cells[4].firstElementChild.firstElementChild.setAttribute('name', 'lignesVente['+id.replace('produit-', '')+'][date_expiration]')
         draggable.cells[5].firstElementChild.firstElementChild.setAttribute('name', 'lignesVente['+id.replace('produit-', '')+'][total]')
         draggable.cells[5].firstElementChild.firstElementChild.classList.add('total-input')
+        draggable.cells[6].firstElementChild.classList.add('hidden')
         draggable.setAttribute('id', id.replace('produit-', 'ligneVente-'))
         // add it to the drop target
         
@@ -249,7 +250,9 @@ function SourceDrop(event) {
     draggable.cells[4].firstElementChild.firstElementChild.setAttribute('name', '')
     draggable.cells[5].firstElementChild.firstElementChild.setAttribute('name', '')
     draggable.cells[5].firstElementChild.firstElementChild.classList.remove('total-input')
+    draggable.cells[6].firstElementChild.classList.remove('hidden')
     let repeatedChild = Array.from(dropZone.rows).find(row => row.getAttribute('id') == id.replace('ligneVente-', 'produit-'))
+    console.log(repeatedChild)
     if (repeatedChild != undefined) {
         dropZone.removeChild(repeatedChild)
     }
@@ -293,8 +296,9 @@ function remiseGlobal(inputRemiseId) {
 }
 
 const fournisseurList = document.getElementById('fournisseur')
-
-fournisseurList.addEventListener('change', filtreProduit)
+if (fournisseurList) {
+    fournisseurList.addEventListener('change', filtreProduit)
+}
 
 function filtreProduit() {
     const rows = document.querySelectorAll('tbody')[0].rows;
@@ -374,9 +378,9 @@ function trierString(event, cellIndex, bodyClass) {
     lignesTrier.map(ligne => tbody[0].appendChild(ligne))
     
 }
-function trierNum(event, cellIndex) {
-    const rows = document.querySelectorAll('tbody')[0].rows;
-    const tbody = document.querySelectorAll('tbody')
+function trierNum(event, cellIndex, bodyClass) {
+    const rows = document.querySelectorAll('.'+bodyClass)[0].rows;
+    const tbody= document.querySelectorAll('.'+bodyClass)
     const ordre = event.target.getAttribute('ordre')
     switch (ordre) {
         case 'asc':

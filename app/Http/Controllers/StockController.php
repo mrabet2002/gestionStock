@@ -16,7 +16,7 @@ class StockController extends Controller
     public function index()
     {
         return view('stock.index')->with([
-            'stocks' => Stock::all(),
+            'stocks' => Stock::orderBy('updated_at', 'desc')->get(),
         ]);
     }
 

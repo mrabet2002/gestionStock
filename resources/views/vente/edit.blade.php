@@ -387,7 +387,7 @@
                                                                 </td>
                                                                 <td class="px-2 py-4" style="width: 15%">
                                                                     <div class="mt-1 flex rounded-md shadow-sm">
-                                                                        <input type="text" step="0.01" name="lignesVente[{{$produit->id}}][total]" value="{{$produit->pivot->total}}" 
+                                                                        <input type="number" step="0.01" name="lignesVente[{{$produit->id}}][total]" value="{{$produit->pivot->total}}" 
                                                                         class="total-input focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-md sm:text-sm border-gray-300" disabled>
                                                                     </div>
                                                                 </td>
