@@ -196,10 +196,9 @@ function drop(event) {
         draggable.cells[1].firstElementChild.firstElementChild.setAttribute('name', 'lignesVente['+id.replace('produit-', '')+'][prix]')
         draggable.cells[2].firstElementChild.firstElementChild.setAttribute('name', 'lignesVente['+id.replace('produit-', '')+'][qte_demandee]')
         draggable.cells[3].firstElementChild.lastElementChild.setAttribute('name', 'lignesVente['+id.replace('produit-', '')+'][remise]')
-        draggable.cells[4].firstElementChild.firstElementChild.setAttribute('name', 'lignesVente['+id.replace('produit-', '')+'][date_expiration]')
-        draggable.cells[5].firstElementChild.firstElementChild.setAttribute('name', 'lignesVente['+id.replace('produit-', '')+'][total]')
-        draggable.cells[5].firstElementChild.firstElementChild.classList.add('total-input')
-        draggable.cells[6].firstElementChild.classList.add('hidden')
+        draggable.cells[4].firstElementChild.firstElementChild.setAttribute('name', 'lignesVente['+id.replace('produit-', '')+'][total]')
+        draggable.cells[4].firstElementChild.firstElementChild.classList.add('total-input')
+        draggable.cells[5].classList.add('hidden')
         draggable.setAttribute('id', id.replace('produit-', 'ligneVente-'))
         // add it to the drop target
         
@@ -248,9 +247,8 @@ function SourceDrop(event) {
     draggable.cells[2].firstElementChild.firstElementChild.setAttribute('name', '')
     draggable.cells[3].firstElementChild.lastElementChild.setAttribute('name', '')
     draggable.cells[4].firstElementChild.firstElementChild.setAttribute('name', '')
-    draggable.cells[5].firstElementChild.firstElementChild.setAttribute('name', '')
-    draggable.cells[5].firstElementChild.firstElementChild.classList.remove('total-input')
-    draggable.cells[6].firstElementChild.classList.remove('hidden')
+    draggable.cells[4].firstElementChild.firstElementChild.classList.remove('total-input')
+    draggable.cells[5].classList.remove('hidden')
     let repeatedChild = Array.from(dropZone.rows).find(row => row.getAttribute('id') == id.replace('ligneVente-', 'produit-'))
     console.log(repeatedChild)
     if (repeatedChild != undefined) {
@@ -275,7 +273,7 @@ function calculatTotal(event, bodyClass, inputRemiseId) {
     const rows = document.querySelectorAll('.'+bodyClass)[0].rows;
     const tbodyChild = Array.from(rows).find(row =>  event.target.getAttribute('name').includes('['+row.getAttribute('id').replace('ligneVente-', '')+']'))
     const prixInput = tbodyChild.cells[1].firstElementChild.firstElementChild
-    const totalInput = tbodyChild.cells[5].firstElementChild.firstElementChild
+    const totalInput = Array.from(tbodyChild.cells).find(cell => cell.getAttribute('id')).firstElementChild.firstElementChild
     const qteInput = tbodyChild.cells[2].firstElementChild.firstElementChild
     const remiseInput = tbodyChild.cells[3].firstElementChild.lastElementChild
     totalInput.setAttribute('value', Math.round(((prixInput.value) * (qteInput.value))*(1 - (remiseInput.value)/100)*100)/100)
@@ -284,7 +282,6 @@ function calculatTotal(event, bodyClass, inputRemiseId) {
 function remiseGlobal(inputRemiseId) {
     const prixTotal = document.getElementById('prix-total')
     const totalInputAll = document.querySelectorAll('.total-input')
-    console.log(totalInputAll)
     const remiseGlobalInput = document.getElementById(inputRemiseId)
     let total = 0
     totalInputAll.forEach(element => {
@@ -311,6 +308,17 @@ function filtreProduit() {
     const noRowFound = document.getElementById('noRowFound')
     const rowFound = Array.from(rows).map(row => row.firstElementChild.value != this.value && this.value ? row.style.display = "none" : row.style.display = "table-row" )
     rowFound.find(display => display == 'table-row') == undefined ? noRowFound.style.display = 'table-row' : noRowFound.style.display = 'none' 
+}
+
+function filtreVentesParClient(event) {
+    let ventesGroup = document.querySelector("#tbody_"+event.target.value)
+    let ventesGroups = document.getElementsByTagName('tbody')
+    Array.from(ventesGroups).map(
+        ventesSingleGroup => 
+        ventesSingleGroup != ventesGroup ? 
+        ventesSingleGroup.classList.add('hidden') : 
+        ventesSingleGroup.classList.remove('hidden')
+    )
 }
 
 function defaultProperties(event) {
@@ -423,4 +431,19 @@ function checkAllToggel(event) {
     }
 }
 
+function checkAllGroupToggel(event) {
+    let checkboxsGroup = document.querySelectorAll('.'+event.target.getAttribute('id'))
+    if (event.target.checked == true) {
+        Array.from(checkboxsGroup).map(checkbox => checkbox.checked = true)
+        let checkboxs = document.querySelectorAll('input[type="checkbox"]')
+        Array.from(checkboxs).map(checkbox => {
+                if (checkbox.getAttribute('id') != event.target.getAttribute('id') && !checkbox.classList.contains(event.target.getAttribute('id'))) {
+                    checkbox.checked = false
+                }
+            }
+        )
+    }else if(event.target.checked == false){
+        Array.from(checkboxsGroup).map(checkbox => checkbox.checked = false)
+    }
+}
 

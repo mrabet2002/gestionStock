@@ -47,31 +47,22 @@ class FournisseurController extends Controller
             $fileName = time()."_".$file->getClientOriginalName();
             $file->move(public_path("uploads/"),$fileName);
         }
-        try {
-            Fournisseur::create([
-                "id_user" => $request->user()->id,
-                "num_fournisseur" => $request->num_fournisseur,
-                "name" => $request->nom,
-                "email" => $request->email,
-                "tel" => $request->tel,
-                "site_web" => $request->site_web,
-                "adresse" => $request->adresse,
-                "code_postal" => $request->code_postal,
-                "pays" => $request->pays,
-                "ville" => $request->ville,
-                "description" => $request->description,
-                "devise" => $request->devise,
-                "fichier_attacher" => $fileName,
-            ]);
-            if ($request->route()->name('produit.fournisseur.store')) {
-                return redirect()->back()->withInput();
-            }else {
-                return redirect()->route('fournisseur.index')->with('success', 'Le fournisseur est ajouté avec succès');
-            }
-            
-        } catch (\Throwable $th) {
-            return redirect()->back()->withErrors(['Erreur'])->withInput($request->input());
-        }
+        Fournisseur::create([
+            "id_user" => $request->user()->id,
+            "num_fournisseur" => $request->num_fournisseur,
+            "name" => $request->nom,
+            "email" => $request->email,
+            "tel" => $request->tel,
+            "site_web" => $request->site_web,
+            "adresse" => $request->adresse,
+            "code_postal" => $request->code_postal,
+            "pays" => $request->pays,
+            "ville" => $request->ville,
+            "description" => $request->description,
+            "devise" => $request->devise,
+            "fichier_attacher" => $fileName,
+        ]);
+        return redirect()->route('fournisseur.index')->with('success', 'Le fournisseur est ajouté avec succès');
     }
 
     /**

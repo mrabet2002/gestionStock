@@ -68,7 +68,7 @@
             </div>
         @endif
             <div class="containerc">
-                <form action="{{route('vente.store')}}" method="POST" enctype="multipart/form-data" id="venteData">
+                <form action="{{route('vente.update', $vente)}}" method="POST" enctype="multipart/form-data" id="venteData">
                     @csrf
                     <div class="sm:mt-0">
                         <div class="md:grid md:grid-cols-2 md:gap-2 overflow-hidden">
@@ -91,7 +91,7 @@
                                                         <option disabled>Désolés, nous ne trouvant pas de clients</option>
                                                     @else
                                                         @foreach ($clients as $client)
-                                                            <option adresse="{{$client->adresse}}" devise="{{$client->devise}}" value="{{$client->id}}" {{$client->id == old('client') ? "selected" : ""}}>
+                                                            <option adresse="{{$client->adresse}}" devise="{{$client->devise}}" value="{{$client->id}}" {{old('client') ? ($client->id == old('client') ? "selected" : "") : ($client->id == $vente->id_client ? "selected" : "")}}>
                                                                 {{$client->name}}
                                                             </option>
                                                         @endforeach
@@ -104,7 +104,7 @@
                                             <label for="description" class="block text-sm font-medium text-gray-700"> Description </label>
                                             <div class="mt-1">
                                                 <textarea id="description" name="description" rows="6" class="w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md">
-                                                    {{old('description')}}
+                                                    {{old('description') ? old('description') : $vente->description}}
                                                 </textarea>
                                             </div>
                                             <p class="mt-2 text-sm text-gray-500">Description brève de la vente.</p>
@@ -124,7 +124,7 @@
                                         <div class="col-span-6">
                                             <label for="date_creation" class="block text-sm font-medium text-gray-700">Date de création</label>
                                             <input type="date" step="0.01" name="date_creation" id="date_creation" 
-                                            value="{{old('date_creation') ? old('date_creation') : (new DateTime())->format('Y-m-d')}}"
+                                            value="{{old('date_creation') ? old('date_creation') : $vente->created_at ? $vente->created_at->format('Y-m-d') : (new DateTime())->format('Y-m-d')}}"
                                             class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                             <p class="mt-2 text-sm text-gray-500">Si aucune date n'est indiquée, la date du jour est prise par défaut.</p>
                                         </div>
@@ -133,7 +133,7 @@
                                             <label for="remiseVente" class="block text-sm font-medium text-gray-700"> Remise Globale </label>
                                             <div class="mt-1 flex rounded-md shadow-sm">
                                                 <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm"> % </span>
-                                                <input type="number" name="remiseVente" id="remiseVente" value="{{old('remiseVente')}}" 
+                                                <input type="number" name="remiseVente" id="remiseVente" value="{{old('remiseVente') ? old('remiseVente') : $vente->remise}}" 
                                                 class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300"
                                                 onkeyup="remiseGlobal('remiseVente')">
                                             </div>
@@ -141,12 +141,12 @@
 
                                         <div class="col-span-6 sm:col-span-3">
                                             <label for="devise" class="block text-sm font-medium text-gray-700">Devise</label>
-                                            <input type="text" name="devise" id="devise" value="{{old('devise')}}" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                            <input type="text" name="devise" id="devise" value="{{old('devise') ? old('devise') : $vente->devise}}" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                         </div>
                 
                                         <div class="col-span-6">
                                             <label for="taxe" class="block text-sm font-medium text-gray-700">Taxe</label>
-                                            <input type="number" step="0.01" name="taxe" id="taxe" value="{{old('taxe')}}" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                            <input type="number" step="0.01" name="taxe" id="taxe" value="{{old('taxe') ? old('taxe') : $vente->tax}}" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                         </div>
                                     </div>
                                 </div>
@@ -159,11 +159,11 @@
                                     <div class="grid grid-cols-6 gap-6">
                                         <div class="col-span-6 sm:col-span-3">
                                             <label for="cout_livraison" class="block text-sm font-medium text-gray-700">Coût de livraison</label>
-                                            <input type="number" step="0.01" name="cout_livraison" id="cout_livraison" value="{{old('cout_livraison')}}" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                            <input type="number" step="0.01" name="cout_livraison" id="cout_livraison" value="{{old('cout_livraison') ? old('cout_livraison') : $vente->cout_livraison}}" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                         </div>
                                         <div class="col-span-6 sm:col-span-3">
                                             <label for="adresse_livraison" class="block text-sm font-medium text-gray-700">Adresse de livraison</label>
-                                            <input type="text" name="adresse_livraison" id="adresse_livraison" value="{{old('adresse_livraison')}}" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                            <input type="text" name="adresse_livraison" id="adresse_livraison" value="{{old('adresse_livraison') ? old('adresse_livraison') : $vente->adresse_livraison}}" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                         </div>
                                     </div>
                                 </div>
@@ -201,7 +201,7 @@
                                             <table class="w-full mt-5 text-sm text-left text-gray-500 dark:text-gray-400">
                                                 <thead class="text-xs text-white uppercase bg-blue-500 dark:bg-gray-700 dark:text-gray-400">
                                                     <tr class="block relative">
-                                                        <th scope="col" class="px-6 py-4">
+                                                        <th scope="col" class="px-6 py-4 w-1/2">
                                                             <div class="flex justify-between">
                                                                 <div class="flex align-center">
                                                                     Produits
@@ -213,17 +213,30 @@
                                                                 </div>
                                                             </div>
                                                         </th>
+                                                        <th scope="col" class="px-6 py-4">
+                                                            <div class="flex justify-between">
+                                                                <div class="flex align-center">
+                                                                    Quantité en stock
+                                                                </div>
+                                                                <div class="cursor-pointer rounded ordre-icone transition">
+                                                                    <svg onclick="trierNum(event, 6, 'table-produits-body')" ordre="desc" id="trie-icone" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="cursor-pointer bi bi-arrow-down" viewBox="0 0 16 16">
+                                                                        <path onclick="trierNum(event, 6, 'table-produits-body')" ordre="desc" fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"/>
+                                                                    </svg>
+                                                                </div>
+                                                            </div>
+                                                        </th>
                                                     </tr>
                                                 </thead>
                                                 <tbody  class="border border-gray-500 border-2 block table-produits-body" id="source-zone" style="height: 300px; overflow: auto"
                                                 ondragenter="SourceDragEnter(event)"
                                                 ondragover="SourceDragOver(event)">
                                                     @foreach ($produits as $produit)
+                                                    
                                                         <tr draggable="true" id="produit-{{$produit->id}}" 
-                                                            class="cursor-pointer block w-full bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                                                            class="cursor-pointer flex justify-between align-center w-full bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                                                             ondragstart="dragStart(event)"
                                                             ondragend="dragEnd(event)">
-                                                            <td class="produitCell px-6 py-4 font-medium text-gray-900 dark:text-white" style="width: 17%">
+                                                            <td class="produitCell px-6 py-4 font-medium text-gray-900 dark:text-white w-1/4">
                                                                 <div class="mt-1 flex">
                                                                     {{$produit->libele}}
                                                                 </div>
@@ -255,14 +268,23 @@
                                                                     onclick="resetValue(event)">
                                                                 </div>
                                                             </td>
-                                                            <td class="px-2 py-4 hidden" style="width: 15%">
-                                                                <div class="mt-1 flex">
-                                                                    <input type="date" name="" value="" class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-md sm:text-sm border-gray-300">
-                                                                </div>
-                                                            </td>
-                                                            <td class="px-2 py-4 hidden" style="width: 15%">
+                                                            <td class="px-2 py-4 hidden" style="width: 15%" id="total-input">
                                                                 <div class="mt-1 flex">
                                                                     <input type="number" step="0.01" name="" value="" class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-md sm:text-sm border-gray-300">
+                                                                </div>
+                                                            </td>
+                                                            <td class="px-6 py-4 font-medium text-gray-900 dark:text-white">
+                                                                @if ($produit->stocks->where('id_produit', $produit->id)->sum('qte_disponible') > 0)
+                                                                    @php
+                                                                        $color = 'green'
+                                                                    @endphp
+                                                                @else
+                                                                    @php
+                                                                        $color = 'red'
+                                                                    @endphp
+                                                                @endif
+                                                                <div class="cursor-pointer bg-{{$color}}-500 hover:bg-{{$color}}-600 shadow font-bold py-1 px-3 rounded text-white transition">
+                                                                    {{$produit->stocks->where('id_produit', $produit->id)->sum('qte_disponible')}}
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -292,9 +314,6 @@
                                                         </th>
                                                         <th scope="col" class="px-6 py-3" style="width: 15%">
                                                             Remise
-                                                        </th>
-                                                        <th scope="col" class="px-6 py-3" style="width: 15%">
-                                                            Date d'éxpiration
                                                         </th>
                                                         <th scope="col" class="px-6 py-3" style="width: 15%">
                                                             Total
@@ -336,14 +355,23 @@
                                                                         onclick="resetValue(event)">
                                                                     </div>
                                                                 </td>
-                                                                <td class="px-2 py-4" style="width: 15%">
-                                                                    <div class="mt-1 flex rounded-md shadow-sm">
-                                                                        <input type="date" name="lignesVente[{{$key}}][date_expiration]" value="{{old('lignesVente.'.$key.'.date_expiration')}}" class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-md sm:text-sm border-gray-300">
-                                                                    </div>
-                                                                </td>
-                                                                <td class="px-2 py-4" style="width: 15%">
+                                                                <td class="px-2 py-4" style="width: 15%" id="total-input">
                                                                     <div class="mt-1 flex rounded-md shadow-sm">
                                                                         <input type="number" step="0.01" name="lignesVente[{{$key}}][total]" value="{{old('lignesVente.'.$key.'.total')}}" class="total-input focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-md sm:text-sm border-gray-300">
+                                                                    </div>
+                                                                </td>
+                                                                <td class="px-6 py-4 font-medium text-gray-900 dark:text-white hidden">
+                                                                    @if ($produit->stocks->where('id_produit', $produit->id)->sum('qte_disponible') > 0)
+                                                                        @php
+                                                                            $color = 'green'
+                                                                        @endphp
+                                                                    @else
+                                                                        @php
+                                                                            $color = 'red'
+                                                                        @endphp
+                                                                    @endif
+                                                                    <div class="cursor-pointer bg-{{$color}}-500 hover:bg-{{$color}}-600 shadow font-bold py-1 px-3 rounded text-white transition">
+                                                                        {{$produit->stocks->where('id_produit', $produit->id)->sum('qte_disponible')}}
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -380,15 +408,24 @@
                                                                         onclick="resetValue(event)">
                                                                     </div>
                                                                 </td>
-                                                                <td class="px-2 py-4" style="width: 15%">
-                                                                    <div class="mt-1 flex rounded-md shadow-sm">
-                                                                        <input type="date" name="lignesVente[{{$produit->id}}][date_expiration]" value="{{$produit->pivot->date_expiration}}" class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-md sm:text-sm border-gray-300">
-                                                                    </div>
-                                                                </td>
-                                                                <td class="px-2 py-4" style="width: 15%">
+                                                                <td class="px-2 py-4" style="width: 15%" id="total-input">
                                                                     <div class="mt-1 flex rounded-md shadow-sm">
                                                                         <input type="number" step="0.01" name="lignesVente[{{$produit->id}}][total]" value="{{$produit->pivot->total}}" 
                                                                         class="total-input focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-md sm:text-sm border-gray-300" disabled>
+                                                                    </div>
+                                                                </td>
+                                                                <td class="px-6 py-4 font-medium text-gray-900 dark:text-white hidden">
+                                                                    @if ($produit->stocks->where('id_produit', $produit->id)->sum('qte_disponible') > 0)
+                                                                        @php
+                                                                            $color = 'green'
+                                                                        @endphp
+                                                                    @else
+                                                                        @php
+                                                                            $color = 'red'
+                                                                        @endphp
+                                                                    @endif
+                                                                    <div class="cursor-pointer bg-{{$color}}-500 hover:bg-{{$color}}-600 shadow font-bold py-1 px-3 rounded text-white transition">
+                                                                        {{$produit->stocks->where('id_produit', $produit->id)->sum('qte_disponible')}}
                                                                     </div>
                                                                 </td>
                                                             </tr>

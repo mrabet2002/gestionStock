@@ -33,6 +33,14 @@
             @endforeach
         </div>
     @endif
+    @if (session()->has('success'))
+            <div class="success-container">
+                <div class="success bg-red-100 border px-3 py-3 rounded-lg" role="alert">
+                    <svg class="dark:text-gray-200" width="5%" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <span class="px-3">{{ session()->get('success') }}</span>
+                </div>
+            </div>
+        @endif
     <div class="containerc">
         <div class="md:grid md:grid-cols-3 gap-2">
             {{-- Resevoir produits --}}
@@ -56,9 +64,9 @@
                     </div>
                 </div>
                 <div class="card-body" style="padding: 0 20px">
-                    <div class="bg-gray-500 text-white rounded" style=" margin:0 auto;">
+                    <div class="bg-gray-500 text-white rounded">
                             
-                            <div class="grid grid-cols-2 gap-0">
+                            <div class="md:grid md:grid-cols-2 gap-2 w-full">
                                 <div class="col px-6 py-4  text-sm font-bold uppercase text-left dark:text-white">
                                     Produit demander
                                 </div>
@@ -66,24 +74,15 @@
                                     {{$vente->produits->count()}}
                                 </div>
                                 <div class="col-span-2 px-6 py-4 text-sm font-bold uppercase text-left dark:text-white">
-                                    Quantite recu
+                                    Quantite livrai
                                 </div>
                                 <hr class="col-span-2" style="opacity: 0.5;">
                                     @foreach ($vente->produits as $produit)
                                         <div style="padding-left: 2.5rem" class="col py-2 flex align-center  text-sm uppercase text-left dark:text-white">
                                             {{$produit->libele}}
                                         </div>
-                                        <div class="col px-6 py-2 text-left dark:text-white">
-                                            @if ($vente->statut == 'Éditer')
-                                                <form action="{{route('vente.validerVente', $vente->id)}}" method="post" id="validerVente">
-                                                @csrf
-                                                <input type="number" value="{{old('lignesvente.'.$produit->id.'.qte_livrai') ? old('lignesvente.'.$produit->id.'.qte_livrai') : $produit->pivot->qte_livrai}}" 
-                                                name="lignesvente[{{$produit->id}}][qte_livrai]"  id={{'lignesvente.'.$produit->id.'.qte_livrai'}}
-                                                class="w-3/4 focus:ring-indigo-500 text-gray-500 focus:border-indigo-500 rounded-md sm:text-sm border-gray-300">
-                                            @else
-                                                {{$produit->pivot->qte_livrai}}
-                                            @endif
-                                            <span class="text-right">/{{$produit->pivot->qte_demandee}}</span>
+                                        <div class="col px-6 py-2 justify-end flex items-center dark:text-white">
+                                            <span class="text-right">{{$produit->pivot->qte_livrai."/".$produit->pivot->qte_demandee}}</span>
                                         </div>
                                     @endforeach
                                 <hr class="col-span-2" style="opacity: 0.5;">
@@ -92,15 +91,17 @@
                                 </div>
                                 <div class="col px-6 py-2 text-left dark:text-white">
                                     @if ($vente->statut == 'Éditer')
-                                        <input type="date" value="{{old('date_reception') ? old('date_reception') : (new DateTime())->format('Y-m-d')}}" name="date_reception" id="date_reception" class="w-3/4 focus:ring-indigo-500 text-gray-500 focus:border-indigo-500 rounded-md sm:text-sm border-gray-300">
+                                        <form action="{{route('vente.validerVente', $vente->id)}}" method="post" id="validerVente">
+                                            @csrf
+                                            <input type="date" value="{{old('date_livraison') ? old('date_livraison') : (new DateTime())->format('Y-m-d')}}" name="date_livraison" id="date_livraison" class="focus:ring-indigo-500 w-full text-gray-500 focus:border-indigo-500 rounded-md sm:text-sm border-gray-300">
                                         </form>
                                     @else
-                                        {{$vente->date_reception}}
+                                        {{$vente->date_livraison}}
                                     @endif
                                 </div>
                             </div>
                             <hr style="opacity: 0.5;">
-                            @if ($vente->statut == 'Éditer')
+                            @if ($vente->statut == 'Éditer' && auth()->user()->roles()->where('slug', 'expediteur')->exists())
                                 <button form="validerVente" type="submit" class="block btn btn-gray text-center transition w-full" style="font-weight: bolder">
                                     Valider la vente
                                 </button>

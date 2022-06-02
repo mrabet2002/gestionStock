@@ -15,7 +15,7 @@
                             </svg>
                         </button>
                         <!-- Annuler Formulaire Modal -->
-                        <div id="annulerFormModal" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 md:inset-0 h-full md:h-full">
+                        <div id="annulerFormModal" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-300 md:inset-0 h-full md:h-full">
                             <div class="relative modal-container w-full max-w-md h-full md:h-auto">
                                 <!-- Modal content -->
                                 <div class="relative sm-modal-content bg-white rounded-lg shadow dark:bg-gray-700 md:w-3/4">
@@ -184,7 +184,7 @@
                                                 @foreach ($produits as $produit)
                                                     <tr id="{{$produit->id}}" style="{{$produit->fournisseur->id == old('fournisseur') ? "display:none;" : ""}}" class="cursor-pointer bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                                                         <input type="hidden" value="{{$produit->fournisseur->id}}">
-                                                        <td class="produitCell px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
+                                                        <td class="produitCell px-6 py-4 font-medium text-gray-900 dark:text-white">
                                                             <div class="col-span-6">
                                                                 {{$produit->libele}}
                                                             </div>
@@ -221,7 +221,7 @@
                                                                 <input type="date" name="lignesAchat[{{$produit->id}}][date_expiration]" value="{{old('lignesAchat.'.$produit->id.'.date_expiration')}}" class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-md sm:text-sm border-gray-300">
                                                             </div>
                                                         </td>
-                                                        <td class="px-6 py-4">
+                                                        <td class="px-6 py-4" id="total-input">
                                                             <div class="mt-1 flex rounded-md shadow-sm">
                                                                 <input type="number" step="0.01" name="lignesAchat[{{$produit->id}}][total]" value="{{old('lignesAchat.'.$produit->id.'.total')}}" class="total-input focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-md sm:text-sm border-gray-300">
                                                             </div>

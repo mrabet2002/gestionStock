@@ -36,7 +36,7 @@
                                 <input type="text" id="table-search" value="" 
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-80 pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
                                 placeholder="Search for items"
-                                onkeyup="chercherLigne(event)">
+                                onkeyup="chercherLigne(event, 'body', 0)">
                             </div>
                             <div class="flex align-center">
                                 <div class="px-6 flex align-center">
@@ -54,7 +54,7 @@
                                             Numéro
                                         </div>
                                         <div class="py-2">
-                                            <input id="1" value="1" type="radio" name="filtrer-par" class="filtrer-par w-4 h-4 text-indigo-600 bg-gray-100 border-gray-300 rounded-full focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                            <input id="0" value="0" type="radio" name="filtrer-par" class="filtrer-par w-4 h-4 text-indigo-600 bg-gray-100 border-gray-300 rounded-full focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                         </div>
                                     </li>
                                     <li class="cursor-pointer block flex justify-between px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">                                        
@@ -62,7 +62,7 @@
                                             Nom
                                         </div>
                                         <div class="pl-6 py-2">
-                                            <input id="2" value="2" type="radio" name="filtrer-par" class="filtrer-par w-4 h-4 text-indigo-600 bg-gray-100 border-gray-300 rounded-full focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                            <input id="1" value="1" type="radio" name="filtrer-par" class="filtrer-par w-4 h-4 text-indigo-600 bg-gray-100 border-gray-300 rounded-full focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                         </div>
                                     </li>
                                     <li class="cursor-pointer block flex justify-between px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">                                        
@@ -70,7 +70,7 @@
                                             E-Mail
                                         </div>
                                         <div class="pl-6 py-2">
-                                            <input id="3" value="3" type="radio" name="filtrer-par" class="filtrer-par w-4 h-4 text-indigo-600 bg-gray-100 border-gray-300 rounded-full focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                            <input id="2" value="2" type="radio" name="filtrer-par" class="filtrer-par w-4 h-4 text-indigo-600 bg-gray-100 border-gray-300 rounded-full focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                         </div>
                                     </li>
                                     <li class="cursor-pointer block flex justify-between px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">                                        
@@ -78,7 +78,7 @@
                                             Adresse
                                         </div>
                                         <div class="pl-6 py-2">
-                                            <input id="4" value="4" type="radio" name="filtrer-par" class="filtrer-par w-4 h-4 text-indigo-600 bg-gray-100 border-gray-300 rounded-full focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                            <input id="3" value="3" type="radio" name="filtrer-par" class="filtrer-par w-4 h-4 text-indigo-600 bg-gray-100 border-gray-300 rounded-full focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                         </div>
                                     </li>
                                     </ul>
@@ -91,18 +91,13 @@
                         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                             <thead class="text-xs text-white uppercase bg-indigo-500 dark:bg-gray-700 dark:text-gray-400">
                                 <tr>
-                                    <th scope="col" class="py-4 px-4">
-                                        <div class="flex items-center">
-                                            <input id="checkbox-all-search" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                        </div>
-                                    </th>
                                     <th scope="col" class="px-6 py-3">
                                         <div class="flex justify-between">
                                             <div class="flex align-center">
                                                 Numéro
                                             </div>
                                             <div class="cursor-pointer rounded ordre-icone transition">
-                                                <svg onclick="trierNum(event, 1)" ordre="desc" id="trie-icone" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="cursor-pointer bi bi-arrow-down" viewBox="0 0 16 16">
+                                                <svg onclick="trierNum(event, 0, 'body')" ordre="desc" id="trie-icone" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="cursor-pointer bi bi-arrow-down" viewBox="0 0 16 16">
                                                     <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"/>
                                                 </svg>
                                             </div>
@@ -114,7 +109,7 @@
                                                 Nom
                                             </div>
                                             <div class="cursor-pointer rounded ordre-icone transition">
-                                                <svg onclick="trierString(event, 2, 'body')" ordre="desc" id="trie-icone" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="cursor-pointer bi bi-arrow-down" viewBox="0 0 16 16">
+                                                <svg onclick="trierString(event, 1, 'body')" ordre="desc" id="trie-icone" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="cursor-pointer bi bi-arrow-down" viewBox="0 0 16 16">
                                                     <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"/>
                                                 </svg>
                                             </div>
@@ -126,7 +121,7 @@
                                                 E-Mail
                                             </div>
                                             <div class="cursor-pointer rounded ordre-icone transition">
-                                                <svg onclick="trierString(event, 3, 'body')" ordre="desc" id="trie-icone" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="cursor-pointer bi bi-arrow-down" viewBox="0 0 16 16">
+                                                <svg onclick="trierString(event, 2, 'body')" ordre="desc" id="trie-icone" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="cursor-pointer bi bi-arrow-down" viewBox="0 0 16 16">
                                                     <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"/>
                                                 </svg>
                                             </div>
@@ -138,7 +133,7 @@
                                                 Adresse
                                             </div>
                                             <div class="cursor-pointer rounded ordre-icone transition">
-                                                <svg onclick="trierString(event, 4, 'body')" ordre="desc" id="trie-icone" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="cursor-pointer bi bi-arrow-down" viewBox="0 0 16 16">
+                                                <svg onclick="trierString(event, 3, 'body')" ordre="desc" id="trie-icone" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="cursor-pointer bi bi-arrow-down" viewBox="0 0 16 16">
                                                     <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"/>
                                                 </svg>
                                             </div>
@@ -150,16 +145,8 @@
                                 </tr>
                             </thead>
                             <tbody id="table" class="body">
-                                <div class="fournisseurs" style="display: none;">
-                                    {{$fournisseurs}}
-                                </div>
                                 @foreach ($fournisseurs as $fournisseur)
                                     <tr class="cursor-pointer bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                        <td class="w-4 px-4">
-                                            <div class="flex items-center">
-                                                <input id="checkbox-table-search-1" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                            </div>
-                                        </td>
                                         <td scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white">
                                             {{$fournisseur->num_fournisseur}}
                                         </td>

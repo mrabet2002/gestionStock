@@ -173,13 +173,4 @@ class ProduitController extends Controller
             return redirect()->back()->withErrors(['Erreur']);
         }
     }
-    public function destroyGroup(Request $request)
-    {
-        if ($request->produits_a_supprimer) {
-            Produit::whereIn('id', $request->produits_a_supprimer)->delete();
-            return redirect()->back()->with("success", "Les produits sont supperimés avec succès.");
-        }else {
-            return redirect()->back()->withErrors(['Aucun produit selectionner']);
-        }
-    }
 }

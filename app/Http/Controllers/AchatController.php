@@ -55,7 +55,7 @@ class AchatController extends Controller
                 $achat = Achat::create([
                     "id_user" => auth()->user()->id,
                     "id_fournisseur" => $request->fournisseur,
-                    "total" => number_format(($lignesAchatTotal['total']*(1-(double)$remiseAchat/100)),2),
+                    "total" => number_format(($lignesAchatTotal['total']*(1-(double)$remiseAchat/100)),2,".",""),
                     "taxe" => $taxe,
                     "created_at" => $date_creation,
                     "description" => $request->description,
@@ -81,7 +81,7 @@ class AchatController extends Controller
                 if ($ligneAchat['qte_demandee'] > 0 && $ligneAchat['qte_demandee'] !== null && $ligneAchat['prix'] > 0 && $ligneAchat['prix'] !== null) {
                     $ligneTotal = ($ligneAchat['prix']*$ligneAchat['qte_demandee'])*(1-(double)$ligneAchat['remise']/100);
                     $total += $ligneTotal;
-                    $ligneAchat['total'] = number_format((double)$ligneTotal, 2);
+                    $ligneAchat['total'] = number_format((double)$ligneTotal, 2,".","");
                     $lignesAchatValide[$key] = $ligneAchat;
                 }
             }
@@ -141,7 +141,7 @@ class AchatController extends Controller
                     $achat->update([
                         "id_user" => auth()->user()->id,
                         "id_fournisseur" => $request->fournisseur,
-                        "total" => number_format(($lignesAchatTotal['total']*(1-(double)$remiseAchat/100)),2),
+                        "total" => number_format(($lignesAchatTotal['total']*(1-(double)$remiseAchat/100)),2,".",""),
                         "taxe" => $taxe,
                         "created_at" => $date_creation,
                         "description" => $request->description,

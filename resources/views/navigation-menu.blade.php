@@ -35,7 +35,7 @@
                             </x-jet-nav-link>
                         </div>
                     @endif
-                    @if(auth()->user()->roles()->where('slug', 'responsable-vente')->orWhere('slug', 'vendeur')->exists())
+                    @if(auth()->user()->roles()->where('slug', 'responsable-vente')->orWhere('slug', 'vendeur')->orWhere('slug', 'expediteur')->exists())
                         <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                             <x-jet-nav-link href="{{ route('client.index') }}" :active="request()->routeIs('client.index')">
                                 {!! __('Clients') !!}
@@ -47,6 +47,13 @@
                             {!! __('Stocks') !!}
                         </x-jet-nav-link>
                     </div>
+                    @if(auth()->user()->roles()->where('slug', 'comptable')->exists())
+                        <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <x-jet-nav-link href="{{ route('facture.index') }}" :active="request()->routeIs('facture.index')">
+                                {!! __('Factures') !!}
+                            </x-jet-nav-link>
+                        </div>
+                    @endif
                 @endauth
             </div>
             

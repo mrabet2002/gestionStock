@@ -56,7 +56,7 @@ class Vente extends Model
      */
     public function facture()
     {
-        return $this->belongsTo(Facture::class);
+        return $this->belongsTo(Facture::class, 'id_facture');
     }
     /**
      * The produits that belong to the Achat
@@ -67,5 +67,14 @@ class Vente extends Model
     {
         return $this->belongsToMany(Produit::class, 'produit_vente', 'id_vente', 'id_produit')
         ->withPivot('date_expiration', 'remise', 'qte_demandee', 'qte_livrai', 'taxe', 'prix', 'total');
+    }
+    /**
+     * The stocks that belong to the Vente
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function stocks()
+    {
+        return $this->belongsToMany(Stock::class, 'stock_vente', 'id_vente', 'id_stock');
     }
 }

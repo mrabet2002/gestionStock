@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Fournisseur extends Model
 {
     use HasFactory;
+    Use SoftDeletes;
     /**
      * The attributes that are mass assignable.
      *
@@ -28,6 +30,7 @@ class Fournisseur extends Model
         "devise",
         "fichier_attacher",
     ];
+    Protected $Dates = ['deleted_at'];
     public function getRouteKeyName()
     {
         return 'id';

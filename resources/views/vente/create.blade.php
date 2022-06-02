@@ -3,7 +3,7 @@
         <div class="font-semibold text-xl text-gray-800 leading-tight">
             <div class="sm:flex justify-between">
                 <div class="py-2">
-                    {{ __("Créer un ordre d'vente") }}
+                    {{ __("Créer une vente") }}
                 </div>
                 <div class="py-1">
                         <button data-modal-toggle="annulerFormModal" type="button" class="cursor-pointer inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-500 btn-indigo transition" >
@@ -231,7 +231,6 @@
                                                 ondragenter="SourceDragEnter(event)"
                                                 ondragover="SourceDragOver(event)">
                                                     @foreach ($produits as $produit)
-                                                    
                                                         <tr draggable="true" id="produit-{{$produit->id}}" 
                                                             class="cursor-pointer flex justify-between align-center w-full bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                                                             ondragstart="dragStart(event)"
@@ -268,12 +267,7 @@
                                                                     onclick="resetValue(event)">
                                                                 </div>
                                                             </td>
-                                                            <td class="px-2 py-4 hidden" style="width: 15%">
-                                                                <div class="mt-1 flex">
-                                                                    <input type="date" name="" value="" class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-md sm:text-sm border-gray-300">
-                                                                </div>
-                                                            </td>
-                                                            <td class="px-2 py-4 hidden" style="width: 15%">
+                                                            <td class="px-2 py-4 hidden" style="width: 15%" id="total-input">
                                                                 <div class="mt-1 flex">
                                                                     <input type="number" step="0.01" name="" value="" class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-md sm:text-sm border-gray-300">
                                                                 </div>
@@ -307,23 +301,20 @@
                                             </div>
                                             <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 mt-5">
                                                 <thead class="text-xs text-white uppercase bg-blue-500 dark:bg-gray-700 dark:text-gray-400">
-                                                    <tr class="block relative px-6">
-                                                        <th scope="col" class="px-6 py-3" style="width: 15%">
+                                                    <tr class="block relative px-6 flex justify-between">
+                                                        <th scope="col" class="px-6 py-6" style="width: 20%">
                                                             Produit
                                                         </th>
-                                                        <th scope="col" class="px-6 py-3" style="width: 15%">
+                                                        <th scope="col" class="px-6 py-6" style="width: 15%">
                                                             Prix
                                                         </th>
-                                                        <th scope="col" class="px-6 py-3" style="width: 15%">
+                                                        <th scope="col" class="px-6 py-6" style="width: 15%">
                                                             Qté
                                                         </th>
-                                                        <th scope="col" class="px-6 py-3" style="width: 15%">
+                                                        <th scope="col" class="px-6 py-6" style="width: 15%">
                                                             Remise
                                                         </th>
-                                                        <th scope="col" class="px-6 py-3" style="width: 15%">
-                                                            Date d'éxpiration
-                                                        </th>
-                                                        <th scope="col" class="px-6 py-3" style="width: 15%">
+                                                        <th scope="col" class="px-6 py-6" style="width: 15%">
                                                             Total
                                                         </th>
                                                     </tr>
@@ -334,10 +325,10 @@
                                                     @if (old('lignesVente'))
                                                         @foreach (old('lignesVente') as $key => $value)
                                                             <tr draggable="true" id="ligneVente-{{$key}}" 
-                                                            class="cursor-pointer bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                                                            class="cursor-pointer flex justify-between align-center w-full bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                                                             ondragstart="dragStart(event)"
                                                             ondragend="dragEnd(event)">
-                                                                <td class="produitCell px-6 py-4 font-medium text-gray-900 dark:text-white" style="width: 17%">
+                                                                <td class="produitCell px-6 py-4 font-medium text-gray-900 dark:text-white w-1/4">
                                                                     <div class="mt-1 flex">
                                                                         {{$produits->where('id', $key)->first()->libele}}
                                                                     </div>
@@ -350,7 +341,7 @@
                                                                 </td>
                                                                 <td class="px-2 py-4" style="width: 15%">
                                                                     <div class="mt-1 flex rounded-md shadow-sm">
-                                                                        <input type="number" name="lignesVente[{{$key}}][qte_demandee]" value="{{old('lignesVente.'.$key.'.qte')}}" class="qte-input focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-md sm:text-sm border-gray-300"
+                                                                        <input type="number" name="lignesVente[{{$key}}][qte_demandee]" value="{{old('lignesVente.'.$key.'.qte_demandee')}}" class="qte-input focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-md sm:text-sm border-gray-300"
                                                                         onkeyup="calculatTotal(event, 'table-lignesvente-body', 'remiseVente')"
                                                                         onclick="resetValue(event)">
                                                                     </div>
@@ -363,14 +354,23 @@
                                                                         onclick="resetValue(event)">
                                                                     </div>
                                                                 </td>
-                                                                <td class="px-2 py-4" style="width: 15%">
-                                                                    <div class="mt-1 flex rounded-md shadow-sm">
-                                                                        <input type="date" name="lignesVente[{{$key}}][date_expiration]" value="{{old('lignesVente.'.$key.'.date_expiration')}}" class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-md sm:text-sm border-gray-300">
-                                                                    </div>
-                                                                </td>
-                                                                <td class="px-2 py-4" style="width: 15%">
+                                                                <td class="px-2 py-4" style="width: 15%" id="total-input">
                                                                     <div class="mt-1 flex rounded-md shadow-sm">
                                                                         <input type="number" step="0.01" name="lignesVente[{{$key}}][total]" value="{{old('lignesVente.'.$key.'.total')}}" class="total-input focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-md sm:text-sm border-gray-300">
+                                                                    </div>
+                                                                </td>
+                                                                <td class="px-6 py-4 font-medium text-gray-900 dark:text-white hidden">
+                                                                    @if ($produit->stocks->where('id_produit', $produit->id)->sum('qte_disponible') > 0)
+                                                                        @php
+                                                                            $color = 'green'
+                                                                        @endphp
+                                                                    @else
+                                                                        @php
+                                                                            $color = 'red'
+                                                                        @endphp
+                                                                    @endif
+                                                                    <div class="cursor-pointer bg-{{$color}}-500 hover:bg-{{$color}}-600 shadow font-bold py-1 px-3 rounded text-white transition">
+                                                                        {{$produit->stocks->where('id_produit', $produit->id)->sum('qte_disponible')}}
                                                                     </div>
                                                                 </td>
                                                             </tr>

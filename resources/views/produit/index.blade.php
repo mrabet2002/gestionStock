@@ -76,7 +76,7 @@
                                     <input type="text" id="table-search" value="" 
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-80 pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
                                     placeholder="Search for items"
-                                    onkeyup="chercherLigne(event)">
+                                    onkeyup="chercherLigne(event, 'body', 0)">
                                 </div>
                                 <div class="flex align-center">
                                     <div class="px-6 flex align-center">
@@ -94,7 +94,7 @@
                                                 Libelé
                                             </div>
                                             <div class="py-2">
-                                                <input id="2" value="2" type="radio" name="filtrer-par" class="filtrer-par w-4 h-4 text-indigo-600 bg-gray-100 border-gray-300 rounded-full focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                                <input id="0" value="0" type="radio" name="filtrer-par" class="filtrer-par w-4 h-4 text-indigo-600 bg-gray-100 border-gray-300 rounded-full focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                             </div>
                                         </li>
                                         <li class="cursor-pointer block flex justify-between px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">                                        
@@ -102,7 +102,7 @@
                                                 Fournisseur
                                             </div>
                                             <div class="pl-6 py-2">
-                                                <input id="3" value="3" type="radio" name="filtrer-par" class="filtrer-par w-4 h-4 text-indigo-600 bg-gray-100 border-gray-300 rounded-full focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                                <input id="1" value="1" type="radio" name="filtrer-par" class="filtrer-par w-4 h-4 text-indigo-600 bg-gray-100 border-gray-300 rounded-full focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                             </div>
                                         </li>
                                         <li class="cursor-pointer block flex justify-between px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">                                        
@@ -110,7 +110,7 @@
                                                 Catégorie
                                             </div>
                                             <div class="pl-6 py-2">
-                                                <input id="4" value="4" type="radio" name="filtrer-par" class="filtrer-par w-4 h-4 text-indigo-600 bg-gray-100 border-gray-300 rounded-full focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                                <input id="2" value="2" type="radio" name="filtrer-par" class="filtrer-par w-4 h-4 text-indigo-600 bg-gray-100 border-gray-200 rounded-full focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                             </div>
                                         </li>
                                         <li class="cursor-pointer block flex justify-between px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">                                        
@@ -118,42 +118,25 @@
                                                 Marque
                                             </div>
                                             <div class="pl-6 py-2">
-                                                <input id="5" value="5" type="radio" name="filtrer-par" class="filtrer-par w-4 h-4 text-indigo-600 bg-gray-100 border-gray-300 rounded-full focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                                <input id="3" value="3" type="radio" name="filtrer-par" class="filtrer-par w-4 h-4 text-indigo-600 bg-gray-100 border-gray-300 rounded-full focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                             </div>
                                         </li>
                                         </ul>
                                     </div>
                                 </div>
                             </div>
-                            <div class="flex justify-end align-center">
-                                <form action="{{route('produit.destroyGroup')}}" method="post" id="supprimerProduits">
-                                    @csrf
-                                    <button class="btn btn-red w-fit" form="supprimerProduits">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
-                                            <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
-                                        </svg>
-                                    </button>
-                                </form>
-                            </div>
                         </div>
                     </div>
                         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                             <thead class="text-xs text-white uppercase bg-indigo-500 dark:bg-gray-700 dark:text-gray-400">
                                 <tr>
-                                    <th scope="col" class="py-4 px-4">
-                                        <div class="flex items-center">
-                                            <input id="checkbox-all-search" type="checkbox" 
-                                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                                            onclick="checkAllToggel(event)">
-                                        </div>
-                                    </th>
                                     <th scope="col" class="px-6 py-3">
                                         <div class="flex justify-between">
                                             <div class="flex align-center">
                                                 libelé
                                             </div>
                                             <div class="cursor-pointer rounded ordre-icone transition">
-                                                <svg onclick="trierString(event, 2, 'body')" ordre="desc" id="trie-icone" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="cursor-pointer bi bi-arrow-down" viewBox="0 0 16 16">
+                                                <svg onclick="trierString(event, 0, 'body')" ordre="desc" id="trie-icone" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="cursor-pointer bi bi-arrow-down" viewBox="0 0 16 16">
                                                     <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"/>
                                                 </svg>
                                             </div>
@@ -165,7 +148,7 @@
                                                 Fournisseur
                                             </div>
                                             <div class="cursor-pointer rounded ordre-icone transition">
-                                                <svg onclick="trierString(event, 3, 'body')" ordre="desc" id="trie-icone" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="cursor-pointer bi bi-arrow-down" viewBox="0 0 16 16">
+                                                <svg onclick="trierString(event, 1, 'body')" ordre="desc" id="trie-icone" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="cursor-pointer bi bi-arrow-down" viewBox="0 0 16 16">
                                                     <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"/>
                                                 </svg>
                                             </div>
@@ -177,7 +160,7 @@
                                                 Catégorie
                                             </div>
                                             <div class="cursor-pointer rounded ordre-icone transition">
-                                                <svg onclick="trierString(event, 4, 'body')" ordre="desc" id="trie-icone" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="cursor-pointer bi bi-arrow-down" viewBox="0 0 16 16">
+                                                <svg onclick="trierString(event, 2, 'body')" id="trie-icone" ordre="desc" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="cursor-pointer bi bi-arrow-down" viewBox="0 0 16 16">
                                                     <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"/>
                                                 </svg>
                                             </div>
@@ -188,8 +171,8 @@
                                             <div class="flex align-center">
                                                 marque
                                             </div>
-                                            <button onclick="trierString(event, 5, 'body')" id="trie-icone" ordre="desc" class="cursor-pointer rounded ordre-icone transition">
-                                                <svg id="trie-icone" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="cursor-pointer bi bi-arrow-down" viewBox="0 0 16 16">
+                                            <button class="cursor-pointer rounded ordre-icone transition">
+                                                <svg onclick="trierString(event, 3, 'body')" id="trie-icone" ordre="desc" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="cursor-pointer bi bi-arrow-down" viewBox="0 0 16 16">
                                                     <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"/>
                                                 </svg>
                                             </button>
@@ -203,11 +186,6 @@
                             <tbody class="body">
                                 @foreach ($produits as $produit)
                                     <tr class="cursor-pointer bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                        <td class="w-4 px-4">
-                                            <div class="flex items-center">
-                                                <input form="supprimerProduits" id="{{$produit->id}}" value="{{$produit->id}}" name="produits_a_supprimer[{{$produit->id}}]" type="checkbox" class="checkboxs w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                            </div>
-                                        </td>
                                         <td scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white">
                                             {{$produit->libele}}
                                         </td>

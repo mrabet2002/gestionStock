@@ -27,4 +27,13 @@ class Stock extends Model
     {
         return $this->belongsTo(Produit::class, 'id_produit');
     }
+    /**
+     * The ventes that belong to the Stock
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function ventes(): BelongsToMany
+    {
+        return $this->belongsToMany(Vente::class, 'stock_vente', 'id_vente', 'id_stock');
+    }
 }
