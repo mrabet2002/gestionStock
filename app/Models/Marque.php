@@ -19,7 +19,7 @@ class Marque extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function produits(): HasMany
+    public function produits()
     {
         return $this->hasMany(Produit::class);
     }

@@ -139,7 +139,10 @@
                             </tr>
                             <tr>
                                 <th class="px-6 py-4 text-sm uppercase text-left text-gray-900 dark:text-white whitespace-nowrap">Date de Création</th>
-                                <td class="px-6 py-4 text-right w-full">{{date('d F Y', strtotime($achat->created_at))}}</td>
+                                @php
+                                    setlocale(LC_TIME, 'fr_FR.utf8', 'fra')
+                                @endphp
+                                <td class="px-6 py-4 text-right w-full">{{strftime('%d %B %Y', strtotime($achat->created_at))}}</td>
                             </tr>
                             <tr>
                                 <th class="px-6 py-4 text-sm uppercase text-left text-gray-900 dark:text-white whitespace-nowrap">Taxe</th>

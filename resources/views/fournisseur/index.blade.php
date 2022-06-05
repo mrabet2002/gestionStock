@@ -18,71 +18,91 @@
         </h2>
     </x-slot>
     @section('content')
-    @if (session()->has('success'))
-        <div class="success-container" style="margin-top: 30px">
-            <div class="success bg-red-100 border px-3 py-3 rounded-lg" role="alert">
-                <svg class="dark:text-gray-200" width="5%" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                <span class="px-3">{{ session()->get('success') }}</span>
+        @if (session()->has('success'))
+            <div class="success-container" style="margin-top: 30px">
+                <div class="success bg-red-100 border px-3 py-3 rounded-lg" role="alert">
+                    <svg class="dark:text-gray-200" width="5%" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <span class="px-3">{{ session()->get('success') }}</span>
+                </div>
             </div>
-        </div>
-    @endif
+        @endif
+        @if ($errors->any())
+            <div class="alert-container">
+                @foreach ($errors->all() as $error)
+                    <div class="alert bg-red-100 border px-3 py-3 rounded-lg" role="alert">
+                        <svg class="dark:text-gray-200" width="5%" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <span class="px-3">{{ $error }}</span>
+                    </div>
+                @endforeach
+            </div>
+        @endif
         <div class=" py-12">
             <div class="w-3/4 mx-auto px-6 py-12 bg-white border-0 shadow-lg rounded-lg">
                 <div class="relative">
                     <div class="py-3 px-3">
                         <label for="table-search" class="lable-ts">Search</label>
-                        <div class="flex">
-                            <div class="relative mt-1">
-                                <input type="text" id="table-search" value="" 
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-80 pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                                placeholder="Search for items"
-                                onkeyup="chercherLigne(event, 'body', 0)">
+                        <div class="md:grid md:grid-cols-2 gap-6">
+                            <div class="flex">
+                                <div class="relative mt-1">
+                                    <input type="text" id="table-search" value="" 
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-80 pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                                    placeholder="Search for items"
+                                    onkeyup="chercherLigne(event, 'body', 1)">
+                                </div>
+                                <div class="flex align-center">
+                                    <div class="px-6 flex align-center">
+                                        <button class="text-indigo-500 hover:text-indigo-400 transition" type="button" id="dropdownDividerButton" data-dropdown-toggle="dropdownDivider" data-dropdown-placement="right-start">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" fill="currentColor" class="bi bi-funnel-fill" viewBox="0 0 16 16">
+                                                <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2z"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    <!-- Dropdown menu -->
+                                    <div id="dropdownDivider" class="z-10 shadow-lg border-2 hidden bg-white divide-y divide-gray-100 rounded shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
+                                        <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDividerButton">
+                                        <li class="cursor-pointer block flex justify-between px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">                                        
+                                            <div class="py-2">
+                                                Numéro
+                                            </div>
+                                            <div class="py-2">
+                                                <input id="1" value="1" type="radio" name="filtrer-par" class="filtrer-par w-4 h-4 text-indigo-600 bg-gray-100 border-gray-300 rounded-full focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                            </div>
+                                        </li>
+                                        <li class="cursor-pointer block flex justify-between px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">                                        
+                                            <div class="py-2">
+                                                Nom
+                                            </div>
+                                            <div class="pl-6 py-2">
+                                                <input id="2" value="2" type="radio" name="filtrer-par" class="filtrer-par w-4 h-4 text-indigo-600 bg-gray-100 border-gray-300 rounded-full focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                            </div>
+                                        </li>
+                                        <li class="cursor-pointer block flex justify-between px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">                                        
+                                            <div class="py-2">
+                                                E-Mail
+                                            </div>
+                                            <div class="pl-6 py-2">
+                                                <input id="3" value="3" type="radio" name="filtrer-par" class="filtrer-par w-4 h-4 text-indigo-600 bg-gray-100 border-gray-300 rounded-full focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                            </div>
+                                        </li>
+                                        <li class="cursor-pointer block flex justify-between px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">                                        
+                                            <div class="py-2">
+                                                Adresse
+                                            </div>
+                                            <div class="pl-6 py-2">
+                                                <input id="4" value="4" type="radio" name="filtrer-par" class="filtrer-par w-4 h-4 text-indigo-600 bg-gray-100 border-gray-300 rounded-full focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                            </div>
+                                        </li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="flex align-center">
-                                <div class="px-6 flex align-center">
-                                    <button class="text-indigo-500 hover:text-indigo-400 transition" type="button" id="dropdownDividerButton" data-dropdown-toggle="dropdownDivider" data-dropdown-placement="right-start">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" fill="currentColor" class="bi bi-funnel-fill" viewBox="0 0 16 16">
-                                            <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2z"/>
-                                        </svg>
+                            <div class="flex justify-end align-center">
+                                <form action="{{route('fournisseur.export')}}" method="post" id="expoterfournisseurs">
+                                    @csrf
+                                    <button class="btn btn-blue w-fit" form="expoterfournisseurs">
+                                        Exporter
                                     </button>
-                                </div>
-                                <!-- Dropdown menu -->
-                                <div id="dropdownDivider" class="z-10 shadow-lg border-2 hidden bg-white divide-y divide-gray-100 rounded shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
-                                    <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDividerButton">
-                                    <li class="cursor-pointer block flex justify-between px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">                                        
-                                        <div class="py-2">
-                                            Numéro
-                                        </div>
-                                        <div class="py-2">
-                                            <input id="0" value="0" type="radio" name="filtrer-par" class="filtrer-par w-4 h-4 text-indigo-600 bg-gray-100 border-gray-300 rounded-full focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                        </div>
-                                    </li>
-                                    <li class="cursor-pointer block flex justify-between px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">                                        
-                                        <div class="py-2">
-                                            Nom
-                                        </div>
-                                        <div class="pl-6 py-2">
-                                            <input id="1" value="1" type="radio" name="filtrer-par" class="filtrer-par w-4 h-4 text-indigo-600 bg-gray-100 border-gray-300 rounded-full focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                        </div>
-                                    </li>
-                                    <li class="cursor-pointer block flex justify-between px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">                                        
-                                        <div class="py-2">
-                                            E-Mail
-                                        </div>
-                                        <div class="pl-6 py-2">
-                                            <input id="2" value="2" type="radio" name="filtrer-par" class="filtrer-par w-4 h-4 text-indigo-600 bg-gray-100 border-gray-300 rounded-full focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                        </div>
-                                    </li>
-                                    <li class="cursor-pointer block flex justify-between px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">                                        
-                                        <div class="py-2">
-                                            Adresse
-                                        </div>
-                                        <div class="pl-6 py-2">
-                                            <input id="3" value="3" type="radio" name="filtrer-par" class="filtrer-par w-4 h-4 text-indigo-600 bg-gray-100 border-gray-300 rounded-full focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                        </div>
-                                    </li>
-                                    </ul>
-                                </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -91,13 +111,20 @@
                         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                             <thead class="text-xs text-white uppercase bg-indigo-500 dark:bg-gray-700 dark:text-gray-400">
                                 <tr>
+                                    <th scope="col" class="py-4 px-4">
+                                        <div class="flex items-center">
+                                            <input id="checkbox-all-search" type="checkbox" 
+                                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                            onclick="checkAllToggel(event)">
+                                        </div>
+                                    </th>
                                     <th scope="col" class="px-6 py-3">
                                         <div class="flex justify-between">
                                             <div class="flex align-center">
                                                 Numéro
                                             </div>
                                             <div class="cursor-pointer rounded ordre-icone transition">
-                                                <svg onclick="trierNum(event, 0, 'body')" ordre="desc" id="trie-icone" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="cursor-pointer bi bi-arrow-down" viewBox="0 0 16 16">
+                                                <svg onclick="trierNum(event, 1, 'body')" ordre="desc" id="trie-icone" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="cursor-pointer bi bi-arrow-down" viewBox="0 0 16 16">
                                                     <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"/>
                                                 </svg>
                                             </div>
@@ -109,7 +136,7 @@
                                                 Nom
                                             </div>
                                             <div class="cursor-pointer rounded ordre-icone transition">
-                                                <svg onclick="trierString(event, 1, 'body')" ordre="desc" id="trie-icone" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="cursor-pointer bi bi-arrow-down" viewBox="0 0 16 16">
+                                                <svg onclick="trierString(event, 2, 'body')" ordre="desc" id="trie-icone" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="cursor-pointer bi bi-arrow-down" viewBox="0 0 16 16">
                                                     <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"/>
                                                 </svg>
                                             </div>
@@ -121,7 +148,7 @@
                                                 E-Mail
                                             </div>
                                             <div class="cursor-pointer rounded ordre-icone transition">
-                                                <svg onclick="trierString(event, 2, 'body')" ordre="desc" id="trie-icone" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="cursor-pointer bi bi-arrow-down" viewBox="0 0 16 16">
+                                                <svg onclick="trierString(event, 3, 'body')" ordre="desc" id="trie-icone" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="cursor-pointer bi bi-arrow-down" viewBox="0 0 16 16">
                                                     <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"/>
                                                 </svg>
                                             </div>
@@ -133,7 +160,7 @@
                                                 Adresse
                                             </div>
                                             <div class="cursor-pointer rounded ordre-icone transition">
-                                                <svg onclick="trierString(event, 3, 'body')" ordre="desc" id="trie-icone" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="cursor-pointer bi bi-arrow-down" viewBox="0 0 16 16">
+                                                <svg onclick="trierString(event, 4, 'body')" ordre="desc" id="trie-icone" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="cursor-pointer bi bi-arrow-down" viewBox="0 0 16 16">
                                                     <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"/>
                                                 </svg>
                                             </div>
@@ -147,6 +174,11 @@
                             <tbody id="table" class="body">
                                 @foreach ($fournisseurs as $fournisseur)
                                     <tr class="cursor-pointer bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                        <td class="w-4 px-4">
+                                            <div class="flex items-center">
+                                                <input form="expoterfournisseurs" id="{{$fournisseur->id}}" value="{{$fournisseur->id}}" name="fournisseurs[{{$fournisseur->id}}]" type="checkbox" class="checkboxs w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                            </div>
+                                        </td>
                                         <td scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white">
                                             {{$fournisseur->num_fournisseur}}
                                         </td>

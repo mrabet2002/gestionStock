@@ -48,6 +48,8 @@ Route::middleware([
 Route::resource('produit', ProduitController::class)->middleware(['auth', 'role:responsable-achat']);
 Route::post('/produit/modifier-produit/{produit}', [ProduitController::class, 'update'])->name('produit.update')->middleware(['auth', 'role:responsable-achat']); 
 Route::post('/produit/supprimer-produit/{produit}', [ProduitController::class, 'destroy'])->name('produit.destroy')->middleware(['auth', 'role:responsable-achat']);
+Route::post('/produit/export', [ProduitController::class, 'export'])->name('produit.export')->middleware(['auth', 'role:responsable-achat']);
+Route::post('/produit/import', [ProduitController::class, 'import'])->name('produit.import')->middleware(['auth', 'role:responsable-achat']);
 
 
 /* Fournisseur routes */
@@ -56,6 +58,7 @@ Route::post('/produit/ajouter-produit/ajouter-fournisseur', [FournisseurControll
 Route::resource('fournisseur', FournisseurController::class)->middleware(['auth', 'role:responsable-achat']);
 Route::post('/fournisseur/modifier-fournisseur/{fournisseur}', [FournisseurController::class, 'update'])->name('fournisseur.update')->middleware(['auth', 'role:responsable-achat']);
 Route::post('/fournisseur/supprimer-fournisseur/{fournisseur}', [FournisseurController::class, 'destroy'])->name('fournisseur.destroy')->middleware(['auth', 'role:responsable-achat']);
+Route::post('/fournisseur/export', [FournisseurController::class, 'export'])->name('fournisseur.export')->middleware(['auth', 'role:responsable-achat']);
 
 /* Stock routes */
 
@@ -74,6 +77,7 @@ Route::post('/achat/valoriser/{achat}', [AchatController::class, 'valoriser'])->
 Route::resource('client', ClientController::class)->middleware(['auth', 'role:responsable-vente,vendeur']);;
 Route::post('/client/modifier-client/{client}', [ClientController::class, 'update'])->name('client.update')->middleware(['auth', 'role:responsable-vente,vendeur']);
 Route::post('/client/supprimer-client/{client}', [ClientController::class, 'destroy'])->name('client.destroy')->middleware(['auth', 'role:responsable-vente,vendeur']);
+Route::post('/client/export', [ClientController::class, 'export'])->name('client.export')->middleware(['auth', 'role:responsable-achat']);
 
 /* Vente routes */
 Route::resource('vente', VenteController::class)->middleware(['auth', 'role:responsable-vente,vendeur']);

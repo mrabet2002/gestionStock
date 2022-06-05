@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
+use Illuminate\Http\Request;
+use App\Exports\ClientsExport;
 use Illuminate\Support\Facades\File;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Requests\StoreClientRequest;
 use App\Http\Requests\UpdateClientRequest;
 
@@ -17,7 +20,7 @@ class ClientController extends Controller
     public function index()
     {
         return view('client.index')->with([
-            'clients' => Client::orderBy('name', 'asc')->get(),
+            'clients' => Client::orderBy('num_client', 'asc')->get(),
         ]);
     }
 
@@ -28,7 +31,8 @@ class ClientController extends Controller
      */
     public function create()
     {
-        return view('client.create');
+        $num_client = Client::get()->max('num_client') + 1;
+        return view('client.create')->with('num_client', $num_client);
     }
 
     /**
@@ -151,5 +155,12 @@ class ClientController extends Controller
         }
         $client->delete();
         return redirect()->route('client.index')->with("success", "Le client est supperimé avec succès.");
+    }
+    public function export(Request $request)
+    {
+        if ($request->clients) {
+            return Excel::download(new ClientsExport($request), 'clients'.time().'.xlsx');
+        }
+        return redirect()->back()->withErrors(['Aux moin un client doit etre selectione pour exporter']);
     }
 }

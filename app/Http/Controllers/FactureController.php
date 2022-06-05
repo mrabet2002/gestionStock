@@ -33,7 +33,7 @@ class FactureController extends Controller
     {
         $clients_ventes = Vente::where('id_facture', null)->get()->groupBy('id_client');
         $clients = Client::find(array_keys($clients_ventes->toArray()));
-        $num_facture = Facture::latest()->first()->num_facture + 1;
+        $num_facture = Facture::get()->max('num_facture') + 1;
         return view('facture.create')->with([
             'clients' => $clients,
             'clients_ventes' => $clients_ventes,
@@ -95,7 +95,11 @@ class FactureController extends Controller
      */
     public function show(Facture $facture)
     {
-        return view('facture.show')->with('facture', $facture);
+        $client = $facture->ventes->first()->client;
+        return view('facture.show')->with([
+            'facture' => $facture,
+            'client' => $client
+        ]);
     }
 
     /**
@@ -168,6 +172,21 @@ class FactureController extends Controller
         }
     }
 
+    public function validerFactures(Request $request)
+    {
+        if ($request->factures) {
+            $factures = Facture::find($request->factures);
+            $factures->map(function($facture){
+                if ($facture->statut_paiment == 'non-payee') {
+                    $facture->update([
+                        'statut_paiment' => 'payee'
+                    ]);
+                }
+            });
+            return redirect()->back()->with('success', 'factures valider avec succès');
+        }
+        return redirect()->back()->withErrors(['Aucune facture sélectionnée !']);
+    }
     /**
      * Remove the specified resource from storage.
      *
@@ -176,6 +195,7 @@ class FactureController extends Controller
      */
     public function destroy(Facture $facture)
     {
-        //
+        $facture->delete();
+        return redirect()->route('facture.index')->with("success", "La facture est supperimé avec succès.");
     }
 }

@@ -158,7 +158,7 @@
                                             <option selected disabled>Selectionner une méhode de paiment</option>
                                             <option value="espece" {{old('methode_paiment') == "espece" ? "selected" : ""}}>Espèces</option>
                                             <option value="cheque" {{old('methode_paiment') == "cheque" ? "selected" : ""}}>Chèque</option>
-                                            <option value="carte_credit" {{old('methode_paiment') == "espece" ? "selected" : ""}}>Cartes de crédit</option>
+                                            <option value="carte_credit" {{old('methode_paiment') == "carte_credit" ? "selected" : ""}}>Cartes de crédit</option>
                                         </select>
                                     </div>
                                 </div>
@@ -238,9 +238,6 @@
                                                 </th>
                                                 <th scope="col" class="px-6 py-3">
                                                     Statut
-                                                </th>
-                                                <th scope="col" class="px-6 py-3">
-                                                    
                                                 </th>
                                             </tr>
                                         </thead>

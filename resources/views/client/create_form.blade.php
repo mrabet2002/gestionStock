@@ -22,7 +22,7 @@
                                 <label for="num_client" class="block text-sm font-medium text-gray-700">Numéro client</label>
                                 <input type="text" name="num_client" id="num_client" 
                                 value="{{old('num_client') ? old('num_client') : 
-                                (isset($client) ? $client->num_client : "")}}" 
+                                (isset($client) ? $client->num_client : $num_client)}}" 
                                 class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                             </div>
                             

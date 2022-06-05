@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Fournisseur;
+use Illuminate\Http\Request;
+use App\Exports\FournisseursExport;
 use Illuminate\Support\Facades\File;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Requests\StoreFournisseurRequest;
 use App\Http\Requests\UpdateFournisseurRequest;
 
@@ -28,7 +31,8 @@ class FournisseurController extends Controller
      */
     public function create()
     {
-        return view('fournisseur.create');
+        $num_fournisseur = Fournisseur::get()->max('num_fournisseur') + 1;
+        return view('fournisseur.create')->with('num_fournisseur', $num_fournisseur);
     }
 
     /**
@@ -154,5 +158,12 @@ class FournisseurController extends Controller
         } catch (\Throwable $th) {
             return redirect()->back()->withErrors(['Erreur']);
         }
+    }
+    public function export(Request $request)
+    {
+        if ($request->fournisseurs) {
+            return Excel::download(new FournisseursExport($request), 'fournisseurs'.time().'.xlsx');
+        }
+        return redirect()->back()->withErrors(['Aux moin un fournisseur doit etre selectione pour exporter']);
     }
 }

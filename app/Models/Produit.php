@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Vente;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -79,5 +80,15 @@ class Produit extends Model
     public function achats()
     {
         return $this->belongsToMany(Achat::class);
+    }
+    /**
+     * The ventes that belong to the Produit
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function ventes()
+    {
+        return $this->belongsToMany(Vente::class, 'produit_vente', 'id_vente', 'id_produit')
+        ->withPivot('date_expiration', 'remise', 'qte_demandee', 'qte_livrai', 'taxe', 'prix', 'total');
     }
 }

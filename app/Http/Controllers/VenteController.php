@@ -247,20 +247,23 @@ class VenteController extends Controller
     {
         $ventes = collect($request->ventes);
         $ventes = Vente::find($ventes->pluck('checked'));
-        $ventes->map(function($vente) use($request){
-            if ($vente->statut != 'Valider') {
-                foreach ($vente->produits  as $produit) {
-                    $stock = $vente->stocks->find($produit->stocks->pluck('id'))->first();
-                    $stock->update([
-                        'qte' => ($stock->qte - $produit->pivot->qte_livrai),
+        if (!empty($ventes->toArray())) {
+            $ventes->map(function($vente) use($request){
+                if ($vente->statut != 'Valider') {
+                    foreach ($vente->produits  as $produit) {
+                        $stock = $vente->stocks->find($produit->stocks->pluck('id'))->first();
+                        $stock->update([
+                            'qte' => ($stock->qte - $produit->pivot->qte_livrai),
+                        ]);
+                    }
+                    $vente->update([
+                        'statut' => 'Valider',
+                        'date_livraison' => $request->ventes[$vente->id]['date_livraison']
                     ]);
                 }
-                $vente->update([
-                    'statut' => 'Valider',
-                    'date_livraison' => $request->ventes[$vente->id]['date_livraison']
-                ]);
-            }
-        });
-        return redirect()->back()->with('success', 'Ventes valider avec succès');
+            });
+            return redirect()->back()->with('success', 'Ventes valider avec succès');
+        }
+        return redirect()->back()->withErrors(['Aucune vente sélectionnée !']);
     }
 }

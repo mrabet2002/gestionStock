@@ -85,6 +85,7 @@ class StockController extends Controller
      */
     public function destroy(Stock $stock)
     {
-        //
+        $stock->delete();
+        return redirect()->route('stock.index')->with("success", "Le stock est supperimé avec succès.");
     }
 }

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\Achat;
 use App\Models\Stock;
+use App\Models\Vente;
+use App\Models\Client;
 use App\Models\Produit;
 use App\Models\Fournisseur;
 use Illuminate\Http\Request;
@@ -15,30 +17,31 @@ class DashboardController extends Controller
     public function index()
     {
         $variablesToReturn = [];
-        if (auth()->user()->roles()->where('slug', 'responsable-achat')->exists()) {
-            $stocks = Stock::join('produits', 'produits.id', '=', 'stocks.id_produit')
-            ->join('fournisseurs', 'fournisseurs.id', '=', 'produits.id_fournisseur')
-            ->select('id_produit', 'name as fournisseur' ,'libele', 'min_stock', DB::raw('sum(qte_disponible) as qte_total'))
-            ->where('produits.min_stock', '>', 0)
-            ->groupBy('id_produit')
-            ->get()
-            ->filter(function ($item)
-            {
-                return $item->min_stock >= $item->qte_total;
-            });
-            $fournisseurs = $this->getFournisseursStatistics();
-            $produitsNotInStockCount = $this->getProsuitsNotInStockCount();
-            $produitsNotInStock = $this->getProsuitsNotInStock(5);
 
-            $variablesToReturn = [
-                'stocks'=> $stocks,
-                'produitsNotInStock' => $produitsNotInStock,
-                'produitsNotInStockCount' => $produitsNotInStockCount,
-                'fournisseurs' => $fournisseurs
-            ];
-        }elseif (auth()->user()->roles()->where('slug', 'responsable-vente')->exists()) {
-            
-        }
+        $stocks                     = $this->getProduitInfMinStock();
+        $qteVendueParProduit        = $this->getQteVendueParProduit();
+        $fournisseurs               = $this->getFournisseursStatistics();
+        $produitsNotInStockCount    = $this->getProsuitsNotInStockCount();
+        $produitsNotInStock         = $this->getProsuitsNotInStock(5);
+        $moyenneAchats              = $this->getAchatsStatistics();
+        $moyenneVentes              = $this->getVentesStatistics();
+
+        $nbreClients = Client::select(DB::raw('count(*) as nbre_clients'))->first()->nbre_clients;
+        $nbreFournisseurs = Fournisseur::select(DB::raw('count(*) as nbre_fournisseurs'))->first()->nbre_fournisseurs;
+        $variablesToReturn = [
+            'nbre_vente' => Vente::where('statut', 'Valider')->count(),
+            'nbre_achat' => Achat::where('statut', 'Valoriser')->count(),
+            'stocks'=> $stocks,
+            'produitsNotInStock' => $produitsNotInStock,
+            'produitsNotInStockCount' => $produitsNotInStockCount,
+            'fournisseurs' => $fournisseurs,
+            'qteVendueParProduit' => $qteVendueParProduit,
+            'nbreClients' => $nbreClients,
+            'nbreFournisseurs' => $nbreFournisseurs,
+            'moyenneAchats' => $moyenneAchats->toArray(),
+            'moyenneVentes' => $moyenneVentes->toArray(),
+        ];
+
         return view('dashboard.index')->with($variablesToReturn);
     }
     public function prosuitsNotInStock()
@@ -48,6 +51,38 @@ class DashboardController extends Controller
         ]);
     }
     /* ===============================================R.Achat Dashboard Functions============================================== */
+    /* 
+        Produits au dessus le min stock
+    */
+    private function getProduitInfMinStock()
+    {
+        return Stock::join('produits', 'produits.id', '=', 'stocks.id_produit')
+        ->join('fournisseurs', 'fournisseurs.id', '=', 'produits.id_fournisseur')
+        ->select('id_produit', 'name as fournisseur' ,'libele', 'min_stock', DB::raw('sum(qte_disponible) as qte_total'))
+        ->where('produits.min_stock', '>', 0)
+        ->groupBy('id_produit')
+        ->get()
+        ->filter(function ($item)
+        {
+            return $item->min_stock >= $item->qte_total;
+        });
+    }
+    /* 
+        Quantite vendue par stock
+    */
+    private function getQteVendueParProduit()
+    {
+        $ventesValider = Vente::where('statut', 'Valider')->get();
+        return $ventesValider->map(function($vente){
+            return $vente->produits;
+        })->collapse()->groupBy('id')->map(function($produits){
+            $produit = $produits->first();
+            $produit->qte_vendue = $produits->sum(function($produit){
+                return $produit->pivot->qte_livrai;
+            });
+            return $produit;
+        });
+    }
     /* 
         retourner les produits 
         qui ne sont pas en stock
@@ -118,6 +153,36 @@ class DashboardController extends Controller
         WHERE s.qte <= p.min_stock AND p.id NOT IN
         (SELECT id_produit FROM stocks s INNER JOIN produits p
         ON s.id_produit = p.id WHERE s.qte > p.min_stock);');
+    }
+    /* 
+     */
+    private function getAchatsStatistics()
+    {
+        return Achat::where('statut', 'Valoriser')
+        ->select('created_at', 'total')
+        ->whereYear('created_at', Carbon::now())
+        ->get()
+        ->groupBy(function($achat){
+            return Carbon::parse($achat->created_at)->format('m');
+        })
+        ->map(function($achats){
+            return $achats->avg('total');
+        });
+    }
+    /* 
+     */
+    private function getVentesStatistics()
+    {
+        return Vente::where('statut', 'Valider')
+        ->select('created_at', 'total')
+        ->whereYear('created_at', Carbon::now())
+        ->get()
+        ->groupBy(function($vente){
+            return Carbon::parse($vente->created_at)->format('m');
+        })
+        ->map(function($ventes){
+            return $ventes->avg('total');
+        });
     }
     /* ===============================================R.Vente Dashboard Functions============================================== */
     private function getStocksAboutToExp()

@@ -7,7 +7,10 @@ use App\Models\produit;
 use App\Models\Categorie;
 use App\Models\Fournisseur;
 use Illuminate\Http\Request;
+use App\Exports\ProduitsExport;
+use App\Imports\ProduitsImport;
 use Illuminate\Support\Facades\File;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Requests\StoreproduitRequest;
 use App\Http\Requests\UpdateproduitRequest;
 
@@ -54,26 +57,22 @@ class ProduitController extends Controller
             $imageName = time()."_".$file->getClientOriginalName();
             $file->move(public_path("uploads/"),$imageName);
         }
-        try {
-            Produit::create([
-                "id_categorie" => $request->categorie,
-                "id_marque" => $request->marque,
-                "id_fournisseur" => $request->fournisseur,
-                "id_user" => $request->user()->id,
-                "libele" => $request->libele,
-                "image" => $imageName,
-                "code_barre" => $request->code_barre,
-                "description" => $request->description,
-                "min_stock" => $request->min_stock,
-                "prix_initial" => $request->prix_initial,
-                "poids" => $request->poids,
-                "unite" => $request->unite,
-                "zone" => $request->zone,
-            ]);
-            return redirect()->route('produit.index')->with('success', 'Le produit est ajouté avec succès');
-        } catch (\Throwable $th) {
-            return redirect()->back()->withErrors(['Erreur']);
-        }
+        Produit::create([
+            "id_categorie" => $request->categorie,
+            "id_marque" => $request->marque,
+            "id_fournisseur" => $request->fournisseur,
+            "id_user" => $request->user()->id,
+            "libele" => $request->libele,
+            "image" => $imageName,
+            "code_barre" => $request->code_barre,
+            "description" => $request->description,
+            "min_stock" => $request->min_stock,
+            "prix_initial" => $request->prix_initial,
+            "poids" => $request->poids,
+            "unite" => $request->unite,
+            "zone" => $request->zone,
+        ]);
+        return redirect()->route('produit.index')->with('success', 'Le produit est ajouté avec succès');
         
     }
 
@@ -166,11 +165,23 @@ class ProduitController extends Controller
                 unlink($image_path);
             } 
         }
-        try {
-            $produit->delete();
-            return redirect()->route("produit.index")->with("success", "Le produit est supperimé avec succès.");
-        } catch (\Throwable $th) {
-            return redirect()->back()->withErrors(['Erreur']);
+        $produit->delete();
+        return redirect()->route("produit.index")->with("success", "Le produit est supperimé avec succès.");
+    }
+    public function export(Request $request)
+    {
+        if ($request->produits) {
+            return Excel::download(new ProduitsExport($request), 'produits'.time().'.xlsx');
         }
+        return redirect()->back()->withErrors(['Aux moin un produit doit etre selectione pour exporter']);
+    }
+    public function import(Request $request)
+    {
+        //dd($request);
+        $validatedData = $request->validate([
+            'importerproduits' => 'required|mimes:xlsx,csv',
+        ]);
+        Excel::import(new ProduitsImport($request),$request->file('importerproduits'));
+        return redirect()->back()->with('success', 'Les produits sont importés avec succès.');
     }
 }

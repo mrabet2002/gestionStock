@@ -22,7 +22,7 @@
                                 <label for="num_fournisseur" class="block text-sm font-medium text-gray-700">Numéro Fournisseur</label>
                                 <input type="text" name="num_fournisseur" id="num_fournisseur" 
                                 value="{{old('num_fournisseur') ? old('num_fournisseur') : 
-                                (isset($fournisseur) ? $fournisseur->num_fournisseur : "")}}" 
+                                (isset($fournisseur) ? $fournisseur->num_fournisseur : $num_fournisseur)}}" 
                                 class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                             </div>
                             

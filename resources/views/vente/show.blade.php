@@ -22,6 +22,9 @@
             </div>
         </div>
     </x-slot>
+    @php
+        setlocale(LC_TIME, 'fr_FR.utf8', 'fra')
+    @endphp
     @section('content')
     @if ($errors->any())
         <div class="alert-container">
@@ -126,7 +129,7 @@
                             </tr>
                             <tr>
                                 <th class="px-6 py-4 text-sm uppercase text-left text-gray-900 dark:text-white whitespace-nowrap">Date de Création</th>
-                                <td class="px-6 py-4 text-right w-full">{{date('d F Y', strtotime($vente->created_at))}}</td>
+                                <td class="px-6 py-4 text-right w-full">{{strftime('%d %B %Y', strtotime($vente->created_at))}}</td>
                             </tr>
                             <tr>
                                 <th class="px-6 py-4 text-sm uppercase text-left text-gray-900 dark:text-white whitespace-nowrap">Taxe</th>

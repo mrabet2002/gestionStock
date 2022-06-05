@@ -187,10 +187,13 @@
                                                     @if ($categories->count() == 0)
                                                         <option disabled>Désolés, nous ne trouvant pas de catégories</option>
                                                     @else
+                                                        @php
+                                                            $id_categorie = $produit->categorie ? $produit->categorie->id : null
+                                                        @endphp
                                                         @foreach ($categories as $categorie)
                                                             <option value="{{$categorie->id}}" 
                                                                 {{old('categorie') ? ($categorie->id == old('categorie') ? "selected" : "") :
-                                                                ($categorie->id == $produit->categorie->id ? "selected" : "")}}>
+                                                                ($categorie->id == $id_categorie ? "selected" : "")}}>
                                                                 {{$categorie->libele}}
                                                             </option>
                                                         @endforeach
@@ -215,10 +218,13 @@
                                                     @if ($marques->count() == 0)
                                                         <option disabled>Désolés, nous ne trouvant pas de marques</option>
                                                     @else
+                                                        @php
+                                                            $id_marque = $produit->marque ? $produit->marque->id : null
+                                                        @endphp
                                                         @foreach ($marques as $marque)
                                                             <option value="{{$marque->id}}" 
                                                                 {{old('marque') ? ($marque->id == old('marque') ? "selected" : "") :
-                                                                ($marque->id == $produit->marque->id ? "selected" : "")}}>
+                                                                ($marque->id == $id_marque ? "selected" : "")}}>
                                                                 {{$marque->libele}}
                                                             </option>
                                                         @endforeach

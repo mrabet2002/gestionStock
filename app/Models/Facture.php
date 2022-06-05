@@ -4,11 +4,13 @@ namespace App\Models;
 
 use App\Models\Vente;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Facture extends Model
 {
     use HasFactory;
+    Use SoftDeletes;
     /**
      * The attributes that are mass assignable.
      *
@@ -30,6 +32,7 @@ class Facture extends Model
         "devise",
         "fichier_attacher",
     ];
+    Protected $Dates = ['deleted_at'];
     public function getRouteKeyName()
     {
         return 'id';
