@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Fournisseur;
 use Illuminate\Http\Request;
 use App\Exports\FournisseursExport;
+use App\Imports\FournisseursImport;
 use Illuminate\Support\Facades\File;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Database\QueryException;
 use App\Http\Requests\StoreFournisseurRequest;
 use App\Http\Requests\UpdateFournisseurRequest;
 
@@ -20,7 +22,7 @@ class FournisseurController extends Controller
     public function index()
     {
         return view('fournisseur.index')->with([
-            'fournisseurs' => Fournisseur::orderBy('updated_at','DESC')->get(),
+            'fournisseurs' => Fournisseur::orderBy('num_fournisseur','asc')->get(),
         ]);
     }
 
@@ -67,6 +69,34 @@ class FournisseurController extends Controller
             "fichier_attacher" => $fileName,
         ]);
         return redirect()->route('fournisseur.index')->with('success', 'Le fournisseur est ajouté avec succès');
+    }
+
+    public function storeFromModal(StoreFournisseurRequest $request)
+    {
+        
+        $request->validated();
+        $fileName = null;
+        if($request->has("fichier_attache")){
+            $file = $request->fichier_attache;
+            $fileName = time()."_".$file->getClientOriginalName();
+            $file->move(public_path("uploads/"),$fileName);
+        }
+        $nouveauFournisseur = Fournisseur::create([
+            "id_user" => $request->user()->id,
+            "num_fournisseur" => $request->num_fournisseur,
+            "name" => $request->nom,
+            "email" => $request->email,
+            "tel" => $request->tel,
+            "site_web" => $request->site_web,
+            "adresse" => $request->adresse,
+            "code_postal" => $request->code_postal,
+            "pays" => $request->pays,
+            "ville" => $request->ville,
+            "description" => $request->description,
+            "devise" => $request->devise,
+            "fichier_attacher" => $fileName,
+        ]);
+        return $nouveauFournisseur;
     }
 
     /**
@@ -132,8 +162,8 @@ class FournisseurController extends Controller
                 "fichier_attacher" => $fournisseur->fichier_attacher,
             ]);
             return redirect()->route('fournisseur.index')->with('success', 'Le fournisseur est modifié avec succès');
-        } catch (\Throwable $th) {
-            return redirect()->back()->withErrors(['Erreur'])->withInput($request->input());
+        } catch (QueryException $query_exception) {
+            return redirect()->back()->withErrors(['Le champ du client doit etre unique'])->withInput($request->input());
         }
     }
 
@@ -165,5 +195,14 @@ class FournisseurController extends Controller
             return Excel::download(new FournisseursExport($request), 'fournisseurs'.time().'.xlsx');
         }
         return redirect()->back()->withErrors(['Aux moin un fournisseur doit etre selectione pour exporter']);
+    }
+    public function import(Request $request)
+    {
+        //dd($request);
+        $validatedData = $request->validate([
+            'importerfournisseurs' => 'required|mimes:xlsx,csv',
+        ]);
+        Excel::import(new FournisseursImport($request),$request->file('importerfournisseurs'));
+        return redirect()->back()->with('success', 'Les fournisseurs sont importés avec succès.');
     }
 }

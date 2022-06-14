@@ -14,7 +14,7 @@
                                 <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm11.5 5.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/>
                             </svg>
                         </a>
-                        <button type="submit" form="productData" class="cursor-pointer inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-500 btn-indigo active:bg-gray-50 transition">
+                        <button type="submit" form="categorieData" class="cursor-pointer inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-500 btn-indigo active:bg-gray-50 transition">
                             <span class="mr-3">
                                 Enregistrer
                             </span>
@@ -39,42 +39,10 @@
                 @endforeach
             </div>
         @endif
-        <div class="containerc">
-            <form action="{{route('categorie.store')}}" method="POST" enctype="multipart/form-data" id="productData">
-                @csrf
-                <div class="sm:mt-0">
-                    <div class="md:grid md:grid-cols-2 overflow-hidde">
-                        <div class="card shadow-md col-span-2" style="height: fit-content">
-                            <div class="flex justify-start p-6 card-head">
-                                <div class="px-4 sm:px-0">
-                                    <h3 class="text-lg font-bold leading-6 text-gray-900">Aperçu</h3>
-                                </div>
-                            </div><hr>
-                            <div class="mt-5 md:mt-0 card-body">
-                                <div class="grid grid-cols-6 gap-6">
-                                    <div class="col-span-6">
-                                        <label for="libele" class="block text-sm font-medium text-gray-700">Libelé</label>
-                                        <input type="text" name="libele" id="libele"
-                                        value="{{old('libele')}}"
-                                        class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                                    </div>
-                                    <div class="col-span-6 ">
-                                        <label for="description" class="block text-sm font-medium text-gray-700"> Description </label>
-                                        <div class="mt-1">
-                                            <textarea id="description" name="description" rows="6" 
-                                            value="{{old('description')}}"
-                                            class="w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md"></textarea>
-                                        </div>
-                                        <p class="mt-2 text-sm text-gray-500">Description brève du categorie.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
-        
+        @php
+            $route = route('categorie.store');
+        @endphp
+        @include('categorie.form')        
         <!-- Annuler Formulaire Modal -->
         <div id="defaultModal" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 md:inset-0 h-full md:h-full">
             <div class="relative modal-container w-full max-w-md h-full md:h-auto">

@@ -24,7 +24,7 @@ class StoreClientRequest extends FormRequest
     public function rules()
     {
         return [
-            "num_client" => "required|integer",
+            "num_client" => "required|integer|unique:clients",
             "nom" => "required|max:255",
             "code_postal" => "nullable|regex:/^([0-9\s\-\+\(\)]*)$/|max:20",
             "descripiton" => "nullable|string|max:1000",
@@ -55,7 +55,8 @@ class StoreClientRequest extends FormRequest
             'site_web.max'              => "L'URL du site web ne peut pas dépasser 255 caractères.",
             "site_web.url"              => "L'URL du site web et non valide",
             'num_client.required'  => 'Le champ "Numéro du client" ne peut pas être vide.',
-            'num_client.integer'   => 'Le Numéro du clientn doit etre un nombre.',
+            'num_client.integer'   => 'Le Numéro du client doit etre un nombre.',
+            'num_client.unique'   => 'Le Numéro du client est déjà pris.',
             "pays"                      => 'Le champ "Pays" ne peut pas dépasser 255 caractères.',
             "ville"                     => 'Le champ "Ville" ne peut pas dépasser 255 caractères.',
             "devise"                    => 'Le champ "Devise" ne peut pas dépasser 255 caractères.',

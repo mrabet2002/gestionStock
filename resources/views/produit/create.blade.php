@@ -165,7 +165,7 @@
                                                     @endif
                                                 </select>
                                                 <div class="px-3">
-                                                    <a data-modal-toggle="ajouterFournisseurModal" style="margin-top: 10px" type="button" class="btn btn-indigo transition">
+                                                    <a data-modal-toggle="ajouterCategorieModal" style="margin-top: 10px" type="button" class="btn btn-indigo transition">
                                                         
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                                                             <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
@@ -189,7 +189,7 @@
                                                     @endif
                                                 </select>
                                                 <div class="px-3">
-                                                    <a data-modal-toggle="ajouterFournisseurModal" style="margin-top: 10px" type="button" class="btn btn-indigo transition">
+                                                    <a data-modal-toggle="ajouterMarqueModal" style="margin-top: 10px" type="button" class="btn btn-indigo transition">
                                                         
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                                                             <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
@@ -267,8 +267,8 @@
                 </div>
             </div>
         </div>
-        <!-- Extra Large Modal -->
-        {{-- <div id="ajouterFournisseurModal" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-1/2">
+        <!-- Creer Fournisseur Modal -->
+        <div id="ajouterFournisseurModal" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-300 w-full md:inset-0 h-modal md:h-1/2">
             <div class="modal-container py-6 relative p-4 w-full h-full md:h-auto">
                 <!-- Modal content -->
                 <div class="modal-content bg-white rounded-lg shadow dark:bg-gray-700">
@@ -283,22 +283,192 @@
                     </div>
                     <!-- Modal body -->
                     <div class="p-6 space-y-6 modal-body bg-gray-100">
+                        <div class="hidden success-container" id="fournisseur-alert-success">
+                            <div class="success bg-red-100 border px-3 py-3 rounded-lg" role="alert">
+                                <svg class="dark:text-gray-200" width="5%" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                <span class="px-3">Le fournisseur est ajouté avec succès</span>
+                            </div>
+                        </div>
+                        <div class="alert-container">
+                            <ul id="fournisseur-errors-list">
+                            </ul>
+                        </div>
+                        @php
+                            $route = '';
+                            $fournisseur = null;
+                            $num_fournisseur = $fournisseurs->max('num_fournisseur') + 1;
+                        @endphp
                         @include('fournisseur.create_form')
                     </div>
                     <!-- Modal footer -->
                     <div class="flex justify-end p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
-                        <form action="{{route('produit.fournisseur.store')}}" method="post" id="storeFournisseur">
-                            @csrf
-                        </form>
-                        <button data-modal-toggle="ajouterFournisseurModal" form="storeFournisseur" type="submit" class="btn btn-indigo" style="margin: 0 15px;">
+                        <button form="fournisseurData" type="submit" class="btn btn-indigo" style="margin: 0 15px;">
                             Enregistrer
                         </button>
-                        <button data-modal-toggle="ajouterFournisseurModal" type="button" class="btn btn-red">
+                        <button data-modal-toggle="ajouterFournisseurModal" id="annulerAjouterFournisseurModal" type="button" class="btn btn-red">
                             Annuler
                         </button>
                     </div>
                 </div>
             </div>
-        </div> --}}
+        </div>
+        <!-- Creer Categorie Modal -->
+        <div id="ajouterCategorieModal" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-300 w-full md:inset-0 h-modal md:h-1/2">
+            <div class="modal-container py-6 relative p-4 w-full h-full md:h-auto">
+                <!-- Modal content -->
+                <div class="modal-content bg-white rounded-lg shadow dark:bg-gray-700">
+                    <!-- Modal header -->
+                    <div class="flex justify-between items-center p-6 rounded-t border-b dark:border-gray-600">
+                        <h3 class="text-xl font-medium text-gray-900 dark:text-white">
+                            Ajouter Une Catégorie
+                        </h3>
+                        <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-100 hover:text-gray-900 rounded-lg text-sm p-2 ml-auto inline-flex items-center transition" data-modal-toggle="ajouterCategorieModal">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>  
+                        </button>
+                    </div>
+                    <!-- Modal body -->
+                    <div class="p-6 space-y-6 modal-body bg-gray-100">
+                        <div class="hidden success-container" id="categorie-alert-success">
+                            <div class="success bg-red-100 border px-3 py-3 rounded-lg" role="alert">
+                                <svg class="dark:text-gray-200" width="5%" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                <span class="px-3">Le categorie est ajouté avec succès</span>
+                            </div>
+                        </div>
+                        <div class="alert-container">
+                            <ul id="categorie-errors-list">
+                            </ul>
+                        </div>
+                        @php
+                            $route = '';
+                        @endphp
+                        @include('categorie.form')
+                    </div>
+                    <!-- Modal footer -->
+                    <div class="flex justify-end p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
+                        <button form="categorieData" type="submit" class="btn btn-indigo" style="margin: 0 15px;">
+                            Enregistrer
+                        </button>
+                        <button data-modal-toggle="ajouterCategorieModal" id="annulerAjouterCategorieModal" type="button" class="btn btn-red">
+                            Annuler
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Creer Marque Modal -->
+        <div id="ajouterMarqueModal" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-300 w-full md:inset-0 h-modal md:h-1/2">
+            <div class="modal-container py-6 relative p-4 w-full h-full md:h-auto">
+                <!-- Modal content -->
+                <div class="modal-content bg-white rounded-lg shadow dark:bg-gray-700">
+                    <!-- Modal header -->
+                    <div class="flex justify-between items-center p-6 rounded-t border-b dark:border-gray-600">
+                        <h3 class="text-xl font-medium text-gray-900 dark:text-white">
+                            Ajouter Une Marque
+                        </h3>
+                        <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-100 hover:text-gray-900 rounded-lg text-sm p-2 ml-auto inline-flex items-center transition" data-modal-toggle="ajouterMarqueModal">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>  
+                        </button>
+                    </div>
+                    <!-- Modal body -->
+                    <div class="p-6 space-y-6 modal-body bg-gray-100">
+                        <div class="hidden success-container" id="marque-alert-success">
+                            <div class="success bg-red-100 border px-3 py-3 rounded-lg" role="alert">
+                                <svg class="dark:text-gray-200" width="5%" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                <span class="px-3">Le marque est ajouté avec succès</span>
+                            </div>
+                        </div>
+                        <div class="alert-container">
+                            <ul id="marque-errors-list">
+                            </ul>
+                        </div>
+                        @php
+                            $route = '';
+                        @endphp
+                        @include('marque.form') 
+                    </div>
+                    <!-- Modal footer -->
+                    <div class="flex justify-end p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
+                        <button form="marqueData" type="submit" class="btn btn-indigo" style="margin: 0 15px;">
+                            Enregistrer
+                        </button>
+                        <button data-modal-toggle="ajouterMarqueModal" id="annulerAjouterMarqueModal" type="button" class="btn btn-red">
+                            Annuler
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endsection
+    @section('script')
+        <script>
+            $(document).ready(function () {
+                $('#fournisseurData').on('submit', function (e) {
+                    e.preventDefault();
+                    $.ajax({
+                        type: "POST",
+                        url: "/produit/ajouter-produit/ajouter-fournisseur",
+                        data: $('#fournisseurData').serialize(),
+                        success: function (response) {
+                            $('#fournisseur-errors-list').empty()
+                            $('#fournisseur').append('<option value='+response['id']+' selected>'+response['name']+'</option>');
+                            $('#annulerAjouterFournisseurModal').trigger( "click" )
+                            $('#fournisseurData')[0].reset()
+                        },
+                        error: function (error) 
+                        {
+                            $('#fournisseur-errors-list').empty()
+                            let errors = error.responseJSON.errors
+                            $.each(errors, function(errorName, errorVal) {
+                                $('#fournisseur-errors-list').append('<li><div class="alert bg-red-100 border px-3 py-3 rounded-lg" role="alert"><svg class="dark:text-gray-200" width="5%" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg><span class="px-3">'+errorVal[0]+'</span></div></li>')
+                            });
+                        }
+                    })
+                });
+                $('#categorieData').on('submit', function (e) {
+                    e.preventDefault();
+                    $.ajax({
+                        type: "POST",
+                        url: "/produit/ajouter-produit/ajouter-categorie",
+                        data: $('#categorieData').serialize(),
+                        success: function (response) {
+                            $('#categorie-errors-list').empty()
+                            $('#categorie').append('<option value='+response['id']+' selected>'+response['libele']+'</option>');
+                            $('#annulerAjouterCategorieModal').trigger( "click" )
+                            $('#categorieData')[0].reset()
+                        },
+                        error: function (error) 
+                        {
+                            $('#categorie-errors-list').empty()
+                            let errors = error.responseJSON.errors
+                            $.each(errors, function(errorName, errorVal) {
+                                $('#categorie-errors-list').append('<li><div class="alert bg-red-100 border px-3 py-3 rounded-lg" role="alert"><svg class="dark:text-gray-200" width="5%" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg><span class="px-3">'+errorVal[0]+'</span></div></li>')
+                            });
+                        }
+                    })
+                })
+                $('#marqueData').on('submit', function (e) {
+                    e.preventDefault();
+                    $.ajax({
+                        type: "POST",
+                        url: "/produit/ajouter-produit/ajouter-marque",
+                        data: $('#marqueData').serialize(),
+                        success: function (response) {
+                            $('#marque-errors-list').empty()
+                            $('#marque').append('<option value='+response['id']+' selected>'+response['libele']+'</option>');
+                            $('#annulerAjouterMarqueModal').trigger( "click" )
+                            $('#marqueData')[0].reset()
+                        },
+                        error: function (error) 
+                        {
+                            $('#marque-errors-list').empty()
+                            let errors = error.responseJSON.errors
+                            $.each(errors, function(errorName, errorVal) {
+                                $('#marque-errors-list').append('<li><div class="alert bg-red-100 border px-3 py-3 rounded-lg" role="alert"><svg class="dark:text-gray-200" width="5%" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg><span class="px-3">'+errorVal[0]+'</span></div></li>')
+                            });
+                        }
+                    })
+                })
+            })
+        </script>
     @endsection
 </x-app-layout>

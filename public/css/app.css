@@ -1023,6 +1023,12 @@ select {
 .z-300 {
   z-index: 300;
 }
+.z-400 {
+  z-index: 400;
+}
+.z-500 {
+  z-index: 500;
+}
 .col-span-6 {
   grid-column: span 6 / span 6;
 }
@@ -1450,6 +1456,10 @@ select {
 .border-orange-400 {
   --tw-border-opacity: 1;
   border-color: rgb(251 146 60 / var(--tw-border-opacity));
+}
+.border-blue-400 {
+  --tw-border-opacity: 1;
+  border-color: rgb(96 165 250 / var(--tw-border-opacity));
 }
 .border-red-500 {
   --tw-border-opacity: 1;

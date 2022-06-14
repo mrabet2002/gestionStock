@@ -217,13 +217,13 @@
                                             {{$produit->libele}}
                                         </td>
                                         <td class="px-6 py-4">
-                                            {{$produit->id_fournisseur ? $produit->fournisseur->name : ""}}
+                                            {{$produit->has('fournisseur') ? $produit->fournisseur->name : ""}}
                                         </td>
                                         <td class="px-6 py-4">
-                                            {{$produit->categorie ? $produit->categorie->libele : ""}}
+                                            {{$produit->has('categorie') ? $produit->categorie->libele : ""}}
                                         </td>
                                         <td class="px-6 py-4">
-                                            {{$produit->id_marque ? $produit->marque->libele : ""}}
+                                            {{$produit->has('marque') ? $produit->marque->libele : ""}}
                                         </td>
                                         <td class="py-4">
                                             <div class="flex justfy-between items-center">
@@ -247,7 +247,7 @@
                                                 </a>
                                             </div>
                                             <!-- Supprimer produit Modal -->
-                                            <div id={{"supprimerProduit".$produit->id}}  tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 md:inset-0 h-full md:h-full">
+                                            <div id={{"supprimerProduit".$produit->id}}  tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-200 md:inset-0 h-full md:h-full">
                                                 <div class="relative modal-container w-full max-w-md h-full md:h-auto">
                                                     <!-- Modal content -->
                                                     <div class="relative sm-modal-content bg-white rounded-lg shadow dark:bg-gray-700 md:w-1/2">

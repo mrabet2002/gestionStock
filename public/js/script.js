@@ -277,7 +277,8 @@ function calculatTotal(event, bodyClass, inputRemiseId) {
     const qteInput = tbodyChild.cells[2].firstElementChild.firstElementChild
     const remiseInput = tbodyChild.cells[3].firstElementChild.lastElementChild
     totalInput.setAttribute('value', Math.round(((prixInput.value) * (qteInput.value))*(1 - (remiseInput.value)/100)*100)/100)
-    remiseGlobal(inputRemiseId)
+    //remiseGlobal(inputRemiseId)
+    calculerTaxeRemise('taxe', inputRemiseId)
 }
 function remiseGlobal(inputRemiseId) {
     const prixTotal = document.getElementById('prix-total')
@@ -290,6 +291,37 @@ function remiseGlobal(inputRemiseId) {
         }
     });
     prixTotal.setAttribute('value', Math.round((total*(1-(remiseGlobalInput.value)/100))*100)/100)
+}
+function calculerTaxeRemise(inputTaxeId, inputRemiseId){
+    const prixTotal = document.getElementById('prix-total')
+    const totalInputAll = document.querySelectorAll('.total-input')
+    const remiseGlobalInput = document.getElementById(inputRemiseId)
+    const taxeInput = document.getElementById(inputTaxeId)
+    let total = 0
+    totalInputAll.forEach(element => {
+        if (element.value) {
+            total += parseFloat(element.value)
+        }
+    });
+    console.log()
+    prixTotal.setAttribute('value', Math.round((total*(1-(remiseGlobalInput.value)/100)*(1+(taxeInput.value)/100))*100)/100)
+}
+function calculerTaxe(inputTaxeId) {
+    const prixTotal = document.getElementById('prix-total')
+    const totalInputAll = document.querySelectorAll('.total-input')
+    const taxeInput = document.getElementById(inputTaxeId)
+    let total = 0
+    totalInputAll.forEach(element => {
+        if (element.value) {
+            total += parseFloat(element.value)
+        }
+    });
+    prixTotal.setAttribute('value', Math.round((total*(1+(taxeInput.value)/100))*100)/100)
+}
+function ajouterCoutLiv(inputCoutLivId) {
+    const prixTotal = document.getElementById('prix-total')
+    const CoutLivInput = document.getElementById(inputCoutLivId)
+    prixTotal.setAttribute('value', prixTotal.value + CoutLivInput.value)
 }
 
 const fournisseurList = document.getElementById('fournisseur')
@@ -325,13 +357,11 @@ function defaultProperties(event) {
     const options = document.getElementsByTagName('option')
     const deviseInput = document.getElementById('devise')
     const adresseInput = document.getElementById('adresse_livraison')
-    const totalDevise = document.getElementById('total-devise')
     let selectedOption = Array.from(options).find(option => option.value == event.target.value)
     let devise = selectedOption.getAttribute('devise')
     let adresse = selectedOption.getAttribute('adresse')
     deviseInput.value = devise
     adresseInput.value = adresse
-    totalDevise.innerText = devise
 }
 
 function resetValue(event) {

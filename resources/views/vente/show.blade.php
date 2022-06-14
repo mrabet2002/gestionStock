@@ -5,7 +5,7 @@
                 <div class="py-2">
                     {{ __("Information de la vente") }}
                 </div>
-                @if ($vente->statut != 'Valoriser')
+                @if ($vente->statut == 'Éditer' && !auth()->user()->roles()->where('slug', 'expediteur')->exists())
                     <div class="py-1">
                         <form action="{{route('vente.edit',$vente->id)}}" id="modifierProd"></form>
                         <button type="submit" class="inline-flex items-center btn btn-blue transition" form="modifierProd">

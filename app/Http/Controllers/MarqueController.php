@@ -54,6 +54,29 @@ class MarqueController extends Controller
         ]);
         return redirect()->route('marque.index')->with('success', 'La marque est ajouté avec succès');
     }
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \App\Http\Requests\StoreMarqueRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function storeFromModal(StoreMarqueRequest $request)
+    {
+        $request->validated();
+        $imageName = null;
+        if($request->has("image")){
+            $file = $request->image;
+            $imageName = time()."_".$file->getClientOriginalName();
+            $file->move(public_path("uploads/"),$imageName);
+        }
+        $marque = Marque::create([
+            "id_user" => $request->user()->id,
+            "libele" => $request->libele,
+            "logo" => $imageName,
+            "description" => $request->description,
+        ]);
+        return $marque;
+    }
 
     /**
      * Display the specified resource.

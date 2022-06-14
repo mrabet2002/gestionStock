@@ -24,7 +24,7 @@ class StoreFournisseurRequest extends FormRequest
     public function rules()
     {
         return [
-            "num_fournisseur" => "required|integer",
+            "num_fournisseur" => "required|integer|unique:fournisseurs",
             "nom" => "required|max:255",
             "code_postal" => "nullable|regex:/^([0-9\s\-\+\(\)]*)$/|max:20",
             "descripiton" => "nullable|string|max:1000",
@@ -54,7 +54,8 @@ class StoreFournisseurRequest extends FormRequest
             'site_web.max'              => "L'URL du site web ne peut pas dépasser 255 caractères.",
             "site_web.url"              => "L'URL du site web et non valide",
             'num_fournisseur.required'  => 'Le champ "Numéro du fournisseur" ne peut pas être vide.',
-            'num_fournisseur.integer'   => 'Le Numéro du fournisseurn doit etre un nombre.',
+            'num_fournisseur.integer'   => 'Le Numéro du fournisseur doit etre un nombre.',
+            'num_fournisseur.unique'   => 'Le Numéro du fournisseur est déjà pris.',
             "pays"                      => 'Le champ "Pays" ne peut pas dépasser 255 caractères.',
             "ville"                     => 'Le champ "Ville" ne peut pas dépasser 255 caractères.',
             "devise"                    => 'Le champ "Devise" ne peut pas dépasser 255 caractères.',

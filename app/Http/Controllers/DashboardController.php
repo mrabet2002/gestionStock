@@ -16,33 +16,44 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $variablesToReturn = [];
-
-        $stocks                     = $this->getProduitInfMinStock();
-        $qteVendueParProduit        = $this->getQteVendueParProduit();
-        $fournisseurs               = $this->getFournisseursStatistics();
-        $produitsNotInStockCount    = $this->getProsuitsNotInStockCount();
-        $produitsNotInStock         = $this->getProsuitsNotInStock(5);
-        $moyenneAchats              = $this->getAchatsStatistics();
-        $moyenneVentes              = $this->getVentesStatistics();
-
-        $nbreClients = Client::select(DB::raw('count(*) as nbre_clients'))->first()->nbre_clients;
-        $nbreFournisseurs = Fournisseur::select(DB::raw('count(*) as nbre_fournisseurs'))->first()->nbre_fournisseurs;
-        $variablesToReturn = [
-            'nbre_vente' => Vente::where('statut', 'Valider')->count(),
-            'nbre_achat' => Achat::where('statut', 'Valoriser')->count(),
-            'stocks'=> $stocks,
-            'produitsNotInStock' => $produitsNotInStock,
-            'produitsNotInStockCount' => $produitsNotInStockCount,
-            'fournisseurs' => $fournisseurs,
-            'qteVendueParProduit' => $qteVendueParProduit,
-            'nbreClients' => $nbreClients,
-            'nbreFournisseurs' => $nbreFournisseurs,
-            'moyenneAchats' => $moyenneAchats->toArray(),
-            'moyenneVentes' => $moyenneVentes->toArray(),
-        ];
-
-        return view('dashboard.index')->with($variablesToReturn);
+        if (auth()->user()->roles()->whereIn('slug', ['responsable-achat', 'responsable-vente'])->exists()) {
+            $variablesToReturn = [];
+    
+            $stocks                     = $this->getProduitInfMinStock();
+            $qteVendueParProduit        = $this->getQteVendueParProduit();
+            $fournisseurs               = $this->getFournisseursStatistics();
+            $produitsNotInStockCount    = $this->getProsuitsNotInStockCount();
+            $produitsNotInStock         = $this->getProsuitsNotInStock(5);
+            $moyenneAchats              = $this->getAchatsStatistics();
+            $moyenneVentes              = $this->getVentesStatistics();
+    
+            $nbreClients = Client::select(DB::raw('count(*) as nbre_clients'))->first()->nbre_clients;
+            $nbreFournisseurs = Fournisseur::select(DB::raw('count(*) as nbre_fournisseurs'))->first()->nbre_fournisseurs;
+            $variablesToReturn = [
+                'nbre_vente' => Vente::where('statut', 'Valider')->count(),
+                'nbre_achat' => Achat::where('statut', 'Valoriser')->count(),
+                'stocks'=> $stocks,
+                'produitsNotInStock' => $produitsNotInStock,
+                'produitsNotInStockCount' => $produitsNotInStockCount,
+                'fournisseurs' => $fournisseurs,
+                'qteVendueParProduit' => $qteVendueParProduit,
+                'nbreClients' => $nbreClients,
+                'nbreFournisseurs' => $nbreFournisseurs,
+                'moyenneAchats' => $moyenneAchats->toArray(),
+                'moyenneVentes' => $moyenneVentes->toArray(),
+            ];
+            return view('dashboard.index')->with($variablesToReturn);
+        }else if (auth()->user()->roles()->where('slug', 'vendeur')->exists()) {
+            return redirect()->route('client.index');
+        }else if (auth()->user()->roles()->where('slug', 'acheteur')->exists()) {
+            return redirect()->route('produit.index');
+        }else if (auth()->user()->roles()->where('slug', 'comptable')->exists()) {
+            return redirect()->route('facture.index');
+        }else if (auth()->user()->roles()->where('slug', 'expediteur')->exists()) {
+            return redirect()->route('vente.index');
+        }else {
+            abort(403);
+        }
     }
     public function prosuitsNotInStock()
     {

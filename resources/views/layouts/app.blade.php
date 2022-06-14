@@ -14,12 +14,14 @@
         <link rel="stylesheet" href="{{ mix('/css/app.css') }}">
         <link rel="stylesheet" href="/css/app.css">
         <link rel="stylesheet" href="/css/style.css">
+        <link rel='stylesheet' href='/css/nprogress.css'>
         @yield('style')
         @livewireStyles
         <!-- Scripts -->
         <script src="{{ mix('/js/app.js') }}" defer></script>
         <script src="{{'/js/flowbite.js'}}" defer></script>
-        
+        <script src="/js/jquery-3.6.0.js" ></script>
+        <script src='/js/nprogress.js'></script>
     </head>
     <body class="font-sans antialiased">
         <x-jet-banner />

@@ -51,10 +51,12 @@ class VenteController extends Controller
             $date_creation = $request->date_creation ? $request->date_creation : Carbon::now();
             $remiseVente = $request->remiseVente ? $request->remiseVente : 0; 
             $taxe = $request->taxe ? $request->taxe : 0;
+            $cout_livraison = $request->cout_livraison ? $request->cout_livraison : 0;
+            $total = (($lignesVenteTotal['total']*(1+$taxe/100))*(1-$remiseVente/100))+$cout_livraison;
             $vente = Vente::create([
                 "id_user" => auth()->user()->id,
                 "id_client" => $request->client,
-                "total" => number_format(($lignesVenteTotal['total']*(1-$remiseVente/100)), 2, ".",""),
+                "total" => number_format($total, 2, ".",""),
                 "taxe" => $taxe,
                 "created_at" => $date_creation,
                 "description" => $request->description,
@@ -99,6 +101,7 @@ class VenteController extends Controller
             $total = 0;
             foreach ($lignesVente as $key => $ligneVente) {
                 if ($ligneVente['qte_demandee'] > 0 && $ligneVente['qte_demandee'] !== null && $ligneVente['prix'] > 0 && $ligneVente['prix'] !== null) {
+                    
                     $ligneTotal = ($ligneVente['prix']*$ligneVente['qte_demandee'])*(1-$ligneVente['remise']/100);
                     $total += $ligneTotal;
                     $ligneVente['total'] = number_format($ligneTotal, 2, ".","");
@@ -166,10 +169,12 @@ class VenteController extends Controller
                 $date_creation = $request->date_creation ? $request->date_creation : Carbon::now();
                 $remiseVente = $request->remiseVente ? $request->remiseVente : 0; 
                 $taxe = $request->taxe ? $request->taxe : 0;
+                $cout_livraison = $request->cout_livraison ? $request->cout_livraison : 0;
+                $total = (($lignesVenteTotal['total']*(1+$taxe/100))*(1-$remiseVente/100))+$cout_livraison;
                 $vente->update([
                     "id_user" => auth()->user()->id,
                     "id_client" => $request->client,
-                    "total" => number_format(($lignesVenteTotal['total']*(1-$remiseVente/100)), 2, ".",""),
+                    "total" => number_format($total, 2, ".",""),
                     "taxe" => $taxe,
                     "created_at" => $date_creation,
                     "description" => $request->description,

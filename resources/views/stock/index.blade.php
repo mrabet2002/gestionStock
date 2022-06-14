@@ -6,14 +6,14 @@
             </div>
             <div class="text-right">
                 <span class="rounded-md">
-                    @if (auth()->user()->roles()->where('slug', 'responsable-achat')->exists())
+                    @if (auth()->user()->roles()->whereIn('slug', ['responsable-achat', 'acheteur'])->exists())
                         <a href="{{route('achat.index')}}" type="button" class="btn btn-indigo inline-flex items-center transition">
                             <span>
                                 Ordre d'achat
                             </span>
                         </a>
                     @endif
-                    @if (auth()->user()->roles()->where('slug', 'vendeur')->orWhere('slug', 'responsable-vente')->exists())
+                    @if (auth()->user()->roles()->whereIn('slug', ['responsable-vente', 'vendeur'])->exists())
                         <a href="{{route('vente.index')}}" type="button" class="btn btn-indigo inline-flex items-center transition">
                             <span>
                                 Bons de commande

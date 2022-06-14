@@ -48,6 +48,23 @@ class CategorieController extends Controller
     }
 
     /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \App\Http\Requests\StorecategorieRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function storeFromModal(StorecategorieRequest $request)
+    {
+        $request->validated();
+        $categorie = Categorie::create([
+            "id_user" => $request->user()->id,
+            "libele" => $request->libele,
+            "description" => $request->description,
+        ]);
+        return $categorie;
+    }
+
+    /**
      * Display the specified resource.
      *
      * @param  \App\Models\categorie  $categorie

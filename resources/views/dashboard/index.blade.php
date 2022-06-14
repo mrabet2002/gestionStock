@@ -7,7 +7,6 @@
 
     @section('content')
     <div class="containerc py-2">
-        @if (auth()->user()->roles()->where('slug', 'responsable-achat')->exists())
             <div class="md:grid md:grid-cols-2 gap-2">
                 <div class="col-span-2">
                     <div class="md:grid md:grid-cols-4 gap-2">
@@ -23,7 +22,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="card cursor-pointer border-l-4 border-red-500 shadow-md hover:shadow-xl duration-300">
+                        <div class="card cursor-pointer border-l-4 border-indigo-400 shadow-md hover:shadow-xl duration-300">
                             <div class="card-body h-full flex items-center">
                                 <div class="flex justify-between items-center w-full">
                                     <div class="font-bold uppercase">
@@ -35,7 +34,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="card cursor-pointer border-l-4 border-indigo-400 shadow-md hover:shadow-xl duration-300">
+                        <div class="card cursor-pointer border-l-4 border-red-500 shadow-md hover:shadow-xl duration-300">
                             <div class="card-body h-full flex items-center">
                                 <div class="flex justify-between items-center w-full">
                                     <div class="font-bold uppercase">
@@ -47,7 +46,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="card cursor-pointer border-l-4 border-orange-400 shadow-md hover:shadow-xl duration-300">
+                        <div class="card cursor-pointer border-l-4 border-blue-400 shadow-md hover:shadow-xl duration-300">
                             <div class="card-body h-full flex items-center">
                                 <div class="flex justify-between items-center w-full">
                                     <div class="font-bold uppercase">
@@ -299,15 +298,11 @@
                     </div>
                 </div>
             </div>
-        @else
-            
-        @endif
     </div>
-    
     @endsection
     @section('script')
         <script src="/js/script.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="/js/chart.js"></script>
 
         <!-- Chart bar -->
         <script>

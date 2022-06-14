@@ -99,9 +99,16 @@
                             <div class="flex justify-end align-center">
                                 <form action="{{route('fournisseur.export')}}" method="post" id="expoterfournisseurs">
                                     @csrf
-                                    <button class="btn btn-blue w-fit" form="expoterfournisseurs">
+                                    <button class="btn btn-blue w-fit mr-2" form="expoterfournisseurs">
                                         Exporter
                                     </button>
+                                </form>
+                                <form action="{{route('fournisseur.import')}}" method="post" enctype="multipart/form-data" id="importerfournisseurs">
+                                    @csrf
+                                    <label class="btn btn-orange w-fit">
+                                        <span>Importer</span>
+                                        <input class="file-input sr-only" type="file" name="importerfournisseurs" id="importerfournisseurs" form="importerfournisseurs" onchange="document.querySelector('form#importerfournisseurs').submit()">
+                                    </label>
                                 </form>
                             </div>
                         </div>
@@ -205,19 +212,19 @@
                                                 </svg>
                                             </a>
                                             
-                                            <a data-modal-toggle="supprimerfournisseur" type="button" class="delete-product px-3 text-red-500 delete-btn transition">
+                                            <a data-modal-toggle="supprimerfournisseur{{$fournisseur->id}}" type="button" class="delete-product px-3 text-red-500 delete-btn transition">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
                                                     <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
                                                 </svg>
                                             </a>
                                             <!-- Supprimer fournisseur Modal -->
-                                            <div id="supprimerfournisseur" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 md:inset-0 h-full md:h-full">
+                                            <div id="supprimerfournisseur{{$fournisseur->id}}" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-200 md:inset-0 h-full md:h-full">
                                                 <div class="relative modal-container w-full max-w-md h-full md:h-auto">
                                                     <!-- Modal content -->
                                                     <div class="relative sm-modal-content bg-white rounded-lg shadow dark:bg-gray-700 md:w-1/2">
                                                         <!-- Modal header -->
                                                         <div class="flex justify-end p-6">
-                                                            <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-100 hover:text-gray-900 rounded-lg text-sm p-2 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-toggle="supprimerfournisseur">
+                                                            <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-100 hover:text-gray-900 rounded-lg text-sm p-2 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-toggle="supprimerfournisseur{{$fournisseur->id}}">
                                                                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>  
                                                             </button>
                                                         </div><hr>
@@ -232,7 +239,7 @@
                                                                 <button type="submit" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm inline-flex items-center px-2 py-2 text-center mr-2">
                                                                     Oui
                                                                 </button>
-                                                                <button data-modal-toggle="supprimerfournisseur" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none rounded-lg border border-gray-200 text-sm font-medium px-2 py-2 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
+                                                                <button data-modal-toggle="supprimerfournisseur{{$fournisseur->id}}" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none rounded-lg border border-gray-200 text-sm font-medium px-2 py-2 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
                                                                     Non
                                                                 </button>
                                                             </form>

@@ -20,12 +20,11 @@
                                 <!-- Modal content -->
                                 <div class="relative sm-modal-content bg-white rounded-lg shadow dark:bg-gray-700 md:w-3/4">
                                     <!-- Modal header -->
-                                    <div class="flex justify-end p-6">
+                                    <div class="flex justify-end">
                                         <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-100 hover:text-gray-900 rounded-lg text-sm p-2 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-toggle="annulerFormModal">
                                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>  
                                         </button>
-                                        
-                                    </div><hr>
+                                    </div>
                                     <!-- Modal body -->
                                     <div class="p-6 pt-0 text-center">
                                         <svg class="mx-auto mb-4 text-gray-400 dark:text-gray-200" width="10%" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -135,18 +134,25 @@
                                                 <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm"> % </span>
                                                 <input type="number" name="remiseVente" id="remiseVente" value="{{old('remiseVente') ? old('remiseVente') : $vente->remise}}" 
                                                 class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300"
-                                                onkeyup="remiseGlobal('remiseVente')">
+                                                onkeyup="calculerTaxeRemise('taxe', 'remiseVente')"
+                                                onclick="resetValue(event)">
+                                            </div>
+                                        </div>
+                
+                                        <div class="col-span-6 sm:col-span-3">
+                                            <label for="taxe" class="block text-sm font-medium text-gray-700">Taxe</label>
+                                            <div class="mt-1 flex rounded-md shadow-sm">
+                                                <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm"> % </span>
+                                                <input type="number" step="0.01" name="taxe" id="taxe" value="{{old('taxe') ? old('taxe') : $vente->tax}}" 
+                                                class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300"
+                                                onkeyup="calculerTaxeRemise('taxe', 'remiseVente')"
+                                                onclick="resetValue(event)">
                                             </div>
                                         </div>
 
-                                        <div class="col-span-6 sm:col-span-3">
+                                        <div class="col-span-6">
                                             <label for="devise" class="block text-sm font-medium text-gray-700">Devise</label>
                                             <input type="text" name="devise" id="devise" value="{{old('devise') ? old('devise') : $vente->devise}}" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                                        </div>
-                
-                                        <div class="col-span-6">
-                                            <label for="taxe" class="block text-sm font-medium text-gray-700">Taxe</label>
-                                            <input type="number" step="0.01" name="taxe" id="taxe" value="{{old('taxe') ? old('taxe') : $vente->tax}}" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                         </div>
                                     </div>
                                 </div>
@@ -159,7 +165,8 @@
                                     <div class="grid grid-cols-6 gap-6">
                                         <div class="col-span-6 sm:col-span-3">
                                             <label for="cout_livraison" class="block text-sm font-medium text-gray-700">Coût de livraison</label>
-                                            <input type="number" step="0.01" name="cout_livraison" id="cout_livraison" value="{{old('cout_livraison') ? old('cout_livraison') : $vente->cout_livraison}}" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                            <input type="number" step="0.01" name="cout_livraison" id="cout_livraison" value="{{old('cout_livraison') ? old('cout_livraison') : $vente->cout_livraison}}" 
+                                            class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                         </div>
                                         <div class="col-span-6 sm:col-span-3">
                                             <label for="adresse_livraison" class="block text-sm font-medium text-gray-700">Adresse de livraison</label>
@@ -214,11 +221,11 @@
                                                             </div>
                                                         </th>
                                                         <th scope="col" class="px-6 py-4">
-                                                            <div class="flex justify-between">
+                                                            <div class="flex justify-between align-center">
                                                                 <div class="flex align-center">
                                                                     Quantité en stock
                                                                 </div>
-                                                                <div class="cursor-pointer rounded ordre-icone transition">
+                                                                <div class="cursor-pointer rounded ordre-icone h-fit transition">
                                                                     <svg onclick="trierNum(event, 6, 'table-produits-body')" ordre="desc" id="trie-icone" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="cursor-pointer bi bi-arrow-down" viewBox="0 0 16 16">
                                                                         <path onclick="trierNum(event, 6, 'table-produits-body')" ordre="desc" fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"/>
                                                                     </svg>
@@ -303,19 +310,19 @@
                                             <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 mt-5">
                                                 <thead class="text-xs text-white uppercase bg-blue-500 dark:bg-gray-700 dark:text-gray-400">
                                                     <tr class="block relative px-6">
-                                                        <th scope="col" class="px-6 py-3" style="width: 15%">
+                                                        <th scope="col" class="px-6 py-6" style="width: 15%">
                                                             Produit
                                                         </th>
-                                                        <th scope="col" class="px-6 py-3" style="width: 15%">
+                                                        <th scope="col" class="px-6 py-6" style="width: 15%">
                                                             Prix
                                                         </th>
-                                                        <th scope="col" class="px-6 py-3" style="width: 15%">
+                                                        <th scope="col" class="px-6 py-6" style="width: 15%">
                                                             Qté
                                                         </th>
-                                                        <th scope="col" class="px-6 py-3" style="width: 15%">
+                                                        <th scope="col" class="px-6 py-6" style="width: 15%">
                                                             Remise
                                                         </th>
-                                                        <th scope="col" class="px-6 py-3" style="width: 15%">
+                                                        <th scope="col" class="px-6 py-6" style="width: 15%">
                                                             Total
                                                         </th>
                                                     </tr>

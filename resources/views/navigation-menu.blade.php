@@ -18,12 +18,14 @@
 
                 <!-- Navigation Links -->
                 @auth
-                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                        <x-jet-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                            {{ __('Dashboard') }}
-                        </x-jet-nav-link>
-                    </div>
-                    @if (auth()->user()->roles()->where('slug', 'responsable-achat')->exists())
+                    @if (auth()->user()->roles()->whereIn('slug', ['responsable-achat', 'responsable-vente'])->exists())
+                        <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <x-jet-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
+                                {{ __('Dashboard') }}
+                            </x-jet-nav-link>
+                        </div>
+                    @endif
+                    @if (auth()->user()->roles()->whereIN('slug', ['responsable-achat','acheteur'])->exists())
                         <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                             <x-jet-nav-link href="{{ route('produit.index') }}" :active="request()->routeIs('produit.index')">
                                 {!! __('Produits') !!}
@@ -35,18 +37,27 @@
                             </x-jet-nav-link>
                         </div>
                     @endif
-                    @if(auth()->user()->roles()->where('slug', 'responsable-vente')->orWhere('slug', 'vendeur')->orWhere('slug', 'expediteur')->exists())
+                    @if(auth()->user()->roles()->whereIn('slug', ['responsable-vente', 'vendeur'])->exists())
                         <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                             <x-jet-nav-link href="{{ route('client.index') }}" :active="request()->routeIs('client.index')">
                                 {!! __('Clients') !!}
                             </x-jet-nav-link>
                         </div>
                     @endif
-                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                        <x-jet-nav-link href="{{ route('stock.index') }}" :active="request()->routeIs('stock.index')">
-                            {!! __('Stocks') !!}
-                        </x-jet-nav-link>
-                    </div>
+                    @if (auth()->user()->roles()->where('slug', 'expediteur')->exists() && auth()->user()->roles()->count() == 1)
+                        <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <x-jet-nav-link href="{{ route('vente.index') }}" :active="request()->routeIs('vente.index')">
+                                {!! __('Ventes') !!}
+                            </x-jet-nav-link>
+                        </div>
+                    @endif
+                    @if(auth()->user()->roles()->whereIn('slug', ['respensable-vente', 'respensable-achat', 'vendeur', 'acheteur'])->exists())
+                        <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <x-jet-nav-link href="{{ route('stock.index') }}" :active="request()->routeIs('stock.index')">
+                                {!! __('Stocks') !!}
+                            </x-jet-nav-link>
+                        </div>
+                    @endif
                     @if(auth()->user()->roles()->where('slug', 'comptable')->exists())
                         <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                             <x-jet-nav-link href="{{ route('facture.index') }}" :active="request()->routeIs('facture.index')">

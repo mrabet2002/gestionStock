@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Client;
 use Illuminate\Http\Request;
 use App\Exports\ClientsExport;
+use App\Imports\ClientsImport;
 use Illuminate\Support\Facades\File;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Requests\StoreClientRequest;
@@ -72,6 +73,40 @@ class ClientController extends Controller
         } catch (\Throwable $th) {
             return redirect()->back()->withErrors(['Erreur'])->withInput($request->input());
         }
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \App\Http\Requests\StoreClientRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function storeFromModal(StoreClientRequest $request)
+    {
+        $request->validated();
+        $fileName = null;
+        if($request->has("fichier_attache")){
+            $file = $request->fichier_attache;
+            $fileName = time()."_".$file->getClientOriginalName();
+            $file->move(public_path("uploads/"),$fileName);
+        }
+        $client = Client::create([
+            "id_user" => $request->user()->id,
+            "num_client" => $request->num_client,
+            "name" => $request->nom,
+            "email" => $request->email,
+            "tel" => $request->tel,
+            "site_web" => $request->site_web,
+            "adresse" => $request->adresse,
+            "code_postal" => $request->code_postal,
+            "pays" => $request->pays,
+            "ville" => $request->ville,
+            "description" => $request->description,
+            "devise" => $request->devise,
+            "statut" => $request->statut,
+            "fichier_attacher" => $fileName,
+        ]);
+        return $client;
     }
 
     /**
@@ -162,5 +197,14 @@ class ClientController extends Controller
             return Excel::download(new ClientsExport($request), 'clients'.time().'.xlsx');
         }
         return redirect()->back()->withErrors(['Aux moin un client doit etre selectione pour exporter']);
+    }
+    public function import(Request $request)
+    {
+        //dd($request);
+        $validatedData = $request->validate([
+            'importerclients' => 'required|mimes:xlsx,csv',
+        ]);
+        Excel::import(new ClientsImport($request),$request->file('importerclients'));
+        return redirect()->back()->with('success', 'Les clients sont importés avec succès.');
     }
 }

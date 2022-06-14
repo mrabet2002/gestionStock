@@ -4,17 +4,19 @@
             <div class="flex items-center">
                 {{ __('Vente') }}
             </div>
-            <span class="rounded-md">
-                <a href="{{route('vente.create')}}" type="button" class="btn btn-indigo inline-flex items-center transition">
-                    <span class="mr-3">
-                        Créer
-                    </span>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                        <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
-                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-                    </svg>
-                </a>
-            </span>
+            @if(auth()->user()->roles()->whereIn('slug', ['responsable-vente', 'vendeur'])->exists())
+                <span class="rounded-md">
+                    <a href="{{route('vente.create')}}" type="button" class="btn btn-indigo inline-flex items-center transition">
+                        <span class="mr-3">
+                            Créer
+                        </span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                        </svg>
+                    </a>
+                </span>
+            @endif
         </h2>
     </x-slot>
     @section('content')
@@ -47,15 +49,16 @@
                                     <input type="text" id="table-search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-80 pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for items">
                                 </div>
                             </div>
-                            
-                            <div class="flex justify-end align-center">
-                                <form action="{{route('vente.validerVentes')}}" method="post" id="validerVentes">
-                                    @csrf
-                                    <button class="btn btn-blue w-fit" form="validerVentes">
-                                        Valider
-                                    </button>
-                                </form>
-                            </div>
+                            @if (auth()->user()->roles()->whereIn('slug', ['respensable-vente', 'expediteur'])->exists())
+                                <div class="flex justify-end align-center">
+                                    <form action="{{route('vente.validerVentes')}}" method="post" id="validerVentes">
+                                        @csrf
+                                        <button class="btn btn-blue w-fit" form="validerVentes">
+                                            Valider
+                                        </button>
+                                    </form>
+                                </div>
+                            @endif
                         </div>
                     </div>
                         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -94,7 +97,7 @@
                                         <tr class="cursor-pointer bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                                             <td class="w-4 px-4">
                                                 <div class="flex items-center">
-                                                    @if ($vente->statut == 'Éditer' && auth()->user()->roles()->where('slug', 'expediteur')->exists())
+                                                    @if ($vente->statut == 'Éditer' && auth()->user()->roles()->whereIn('slug', ['respensable-vente', 'expediteur'])->exists())
                                                         <input form="validerVentes" id="{{$vente->id}}" value="{{$vente->id}}" name="ventes[{{$vente->id}}][checked]" type="checkbox" class="checkboxs w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                                     @endif    
                                                 </div>
@@ -106,7 +109,7 @@
                                                 {{$vente->created_at->format('d-m-Y')}}
                                             </td>
                                             <td class="px-6 py-4">
-                                                @if ($vente->statut == 'Éditer' && auth()->user()->roles()->where('slug', 'expediteur')->exists())
+                                                @if ($vente->statut == 'Éditer' && auth()->user()->roles()->whereIn('slug', ['respensable-vente', 'expediteur'])->exists())
                                                     <form action="{{route('vente.validerVente', $vente->id)}}" method="post" id="validerVente">
                                                         @csrf
                                                         <input form="validerVentes" type="date" value="{{old('date_livraison') ? old('date_livraison') : (new DateTime())->format('Y-m-d')}}" name="ventes[{{$vente->id}}][date_livraison]" id="date_livraison_{{$vente->id}}" class="focus:ring-indigo-500 w-full text-gray-500 focus:border-indigo-500 rounded-md sm:text-sm border-gray-300">
@@ -141,7 +144,7 @@
                                                         <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
                                                     </svg>
                                                 </a>
-                                                @if ($vente->statut != 'Valider')
+                                                @if ($vente->statut != 'Valider' && auth()->user()->roles()->whereIn('slug', ['respensable-vente', 'vendeur'])->exists())
                                                     <a href="{{route('vente.edit',$vente->id)}}" class="px-3 edit-btn transition">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
                                                             <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>

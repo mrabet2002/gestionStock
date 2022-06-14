@@ -99,9 +99,16 @@
                             <div class="flex justify-end align-center">
                                 <form action="{{route('client.export')}}" method="post" id="expoterclients">
                                     @csrf
-                                    <button class="btn btn-blue w-fit" form="expoterclients">
+                                    <button class="btn btn-blue w-fit mr-2" form="expoterclients">
                                         Exporter
                                     </button>
+                                </form>
+                                <form action="{{route('client.import')}}" method="post" enctype="multipart/form-data" id="importerclients">
+                                    @csrf
+                                    <label class="btn btn-orange w-fit">
+                                        <span>Importer</span>
+                                        <input class="file-input sr-only" type="file" name="importerclients" id="importerclients" form="importerclients" onchange="document.querySelector('form#importerclients').submit()">
+                                    </label>
                                 </form>
                             </div>
                         </div>
