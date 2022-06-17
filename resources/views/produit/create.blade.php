@@ -282,7 +282,7 @@
                         </button>
                     </div>
                     <!-- Modal body -->
-                    <div class="p-6 space-y-6 modal-body bg-gray-100">
+                    <div class="p-6 space-y-6 modal-body bg-gray-100" id="fournisseur-nprog-container">
                         <div class="hidden success-container" id="fournisseur-alert-success">
                             <div class="success bg-red-100 border px-3 py-3 rounded-lg" role="alert">
                                 <svg class="dark:text-gray-200" width="5%" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -327,11 +327,11 @@
                         </button>
                     </div>
                     <!-- Modal body -->
-                    <div class="p-6 space-y-6 modal-body bg-gray-100">
+                    <div class="p-6 space-y-6 modal-body bg-gray-100" id="categorie-nprog-container">
                         <div class="hidden success-container" id="categorie-alert-success">
                             <div class="success bg-red-100 border px-3 py-3 rounded-lg" role="alert">
                                 <svg class="dark:text-gray-200" width="5%" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                <span class="px-3">Le categorie est ajouté avec succès</span>
+                                <span class="px-3">La catégorie est ajouté avec succès</span>
                             </div>
                         </div>
                         <div class="alert-container">
@@ -370,11 +370,11 @@
                         </button>
                     </div>
                     <!-- Modal body -->
-                    <div class="p-6 space-y-6 modal-body bg-gray-100">
+                    <div class="p-6 space-y-6 modal-body bg-gray-100" id="marque-nprog-container">
                         <div class="hidden success-container" id="marque-alert-success">
                             <div class="success bg-red-100 border px-3 py-3 rounded-lg" role="alert">
                                 <svg class="dark:text-gray-200" width="5%" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                <span class="px-3">Le marque est ajouté avec succès</span>
+                                <span class="px-3">La marque est ajouté avec succès</span>
                             </div>
                         </div>
                         <div class="alert-container">
@@ -403,6 +403,8 @@
         <script>
             $(document).ready(function () {
                 $('#fournisseurData').on('submit', function (e) {
+                    NProgress.configure({ parent: '#fournisseur-nprog-container' });
+                    NProgress.start();
                     e.preventDefault();
                     $.ajax({
                         type: "POST",
@@ -423,8 +425,11 @@
                             });
                         }
                     })
+                    NProgress.done();
                 });
                 $('#categorieData').on('submit', function (e) {
+                    NProgress.configure({ parent: '#categorie-nprog-container' });
+                    NProgress.start();
                     e.preventDefault();
                     $.ajax({
                         type: "POST",
@@ -445,8 +450,11 @@
                             });
                         }
                     })
+                    NProgress.done();
                 })
                 $('#marqueData').on('submit', function (e) {
+                    NProgress.configure({ parent: '#marque-nprog-container' });
+                    NProgress.start();
                     e.preventDefault();
                     $.ajax({
                         type: "POST",
@@ -467,6 +475,7 @@
                             });
                         }
                     })
+                    NProgress.done();
                 })
             })
         </script>

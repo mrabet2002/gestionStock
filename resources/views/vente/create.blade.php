@@ -175,7 +175,8 @@
                                         <div class="col-span-6 sm:col-span-3">
                                             <label for="cout_livraison" class="block text-sm font-medium text-gray-700">Coût de livraison</label>
                                             <input type="number" step="0.01" name="cout_livraison" id="cout_livraison" value="{{old('cout_livraison')}}" 
-                                            class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                            class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                                            onkeyup="ajouterCoutLiv()">
                                         </div>
                                         <div class="col-span-6 sm:col-span-3">
                                             <label for="adresse_livraison" class="block text-sm font-medium text-gray-700">Adresse de livraison</label>

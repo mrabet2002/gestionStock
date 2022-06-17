@@ -2,7 +2,7 @@
     <x-slot name="header">
         <h2 class="flex justify-between font-semibold text-xl text-gray-800 leading-tight">
             <div class="flex items-center">
-                {{ __('Achat') }}
+                {{ __('Achats') }}
             </div>
             <span class="rounded-md">
                 <a href="{{route('achat.create')}}" type="button" class="btn btn-indigo inline-flex items-center transition">
@@ -32,23 +32,32 @@
                     <div class="py-3 px-3">
                         <label for="table-search">Search</label>
                         <div class="relative mt-1">
-                            <input type="text" id="table-search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-80 pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for items">
+                            <input type="text" id="table-search" value="" 
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-80 pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                            placeholder="Search for items"
+                            onkeyup="chercherLigne(event, 'achat-body', 0)">
                         </div>
                     </div>
                         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                             <thead class="text-xs text-white uppercase bg-indigo-500 dark:bg-gray-700 dark:text-gray-400">
                                 <tr>
-                                    <th scope="col" class="py-4 px-4">
+                                    {{-- <th scope="col" class="py-4 px-4">
                                         <div class="flex items-center">
                                             <input id="checkbox-all-search" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                             
                                         </div>
-                                    </th>
+                                    </th> --}}
                                     <th scope="col" class="px-6 py-3">
-                                        ID
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Fournisseur
+                                        <div class="flex justify-between">
+                                            <div class="flex align-center">
+                                                Fournisseur
+                                            </div>
+                                            <div class="cursor-pointer rounded ordre-icone transition">
+                                                <svg onclick="trierString(event, 0, 'achat-body')" ordre="desc" id="trie-icone" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="cursor-pointer bi bi-arrow-down" viewBox="0 0 16 16">
+                                                    <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"/>
+                                                </svg>
+                                            </div>
+                                        </div>
                                     </th>
                                     <th scope="col" class="px-6 py-3">
                                         Date de creation
@@ -67,19 +76,16 @@
                                     </th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody class="achat-body">
                                 @if ($achats->count() > 0)
                                     @foreach ($achats as $achat)
                                         <tr class="cursor-pointer bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                            <td class="w-4 px-4">
+                                            {{-- <td class="w-4 px-4">
                                                 <div class="flex items-center">
                                                     <input id="checkbox-table-search-1" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                                     
                                                 </div>
-                                            </td>
-                                            <td scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                                                {{$achat->id}}
-                                            </td>
+                                            </td> --}}
                                             <td scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
                                                 {{$achat->fournisseur->name}}
                                             </td>
@@ -153,6 +159,8 @@
                 </div>
             </div>
         </div>
-        
+    @endsection
+    @section('script')
+        <script src="/js/script.js"></script>
     @endsection
 </x-app-layout>

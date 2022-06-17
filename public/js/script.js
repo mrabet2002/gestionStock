@@ -263,10 +263,12 @@ function SourceDrop(event) {
 
 
 function removeRow(event) {
-    const rows = document.querySelectorAll('tbody')[0].rows;
+    const rows = document.querySelectorAll('.lignesAhat-body')[0].rows;
     const tbodyChild = Array.from(rows).find(row => row.getAttribute('id') == event.target.getAttribute('id'))
     tbodyChild.cells[2].firstElementChild.firstElementChild.value = 0
     tbodyChild.cells[3].firstElementChild.lastElementChild.value = 0
+    tbodyChild.cells[5].firstElementChild.lastElementChild.value = 0
+    calculerTaxeRemise('taxe', 'remiseAchat')
 }
 
 function calculatTotal(event, bodyClass, inputRemiseId) {
@@ -280,66 +282,40 @@ function calculatTotal(event, bodyClass, inputRemiseId) {
     //remiseGlobal(inputRemiseId)
     calculerTaxeRemise('taxe', inputRemiseId)
 }
-function remiseGlobal(inputRemiseId) {
-    const prixTotal = document.getElementById('prix-total')
-    const totalInputAll = document.querySelectorAll('.total-input')
-    const remiseGlobalInput = document.getElementById(inputRemiseId)
-    let total = 0
-    totalInputAll.forEach(element => {
-        if (element.value) {
-            total += parseFloat(element.value)
-        }
-    });
-    prixTotal.setAttribute('value', Math.round((total*(1-(remiseGlobalInput.value)/100))*100)/100)
-}
 function calculerTaxeRemise(inputTaxeId, inputRemiseId){
-    const prixTotal = document.getElementById('prix-total')
-    const totalInputAll = document.querySelectorAll('.total-input')
-    const remiseGlobalInput = document.getElementById(inputRemiseId)
-    const taxeInput = document.getElementById(inputTaxeId)
+    let prixTotal = document.getElementById('prix-total')
+    let totalInputAll = document.querySelectorAll('.total-input')
+    let remiseGlobal = document.getElementById(inputRemiseId) ? document.getElementById(inputRemiseId).value : 0
+    let taxe = document.getElementById(inputTaxeId) ? document.getElementById(inputTaxeId).value : 0
+    let coutLiv = document.getElementById('cout_livraison') ? document.getElementById('cout_livraison').value : 0
     let total = 0
     totalInputAll.forEach(element => {
         if (element.value) {
             total += parseFloat(element.value)
         }
     });
-    console.log()
-    prixTotal.setAttribute('value', Math.round((total*(1-(remiseGlobalInput.value)/100)*(1+(taxeInput.value)/100))*100)/100)
+    coutLiv = coutLiv ? coutLiv : 0;
+    total = Math.round((total*(1-(remiseGlobal)/100)*(1+(taxe)/100))*100)/100 + parseFloat(coutLiv)
+    prixTotal.setAttribute('value', total)
 }
-function calculerTaxe(inputTaxeId) {
-    const prixTotal = document.getElementById('prix-total')
-    const totalInputAll = document.querySelectorAll('.total-input')
-    const taxeInput = document.getElementById(inputTaxeId)
-    let total = 0
-    totalInputAll.forEach(element => {
-        if (element.value) {
-            total += parseFloat(element.value)
-        }
-    });
-    prixTotal.setAttribute('value', Math.round((total*(1+(taxeInput.value)/100))*100)/100)
-}
-function ajouterCoutLiv(inputCoutLivId) {
-    const prixTotal = document.getElementById('prix-total')
-    const CoutLivInput = document.getElementById(inputCoutLivId)
-    prixTotal.setAttribute('value', prixTotal.value + CoutLivInput.value)
+function ajouterCoutLiv() {
+    calculerTaxeRemise()
 }
 
-const fournisseurList = document.getElementById('fournisseur')
-if (fournisseurList) {
-    fournisseurList.addEventListener('change', filtreProduit)
-}
 
-function filtreProduit() {
-    const rows = document.querySelectorAll('tbody')[0].rows;
-    const options = document.getElementsByTagName('option')
-    const deviseInput = document.getElementById('devise')
-    const totalDevise = document.getElementById('total-devise')
-    let devise = Array.from(options).find(option => option.value == this.value).getAttribute('devise')
-    deviseInput.value = devise
-    totalDevise.innerText = devise
+function filtreProduit(event) {
+    const rows = document.querySelectorAll('.lignesAhat-body')[0].rows;
     const noRowFound = document.getElementById('noRowFound')
-    const rowFound = Array.from(rows).map(row => row.firstElementChild.value != this.value && this.value ? row.style.display = "none" : row.style.display = "table-row" )
-    rowFound.find(display => display == 'table-row') == undefined ? noRowFound.style.display = 'table-row' : noRowFound.style.display = 'none' 
+    const rowFound = Array.from(rows).map(row => {
+        if(row.getAttribute('fournisseur') != event.target.value) {
+            row.classList.add('hidden')
+        }
+        else {
+            row.classList.remove('hidden')
+            return row
+        }
+    })
+    rowFound.find(row => row != undefined) ? noRowFound.classList.add('hidden') : noRowFound.classList.remove('hidden')
 }
 
 function filtreVentesParClient(event) {
@@ -360,8 +336,10 @@ function defaultProperties(event) {
     let selectedOption = Array.from(options).find(option => option.value == event.target.value)
     let devise = selectedOption.getAttribute('devise')
     let adresse = selectedOption.getAttribute('adresse')
+    if (adresseInput) {
+        adresseInput.value = adresse
+    }
     deviseInput.value = devise
-    adresseInput.value = adresse
 }
 
 function resetValue(event) {

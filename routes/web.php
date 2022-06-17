@@ -63,7 +63,7 @@ Route::post('/fournisseur/import', [FournisseurController::class, 'import'])->na
 
 /* Stock routes */
 
-Route::resource('stock', StockController::class);
+Route::resource('stock', StockController::class)->middleware(['auth']);
 Route::post('/stock/supprimer-stock/{stock}', [StockController::class, 'destroy'])->name('stock.destroy')->middleware(['auth', 'role:responsable-achat,acheteur']);
 Route::post('/stock/modifier-stock/{stock}', [StockController::class, 'update'])->name('stock.update')->middleware(['auth', 'role:responsable-achat,acheteur']);
 

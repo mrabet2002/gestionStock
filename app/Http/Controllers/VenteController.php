@@ -96,8 +96,9 @@ class VenteController extends Controller
 
     public function getLignesVente($lignesVente)
     {
-        $lignesVenteValide = [];
+        $lignesVenteTotal = [];
         if (isset($lignesVente)) {
+            $lignesVenteValide = [];
             $total = 0;
             foreach ($lignesVente as $key => $ligneVente) {
                 if ($ligneVente['qte_demandee'] > 0 && $ligneVente['qte_demandee'] !== null && $ligneVente['prix'] > 0 && $ligneVente['prix'] !== null) {

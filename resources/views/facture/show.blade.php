@@ -203,19 +203,19 @@
                                 @if ($facture->montant_ht)
                                     <tr>
                                         <th class="px-6 py-4 text-sm uppercase text-left text-gray-900 dark:text-white whitespace-nowrap">HT</th>
-                                        <td class="px-6 py-4 text-right w-full">{{$facture->montant_ht}} {{$facture->devise ? $facture->devise : 'DH'}}</td>
+                                        <td class="px-6 py-4 text-right w-full">{{$facture->montant_ht}} DH</td>
                                     </tr>
                                 @endif
                                 @if ($facture->total_ttc)
                                     <tr>
                                         <th class="px-6 py-4 text-sm uppercase text-left text-gray-900 dark:text-white whitespace-nowrap">TTC</th>
-                                        <td class="px-6 py-4 text-right w-full">{{$facture->total_ttc}} {{$facture->devise ? $facture->devise : 'DH'}}</td>
+                                        <td class="px-6 py-4 text-right w-full">{{$facture->total_ttc}} DH</td>
                                     </tr>
                                 @endif
                                 @if ($facture->net_payer)
                                     <tr>
                                         <th class="px-6 py-4 text-sm uppercase text-left text-gray-900 dark:text-white whitespace-nowrap">Net à payer</th>
-                                        <td class="px-6 py-4 text-right w-full">{{$facture->net_payer}} {{$facture->devise ? $facture->devise : 'DH'}}</td>
+                                        <td class="px-6 py-4 text-right w-full">{{$facture->net_payer}} DH</td>
                                     </tr>
                                 @endif
                                 @if ($facture->statut_paiment)
@@ -331,7 +331,7 @@
                                                 @endif
                                             </td>
                                             <td class="px-6 py-4">
-                                                {{$vente->total}}
+                                                {{$vente->total}} DH
                                             </td>
                                             <td class="px-6 py-4">
                                                 @switch($vente->statut)
@@ -346,7 +346,6 @@
                                                         </div>
                                                         @break
                                                     @default
-                                                        
                                                 @endswitch
                                             </td>
                                             <td class="px-6 flex justfy-between" style="padding: 1.5rem 0">
@@ -356,13 +355,6 @@
                                                         <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
                                                     </svg>
                                                 </a>
-                                                @if ($vente->statut != 'Valider')
-                                                    <a href="{{route('vente.edit',$vente->id)}}" class="px-3 edit-btn transition">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
-                                                            <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
-                                                        </svg>
-                                                    </a>
-                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach
@@ -457,7 +449,7 @@
                                             <td style="text-align: center">{{$produit->pivot->qte_livrai}}</td>
                                             <td>{{$produit->pivot->prix}}</td>
                                             <td>{{$produit->pivot->remise ? $produit->pivot->remise : 0}} %</td>
-                                            <td class="text-right whitespace-nowrap">{{$produit->pivot->total.' '.$client->devise}}</td>
+                                            <td class="text-right whitespace-nowrap">{{$produit->pivot->total.' DH'}}</td>
                                         </tr>
                                         @endforeach
                                     @endforeach
@@ -474,7 +466,7 @@
                                             <td></td>
                                             <td></td>
                                             <td>{{$vente->remise ? $vente->remise : 0}} %</td>
-                                            <td class="text-right">{{$vente->total.' '.$client->devise}}</td>
+                                            <td class="text-right">{{$vente->total.' DH'}}</td>
                                         </tr>
                                     @endforeach
                                     <tr class="total">
@@ -482,21 +474,21 @@
                                         <td></td>
                                         <td></td>
                                         <td>Montant HT : </td>
-                                        <td>{{$facture->montant_ht.' '.$facture->devise}}</td>
+                                        <td>{{$facture->montant_ht.' DH'}}</td>
                                     </tr>
                                     <tr class="total">
                                         <td><b>TVA : </b>{{$facture->tva ? $facture->tva : 0}} %</td>
                                         <td></td>
                                         <td></td>
                                         <td>Total TTC : </td>
-                                        <td>{{$facture->total_ttc.' '.$facture->devise}}</td>
+                                        <td>{{$facture->total_ttc.' DH'}}</td>
                                     </tr>
                                     <tr class="total">
                                         <td><b>Remise : </b>{{$facture->remise ? $facture->remise : 0}} %</td>
                                         <td></td>
                                         <td></td>
                                         <td>Net à payer : </td>
-                                        <td>{{$facture->net_payer.' '.$facture->devise}}</td>
+                                        <td>{{$facture->net_payer.' DH'}}</td>
                                     </tr>
                                 </table>
                             </div>

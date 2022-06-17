@@ -52,10 +52,11 @@ class AchatController extends Controller
                 $date_creation = $request->date_creation ? $request->date_creation : Carbon::now();
                 $remiseAchat = $request->remiseAchat ? $request->remiseAchat : 0; 
                 $taxe = $request->taxe ? $request->taxe : 0;
+                $total = (($lignesAchatTotal['total']*(1+$taxe/100))*(1-$remiseAchat/100));
                 $achat = Achat::create([
                     "id_user" => auth()->user()->id,
                     "id_fournisseur" => $request->fournisseur,
-                    "total" => number_format(($lignesAchatTotal['total']*(1-(double)$remiseAchat/100)),2,".",""),
+                    "total" => number_format($total,2,".",""),
                     "taxe" => $taxe,
                     "created_at" => $date_creation,
                     "description" => $request->description,
@@ -133,15 +134,16 @@ class AchatController extends Controller
     {
         if ($achat->statut != 'Valoriser') {
             if($request->validated()){
-                $lignesAchatTotal = $this->getLignesAchat($request->lignesAchat);
+                $lignesAchatTotal = $this->getLignesAchat($request->lignesAchat, $request->fournisseur);
                 if (!empty($lignesAchatTotal['lignesAchatValide'])) {
                     $date_creation = $request->date_creation ? $request->date_creation : Carbon::now();
                     $remiseAchat = $request->remiseAchat ? $request->remiseAchat : 0; 
                     $taxe = $request->taxe ? $request->taxe : 0;
+                    $total = (($lignesAchatTotal['total']*(1+$taxe/100))*(1-$remiseAchat/100));
                     $achat->update([
                         "id_user" => auth()->user()->id,
                         "id_fournisseur" => $request->fournisseur,
-                        "total" => number_format(($lignesAchatTotal['total']*(1-(double)$remiseAchat/100)),2,".",""),
+                        "total" => number_format($total,2,".",""),
                         "taxe" => $taxe,
                         "created_at" => $date_creation,
                         "description" => $request->description,
@@ -171,9 +173,24 @@ class AchatController extends Controller
                     'statut' => 'Livrais'
                 ]);
                 $achat->produits()->sync($request->lignesAchat);
-                return redirect()->route('achat.index')->with('success', 'L\'achat est valider avec succes');
+                return redirect()->route('achat.index')->with('success', 'L\'achat est validé avec succes');
+            }else if ($achat->statut == 'Livrais') {
+                $achat->update([
+                    'statut' => 'Valoriser'
+                ]);
+                $achat->produits()->sync($request->lignesAchat);
+                foreach ($achat->produits as $key => $produit) {
+                    Stock::create([
+                        "id_produit" => $produit->id,
+                        "prix_achat" => $produit->pivot->prix,
+                        "qte" => $produit->pivot->qte_recu,
+                        "qte_disponible" => $produit->pivot->qte_recu,
+                        "date_expiration" => $produit->pivot->date_expiration,
+                    ]);
+                }
+                return redirect()->route('achat.index')->with('success', 'L\'achat est valorisé avec succes');
             }else{
-                return redirect()->back()->withErrors(['Ce achat est déjà'.$achat->statut])->withInput($request->input());
+                return redirect()->back()->withErrors(['Vous pouvais pas fair cette action.'])->withInput($request->input());
             }
         }else {
             return redirect()->back()->withInput($request->input());
@@ -208,6 +225,7 @@ class AchatController extends Controller
      */
     public function destroy(Achat $achat)
     {
-        //
+        $achat->delete();
+        return redirect()->route('achat.index')->with("success", "L'achat est annulé avec succès.");
     }
 }

@@ -82,17 +82,11 @@
                                         <div class="col-span-6 sm:col-span-6">
                                             <label for="fournisseur" class="w-full block text-sm font-medium text-gray-700">Fournisseur</label>
                                             <div class="flex justify-between">
-                                                <select id="fournisseur" name="fournisseur" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                                    <option selected disabled>Selectionner un fournisseur</option>
-                                                    @if ($fournisseurs->count() == 0)
-                                                        <option disabled>Désolés, nous ne trouvant pas de fournisseurs</option>
-                                                    @else
-                                                        @foreach ($fournisseurs as $fournisseur)
-                                                            <option value="{{$fournisseur->id}}" {{$fournisseur->id == old('fournisseur') | $fournisseur->id == $achat->fournisseur->id ? "selected" : ""}}>
-                                                                {{$fournisseur->name}}
-                                                            </option>
-                                                        @endforeach
-                                                    @endif
+                                                <select id="fournisseur" name="fournisseur"
+                                                class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                                    <option value="{{$achat->fournisseur->id}}" selected>
+                                                        {{$achat->fournisseur->name}}
+                                                    </option>
                                                 </select>
                                             </div>
                                         </div>                     
@@ -125,18 +119,27 @@
                                             <label for="remiseAchat" class="block text-sm font-medium text-gray-700"> Remise Globale </label>
                                             <div class="mt-1 flex rounded-md shadow-sm">
                                                 <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm"> % </span>
-                                                <input type="text" name="remiseAchat" id="remiseAchat" value="{{old('remiseAchat') ? old('remiseAchat') : $achat->remise}}" class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300">
+                                                <input type="text" name="remiseAchat" id="remiseAchat" value="{{old('remiseAchat') ? old('remiseAchat') : $achat->remise}}" 
+                                                class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300"
+                                                onkeyup="calculerTaxeRemise('taxe', 'remiseAchat')"
+                                                onclick="resetValue(event)">
+                                            </div>
+                                        </div>
+                
+                                        <div class="col-span-6 sm:col-span-3">
+                                            <label for="taxe" class="block text-sm font-medium text-gray-700">Taxe</label>
+                                            <div class="mt-1 flex rounded-md shadow-sm">
+                                                <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm"> % </span>
+                                                <input type="number" step="0.01" name="taxe" id="taxe" value="{{old('taxe') ? old('taxe') : $achat->taxe}}" 
+                                                class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300"
+                                                onkeyup="calculerTaxeRemise('taxe', 'remiseAchat')"
+                                                onclick="resetValue(event)">
                                             </div>
                                         </div>
 
-                                        <div class="col-span-6 sm:col-span-3">
+                                        <div class="col-span-6">
                                             <label for="devie" class="block text-sm font-medium text-gray-700">Devise</label>
                                             <input type="text" name="devise" id="devise" value="{{old('devise') ? old('devise') : $achat->devise}}" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                                        </div>
-                
-                                        <div class="col-span-6">
-                                            <label for="taxe" class="block text-sm font-medium text-gray-700">Taxe</label>
-                                            <input type="number" step="0.01" name="taxe" id="taxe" value="{{old('taxe') ? old('taxe') : $achat->taxe}}" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                         </div>
                                     </div>
                                 </div>
@@ -149,6 +152,26 @@
                                         </div>
                                     </div><hr>
                                     <div class="mt-5 md:mt-0 card-body">
+                                        <div class="flex justify-end">
+                                            <div class="card shadow-md border w-1/2 mt-3">
+                                                <div class="card-head">
+                                                    <h3 class="text-lg font-bold leading-6 text-gray-900">Details d'achat</h3>
+                                                </div><hr>
+                                                <div class="card-body">
+                                                    <table>
+                                                        <tr>
+                                                            <th class="px-6 py-4 text-sm uppercase text-left text-gray-900 dark:text-white">Total</th>
+                                                            <td class="relative px-6 py-4 text-right w-full">
+                                                                <input id="prix-total" disabled type="text" 
+                                                                value="{{old('total')?old('total'):$achat->total}}" 
+                                                                style="border-bottom: 1px dashed gray;" type="number" step="0.01" name="total" value="{{old('total') ? old('total') : $achat->total}}" class="text-gray-500 border-0">
+                                                                <span style="top: 1.5rem; right: 1.5rem;" class="absolute block inline-flex items-center px-3 border-0 text-gray-500 text-sm">DH</span>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 mt-3">
                                             <thead class="text-xs text-white uppercase bg-blue-500 dark:bg-gray-700 dark:text-gray-400">
                                                 <tr>
@@ -175,7 +198,7 @@
                                                     </th>
                                                 </tr>
                                             </thead>
-                                            <tbody id="lignesAhat-body">
+                                            <tbody class="lignesAhat-body">
                                                 @foreach ($produits as $produit)
                                                     @if ($achat->produits->find($produit->id))
                                                         @php
@@ -208,7 +231,7 @@
                                                                 {{-- value="{{old('lignesAchat.'.$produit->id.'.prix') ? old('lignesAchat.'.$produit->id.'.prix') : 
                                                                 $achat_produit ? $achat_produit->pivot->prix : $produit->prix_initial}}"  --}}
                                                                 class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                                                                onkeyup="calculatTotal('lignesAhat-body')">
+                                                                onkeyup="calculatTotal(event, 'lignesAhat-body', 'remiseAchat')">
                                                             </div>
                                                         </td>
                                                         <td class="px-6 py-4">
@@ -224,7 +247,7 @@
                                                                     @endif
                                                                 @endif
                                                                 class="qte-input focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-md sm:text-sm border-gray-300"
-                                                                onkeyup="calculatTotal('lignesAhat-body')"
+                                                                onkeyup="calculatTotal(event, 'lignesAhat-body', 'remiseAchat')"
                                                                 onclick="resetValue(event)">
                                                             </div>
                                                         </td>
@@ -290,26 +313,6 @@
                                                 </tr>
                                             </tbody>
                                         </table>
-                                        <div class="flex justify-end">
-                                            <div class="card shadow-md border w-1/2 mt-3">
-                                                <div class="card-head">
-                                                    <h3 class="text-lg font-bold leading-6 text-gray-900">Details d'achat</h3>
-                                                </div><hr>
-                                                <div class="card-body">
-                                                    <table>
-                                                        <tr>
-                                                            <th class="px-6 py-4 text-sm uppercase text-left text-gray-900 dark:text-white">Total</th>
-                                                            <td class="relative px-6 py-4 text-right w-full">
-                                                                <input id="prix-total" disabled type="text" 
-                                                                value="{{old('total')?old('total'):$achat->total}}" 
-                                                                style="border-bottom: 1px dashed gray;" type="number" step="0.01" name="total" value="{{old('total') ? old('total') : $achat->total}}" class="text-gray-500 border-0">
-                                                                <span style="top: 1.5rem; right: 1.5rem;" class="absolute block inline-flex items-center px-3 border-0 text-gray-500 text-sm">DH</span>
-                                                            </td>
-                                                        </tr>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
