@@ -21,6 +21,6 @@ class Marque extends Model
      */
     public function produits()
     {
-        return $this->hasMany(Produit::class);
+        return $this->hasMany(Produit::class, 'id_marque');
     }
 }

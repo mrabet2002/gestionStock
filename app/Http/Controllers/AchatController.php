@@ -7,6 +7,7 @@ use App\Models\Achat;
 use App\Models\Stock;
 use App\Models\Produit;
 use App\Models\Fournisseur;
+use Illuminate\Support\Arr;
 use App\Http\Requests\StoreachatRequest;
 use App\Http\Requests\UpdateachatRequest;
 use App\Http\Requests\RecevoirProduitsRequest;
@@ -167,18 +168,32 @@ class AchatController extends Controller
     {
         if($request->validated()){
             if ($achat->statut == 'En cours') {
+                $lignesAchat = $request->lignesAchat;
+                foreach ($lignesAchat as $produit_id => $ligneAchat) {
+                    if($ligneAchat['qte_recu'] > $achat->produits()->find($produit_id)->pivot->qte_demandee)
+                    {
+                        $lignesAchat[$produit_id]['qte_recu'] = $achat->produits()->find($produit_id)->pivot->qte_demandee;
+                    }
+                }
                 $date_reception = $request->date_reception ? $request->date_reception : Carbon::now();
                 $achat->update([
                     'date_reception' => $request->date_reception,
                     'statut' => 'Livrais'
                 ]);
-                $achat->produits()->sync($request->lignesAchat);
+                $achat->produits()->sync($lignesAchat);
                 return redirect()->route('achat.index')->with('success', 'L\'achat est validé avec succes');
             }else if ($achat->statut == 'Livrais') {
+                $lignesAchat = $request->lignesAchat;
+                foreach ($lignesAchat as $produit_id => $ligneAchat) {
+                    if($ligneAchat['qte_recu'] > $achat->produits()->find($produit_id)->pivot->qte_demandee)
+                    {
+                        $lignesAchat[$produit_id]['qte_recu'] = $achat->produits()->find($produit_id)->pivot->qte_demandee;
+                    }
+                }
                 $achat->update([
                     'statut' => 'Valoriser'
                 ]);
-                $achat->produits()->sync($request->lignesAchat);
+                $achat->produits()->sync($lignesAchat);
                 foreach ($achat->produits as $key => $produit) {
                     Stock::create([
                         "id_produit" => $produit->id,

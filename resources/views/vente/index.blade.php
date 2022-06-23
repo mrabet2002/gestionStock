@@ -2,7 +2,7 @@
     <x-slot name="header">
         <h2 class="flex justify-between font-semibold text-xl text-gray-800 leading-tight">
             <div class="flex items-center">
-                {{ __('Vente') }}
+                {{ __('Ventes') }}
             </div>
             @if(auth()->user()->roles()->whereIn('slug', ['responsable-vente', 'vendeur'])->exists())
                 <span class="rounded-md">
@@ -46,7 +46,10 @@
                             <div class="search">
                                 <label for="table-search">Search</label>
                                 <div class="relative mt-1">
-                                    <input type="text" id="table-search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-80 pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for items">
+                                    <input type="text" id="table-search" 
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-80 pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                                    placeholder="Search for items"
+                                    onkeyup="chercherLigne(event, 'ventes-body', 1)">
                                 </div>
                             </div>
                             @if (auth()->user()->roles()->whereIn('slug', ['respensable-vente', 'expediteur'])->exists())
@@ -72,7 +75,16 @@
                                         </div>
                                     </th>
                                     <th scope="col" class="px-6 py-3">
-                                        ID
+                                        <div class="flex justify-between">
+                                            <div class="flex align-center">
+                                                Client
+                                            </div>
+                                            <div class="cursor-pointer rounded ordre-icone transition">
+                                                <svg onclick="trierString(event, 1, 'ventes-body')" ordre="desc" id="trie-icone" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="cursor-pointer bi bi-arrow-down" viewBox="0 0 16 16">
+                                                    <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"/>
+                                                </svg>
+                                            </div>
+                                        </div>
                                     </th>
                                     <th scope="col" class="px-6 py-3">
                                         Date de creation
@@ -91,7 +103,7 @@
                                     </th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody class="ventes-body">
                                 @if ($ventes->count() > 0)
                                     @foreach ($ventes as $vente)
                                         <tr class="cursor-pointer bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
@@ -103,7 +115,7 @@
                                                 </div>
                                             </td>
                                             <td scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                                                {{$vente->id}}
+                                                {{$vente->client->name}}
                                             </td>
                                             <td class="px-6 py-4">
                                                 {{$vente->created_at->format('d-m-Y')}}

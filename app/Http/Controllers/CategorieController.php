@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Categorie;
+use Illuminate\Http\Request;
+use App\Exports\CategoriesExport;
+use App\Imports\CategoriesImport;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Requests\StorecategorieRequest;
 use App\Http\Requests\UpdatecategorieRequest;
 
@@ -114,5 +118,33 @@ class CategorieController extends Controller
     {
         $categorie->delete();
         return redirect()->route("categorie.index")->with("success", "La catégorie est supperimé avec succès.");
+    }
+    /**
+     * Export the specified resource from storage.
+     *
+     * @param  \App\Models\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function export(Request $request)
+    {
+        if ($request->categories) {
+            return Excel::download(new CategoriesExport($request), 'categories'.time().'.xlsx');
+        }
+        return redirect()->back()->withErrors(['Aux moin un categorie doit etre selectione pour exporter']);
+    }
+    /**
+     * Import the specified resource into storage.
+     *
+     * @param  \App\Models\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function import(Request $request)
+    {
+        //dd($request);
+        $validatedData = $request->validate([
+            'importercategories' => 'required|mimes:xlsx,csv',
+        ]);
+        Excel::import(new CategoriesImport($request),$request->file('importercategories'));
+        return redirect()->back()->with('success', 'Les categories sont importés avec succès.');
     }
 }

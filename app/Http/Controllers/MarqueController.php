@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Marque;
+use Illuminate\Http\Request;
+use App\Exports\MarquesExport;
+use App\Imports\MarquesImport;
 use Illuminate\Support\Facades\File;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Requests\StoreMarqueRequest;
 use App\Http\Requests\UpdateMarqueRequest;
 
@@ -150,5 +154,33 @@ class MarqueController extends Controller
         }
         $marque->delete();
         return redirect()->route("marque.index")->with("success", "La marque est supperimé avec succès.");
+    }
+    /**
+     * Export the specified resource from storage.
+     *
+     * @param  \App\Models\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function export(Request $request)
+    {
+        if ($request->marques) {
+            return Excel::download(new MarquesExport($request), 'marques'.time().'.xlsx');
+        }
+        return redirect()->back()->withErrors(['Aux moin un marque doit etre selectione pour exporter']);
+    }
+    /**
+     * Import the specified resource into storage.
+     *
+     * @param  \App\Models\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function import(Request $request)
+    {
+        //dd($request);
+        $validatedData = $request->validate([
+            'importermarques' => 'required|mimes:xlsx,csv',
+        ]);
+        Excel::import(new MarquesImport($request),$request->file('importermarques'));
+        return redirect()->back()->with('success', 'Les marques sont importés avec succès.');
     }
 }

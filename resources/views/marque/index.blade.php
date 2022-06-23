@@ -2,7 +2,7 @@
     <x-slot name="header">
         <h2 class="flex justify-between font-semibold text-xl text-gray-800 leading-tight">
             <div class="flex items-center">
-                {{ __('marques') }}
+                {{ __('Marques') }}
             </div>
             <div class="text-right">
                 <span class="rounded-md">
@@ -33,12 +33,29 @@
                 <div class="relative overflow-x-auto">
                     <div class="py-3 px-3">
                         <label for="table-search">Search</label>
-                        <div class="flex">
-                            <div class="relative mt-1">
-                                <input type="text" id="table-search" value="" 
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-80 pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                                placeholder="Search for items"
-                                onkeyup="chercherLigne(event, 'table-body', 1)">
+                        <div class="md:grid md:grid-cols-2 gap-6">
+                            <div class="flex">
+                                <div class="relative mt-1">
+                                    <input type="text" id="table-search" value="" 
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-80 pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                                    placeholder="Search for items"
+                                    onkeyup="chercherLigne(event, 'table-body', 1)">
+                                </div>
+                            </div>
+                            <div class="flex justify-end align-center">
+                                <form action="{{route('marque.export')}}" method="post" id="expotermarques">
+                                    @csrf
+                                    <button class="btn btn-blue w-fit mr-2" form="expotermarques">
+                                        Exporter
+                                    </button>
+                                </form>
+                                <form action="{{route('marque.import')}}" method="post" enctype="multipart/form-data" id="importermarques">
+                                    @csrf
+                                    <label class="btn btn-orange w-fit">
+                                        <span>Importer</span>
+                                        <input class="file-input sr-only" type="file" name="importermarques" id="importermarques" form="importermarques" onchange="document.querySelector('form#importermarques').submit()">
+                                    </label>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -47,7 +64,9 @@
                                 <tr>
                                     <th scope="col" class="py-4 px-4">
                                         <div class="flex items-center">
-                                            <input id="checkbox-all-search" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                            <input id="checkbox-all-search" type="checkbox" 
+                                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                            onclick="checkAllToggel(event)">
                                         </div>
                                     </th>
                                     <th scope="col" class="px-6 py-3">
@@ -89,7 +108,7 @@
                                     <tr class="cursor-pointer bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                                         <td class="w-4 px-4">
                                             <div class="flex items-center">
-                                                <input id="checkbox-table-search-1" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                                <input form="expotermarques" id="{{$marque->id}}" value="{{$marque->id}}" name="marques[{{$marque->id}}]" type="checkbox" class="checkboxs w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                             </div>
                                         </td>
                                         <td scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white">
@@ -127,7 +146,7 @@
                                                 </a>
                                             </div>
                                             <!-- Supprimer marque Modal -->
-                                            <div id={{"supprimermarque".$marque->id}}  tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 md:inset-0 h-full md:h-full">
+                                            <div id={{"supprimermarque".$marque->id}}  tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-200 md:inset-0 h-full md:h-full">
                                                 <div class="relative modal-container w-full max-w-md h-full md:h-auto">
                                                     <!-- Modal content -->
                                                     <div class="relative sm-modal-content bg-white rounded-lg shadow dark:bg-gray-700 md:w-1/2">
@@ -141,7 +160,7 @@
                                                         <div class="p-6 pt-0 text-center">
                                                             <svg class="mx-auto mb-4 text-gray-400 dark:text-gray-200" width="10%" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                                             <h3 class="mb-4 text-lg font-normal text-gray-500 dark:text-gray-400">
-                                                                @if ($marque->has('produits'))
+                                                                @if ($marque->produits->count())
                                                                     <b class="text-red-500">Cette marque est liée a des prodits, si vous la supprimer tous ces produit vont se supprimer</b><br>
                                                                     Vous êtes sûr de supprimer cette marque ?
                                                                 @else

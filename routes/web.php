@@ -38,8 +38,8 @@ Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified'
-])->group(function () {
-    Route::get('/dashboard/produits-non-pas-en-stock', [DashboardController::class, 'prosuitsNotInStock'])->name('dashboard.prosuitsNotInStock');
+    ])->group(function () {
+        Route::get('/dashboard/produits-non-pas-en-stock', [DashboardController::class, 'prosuitsNotInStock'])->name('dashboard.prosuitsNotInStock');
 });
 
 /* Produit routes */
@@ -99,12 +99,16 @@ Route::resource('categorie', CategorieController::class)->middleware(['auth', 'r
 Route::post('/produit/ajouter-produit/ajouter-categorie', [CategorieController::class, 'storeFromModal'])->middleware(['auth', 'role:responsable-achat,acheteur']);
 Route::post('/categorie/modifier-categorie/{categorie}', [CategorieController::class, 'update'])->name('categorie.update')->middleware(['auth', 'role:responsable-achat,acheteur']);
 Route::post('/categorie/supprimer-categorie/{categorie}', [CategorieController::class, 'destroy'])->name('categorie.destroy')->middleware(['auth', 'role:responsable-achat,acheteur']);
+Route::post('/categorie/export', [CategorieController::class, 'export'])->name('categorie.export')->middleware(['auth', 'role:responsable-achat,acheteur']);
+Route::post('/categorie/import', [CategorieController::class, 'import'])->name('categorie.import')->middleware(['auth', 'role:responsable-achat,acheteur']);
 
 /* Marque routes */
 Route::resource('marque', MarqueController::class)->middleware(['auth', 'role:responsable-achat,acheteur']);;
 Route::post('/produit/ajouter-produit/ajouter-marque', [MarqueController::class, 'storeFromModal'])->middleware(['auth', 'role:responsable-achat,acheteur']);
 Route::post('/marque/modifier-marque/{marque}', [MarqueController::class, 'update'])->name('marque.update')->middleware(['auth', 'role:responsable-achat,acheteur']);
 Route::post('/marque/supprimer-marque/{marque}', [MarqueController::class, 'destroy'])->name('marque.destroy')->middleware(['auth', 'role:responsable-achat,acheteur']);
+Route::post('/marque/export', [MarqueController::class, 'export'])->name('marque.export')->middleware(['auth', 'role:responsable-achat,acheteur']);
+Route::post('/marque/import', [MarqueController::class, 'import'])->name('marque.import')->middleware(['auth', 'role:responsable-achat,acheteur']);
 
 /* Facture routes */
 Route::resource('facture', FactureController::class)->middleware(['auth', 'role:comptable']);;
